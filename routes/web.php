@@ -25,4 +25,4 @@ Route::post('/register', [LoginController::class, 'register']);
 
 
 Route::get('/all_attraction', [AttractionController::class, 'index']);
-Route::get('/view_attraction', [AttractionController::class, 'view_attraction1']);
+Route::get('/view_attraction', [AttractionController::class, 'view_attraction']);
