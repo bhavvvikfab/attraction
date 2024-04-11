@@ -11,8 +11,7 @@ class LoginController extends Controller
 {
     //
     public function login(Request $request)
-    {
-        // dd($request->all()); 
+    { 
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
@@ -37,19 +36,27 @@ class LoginController extends Controller
 
         $user->save();
     }
-    public function index()
-    {
 
-        return view('login');
+    public function index(Request $request){
+        $data['prefix'] = explode('/', $request->getPathInfo())[1] ?? 'agent';
+        return view('login',$data);
     }
 
-    public function register_page()
-    {
-
+    public function register_page(){
         return view('register');
     }
+
     public function admin_profile()
     {
         return view('users-profile');
+    }
+    
+    public function logout(Request $request)
+    {
+        Auth::logout(); // Log the user out
+        $request->session()->invalidate(); // Invalidate the session
+        $request->session()->regenerateToken(); // Regenerate the CSRF token
+        $prefix = explode('/', $request->getPathInfo())[1] ?? 'agent';
+        return redirect('/'.$prefix); // Redirect to the login page after logout
     }
 }

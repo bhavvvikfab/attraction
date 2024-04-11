@@ -9,6 +9,10 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\TopupController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ChatController;
+use App\Http\Middleware\Auther;
+use Illuminate\Support\Facades\Auth;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,15 +24,43 @@ use App\Http\Controllers\ChatController;
 |
 */
 
-Route::get('/welcome', function () {
-    return view('index');
-});
-Route::get('/', [LoginController::class, 'index']);
-Route::get('/register', [LoginController::class, 'register_page']);
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/register', [LoginController::class, 'register']);
-Route::get('/admin_profile', [LoginController::class, 'admin_profile']);
+// route's for ADMIN start
+Route::prefix('admin')->middleware([Auther::class])->group(function (){
+    Route::get('/logout', [LoginController::class, 'logout']);
+    Route::post('/loginporcess', [LoginController::class, 'login']);
+    Route::post('/register', [LoginController::class, 'register']);
+    Route::get('/login', [LoginController::class, 'index']);
+    Route::get('/register', [LoginController::class, 'register_page']);
+    Route::get('/admin_profile', [LoginController::class, 'admin_profile']);
 
+    Route::get('/', function () {
+        $data['authUser'] = Auth::user();
+        return view('index',$data);
+    })->name('admin');
+    Route::get('/all_attraction', [AttractionController::class, 'index']);
+    Route::get('/view_attraction', [AttractionController::class, 'view_attraction']);
+});
+// route's for ADMIN end
+
+// route's for AGENT start
+Route::prefix('agent')->middleware([Auther::class])->group(function (){
+    Route::get('/logout', [LoginController::class, 'logout']);
+    Route::post('/loginporcess', [LoginController::class, 'login']);
+    Route::post('/register', [LoginController::class, 'register']);
+    Route::get('/login', [LoginController::class, 'index']);
+    Route::get('/register', [LoginController::class, 'register_page']);
+    Route::get('/admin_profile', [LoginController::class, 'admin_profile']);
+    
+    Route::get('/', function () {
+        $data['authUser'] = Auth::user();
+
+        return view('index');
+    })->name('agent');
+
+    Route::get('/all_attraction', [AttractionController::class, 'index']);
+    Route::get('/view_attraction', [AttractionController::class, 'view_attraction']);
+});
+// route's for AGENT end
 
 Route::get('/all_attraction', [AttractionController::class, 'index']);
 Route::get('/view_attraction', [AttractionController::class, 'view_attraction']);
