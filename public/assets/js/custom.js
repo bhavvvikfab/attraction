@@ -10,7 +10,7 @@ $(document).ready(function() {
 
           // AJAX request
           $.ajax({
-              url: 'login', // Replace with your login endpoint
+              url: 'loginporcess', // Replace with your login endpoint
               method: 'POST',
               dataType: 'json',
               data: {
@@ -24,7 +24,8 @@ $(document).ready(function() {
                       $('#msg').text('Login Successfully').addClass('text-success')
                       // alert('Login successful');
                       // Example: Redirect to home page
-                      window.location.href = 'welcome';
+                    //   window.location.href = '';
+                        location.reload();
                   } else {
                       // Login failed, display error message
                       $('#msg').text(response.message).addClass('text-danger')
