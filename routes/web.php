@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\TopupController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,8 +30,9 @@ Route::post('/register', [LoginController::class, 'register']);
 Route::get('/all_attraction', [AttractionController::class, 'index']);
 Route::get('/view_attraction', [AttractionController::class, 'view_attraction']);
 
-Route::get('/all_booking',[BookingController::class,'index']);
+Route::get('/all_booking', [BookingController::class, 'index']);
 
-Route::get('/all_agent',[AgentController::class,'index']);
-Route::get('/add_agent',[AgentController::class,'add_agent']);
-Route::get('/view_agent',[AgentController::class,'view_agent']);
+Route::get('/all_agent', [AgentController::class, 'index']);
+Route::get('/add_agent', [AgentController::class, 'add_agent']);
+Route::get('/view_agent', [AgentController::class, 'view_agent']);
+Route::get('/topup', [TopupController::class, 'index']);

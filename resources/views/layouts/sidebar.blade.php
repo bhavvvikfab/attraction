@@ -4,7 +4,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="index.php">
+        <a class="nav-link " href="{{url('welcome')}}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -84,7 +84,7 @@
   
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="topup.php">
+            <a class="nav-link collapsed" href="{{url('topup')}}">
               <i class="bi bi-phone-fill"></i>
               <span>Top Up</span>
             </a>
