@@ -23,6 +23,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->decimal('credit_balance', 10, 2)->default(0);
             $table->timestamps();
         });
     }
