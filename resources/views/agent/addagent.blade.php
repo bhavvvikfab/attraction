@@ -28,7 +28,7 @@
               </div>
               <div class="col-lg-4">
                 <h5 class="card-title text-end addsup">
-                  <a href="{{url('all_agent')}}"> Back </a>
+                  <a href="{{ route(session('prefix', 'agent') . '.all_agent') }}"> Back </a>
                 </h5>
               </div>
             </div>
@@ -40,32 +40,27 @@
             <form>
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="inputNanme4" class="form-label"><i class="bi bi-person-circle"
-                      style="font-size: 18px;"></i> First Name</label>
+                  <label for="inputNanme4" class="form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> First Name</label>
                   <input type="text" class="form-control" id="inputNanme4" value="">
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="inputNanme05" class="form-label"><i class="bi bi-person-circle"
-                      style="font-size: 18px;"></i> Last Name</label>
+                  <label for="inputNanme05" class="form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Last Name</label>
                   <input type="text" class="form-control" id="inputNanme05" value="">
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="inputEmail" class="form-label"><i class="bi bi-envelope-fill"
-                      style="font-size: 18px;"></i> Email</label>
+                  <label for="inputEmail" class="form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email</label>
                   <input type="email" class="form-control" value="">
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="inputPassword" class="form-label"><i class="bi bi-eye-slash-fill"
-                      style="font-size: 18px;"></i> Password</label>
+                  <label for="inputPassword" class="form-label"><i class="bi bi-eye-slash-fill" style="font-size: 18px;"></i> Password</label>
                   <input type="password" class="form-control">
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="inputNumber" class="form-label"> <i class="bi bi-telephone-fill"
-                      style="font-size: 18px;"></i> Phone Number</label>
+                  <label for="inputNumber" class="form-label"> <i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>
                   <input type="number" class="form-control">
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -89,13 +84,11 @@
               </div>
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="inputNumber" class="form-label"><i class="bi bi-cart-check-fill"
-                      style="font-size: 18px;"></i> Bookings</label>
+                  <label for="inputNumber" class="form-label"><i class="bi bi-cart-check-fill" style="font-size: 18px;"></i> Bookings</label>
                   <input type="text" class="form-control" id="inputNumber" value="">
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="formFile" class="form-label"><i class="bi bi-image-fill" aria-hidden="true"
-                      style="font-size: 18px;"></i> Agent Image </label>
+                  <label for="formFile" class="form-label"><i class="bi bi-image-fill" aria-hidden="true" style="font-size: 18px;"></i> Agent Image </label>
                   <input class="form-control" type="file" id="formFile">
                 </div>
               </div>
