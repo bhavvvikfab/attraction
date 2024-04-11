@@ -7,6 +7,8 @@ use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\TopupController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,4 +37,13 @@ Route::get('/all_booking', [BookingController::class, 'index']);
 Route::get('/all_agent', [AgentController::class, 'index']);
 Route::get('/add_agent', [AgentController::class, 'add_agent']);
 Route::get('/view_agent', [AgentController::class, 'view_agent']);
+
+
 Route::get('/topup', [TopupController::class, 'index']);
+
+Route::get('/admin_invoice', [InvoiceController::class, 'index']);
+Route::get('/view_single_invoice', [InvoiceController::class, 'view_single_invoice']);
+
+
+Route::get('/all_chat', [ChatController::class, 'index']);
+Route::get('/view_chat', [ChatController::class, 'view_chat']);

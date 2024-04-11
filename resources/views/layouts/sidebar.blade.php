@@ -20,8 +20,8 @@
               <i class="bi bi-circle"></i><span>List Attractions</span>
             </a>
           </li>
-           <li>
-            <a href="{{url('view_attraction')}}"> 
+          <li>
+            <a href="{{url('view_attraction')}}">
               <i class="bi bi-circle"></i><span>View All Attraction</span>
             </a>
           </li>
@@ -81,28 +81,28 @@
       <!-- End Subscription Nav -->
 
 
-  
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="{{url('topup')}}">
-              <i class="bi bi-phone-fill"></i>
-              <span>Top Up</span>
-            </a>
-          </li>
 
-        <!-- End top op Nav-->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{url('topup')}}">
+          <i class="bi bi-phone-fill"></i>
+          <span>Top Up</span>
+        </a>
+      </li>
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="Admininvoice.php">
-              <i class="bi bi-receipt"></i>
-              <span>Invoice</span>
-            </a>
-          </li>
+      <!-- End top op Nav-->
 
-        <!-- End Invoice Nav-->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{url('admin_invoice')}}">
+          <i class="bi bi-receipt"></i>
+          <span>Invoice</span>
+        </a>
+      </li>
 
-              <li class="nav-item">
-        <a class="nav-link collapsed" href="chatadmin.php">
+      <!-- End Invoice Nav-->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{url('all_chat')}}">
           <i class="bi bi-chat-dots"></i>
           <span>Chat</span>
         </a>
@@ -110,32 +110,32 @@
 
       <!-- End Chat Nav-->
 
-    <li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link collapsed" href="report.php">
           <i class="bi bi-file-text"></i>
           <span>Report</span>
         </a>
       </li>
 
-        <!-- End Report Nav-->
+      <!-- End Report Nav-->
 
-       <!-- <li class="nav-item">
+      <!-- <li class="nav-item">
             <a class="nav-link collapsed" href="feedback.php">
               <i class="bi bi-receipt"></i>
               <span>Feedback/Reviews</span>
             </a>
           </li> -->
 
-        <!-- End Feedback Nav-->
+      <!-- End Feedback Nav-->
 
-         <!-- <li class="nav-item">
+      <!-- <li class="nav-item">
             <a class="nav-link collapsed" href="delivery.php">
               <i class="bi bi-receipt"></i>
               <span>All Delivery</span>
             </a>
           </li> -->
 
-        <!-- End Invoice Nav-->
+      <!-- End Invoice Nav-->
 
       <!--<li class="nav-item">-->
       <!--  <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">-->
@@ -208,7 +208,7 @@
           <i class="bi bi-card-list"></i>
           <span>Register Agent</span>
         </a>
-      </li>  <!-- End Register Page Nav -->
+      </li> <!-- End Register Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="users-profile.php">
@@ -247,7 +247,7 @@
         </a>
       </li> --><!-- End Error 404 Page Nav -->
 
-     <!--  <li class="nav-item">
+      <!--  <li class="nav-item">
         <a class="nav-link collapsed" href="blank.php">
           <i class="bi bi-file-earmark"></i>
           <span>Blank</span>
