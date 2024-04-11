@@ -53,12 +53,12 @@
         </a>
         <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="allagent.php">
+            <a href="{{url('all_agent')}}">
               <i class="bi bi-circle"></i><span>All Agents</span>
             </a>
           </li>
           <li>
-            <a href="addagent.php">
+            <a href="{{url('add_agent')}}">
               <i class="bi bi-circle"></i><span>Add New Agents</span>
             </a>
           </li>
