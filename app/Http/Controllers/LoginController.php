@@ -14,11 +14,11 @@ class LoginController extends Controller
     {
         // dd($request->all()); 
         $credentials = $request->only('email', 'password');
-         
+
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = $user->createToken('MyApp')->accessToken;
-            
+
             return response()->json(['token' => $token], 200);
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -35,17 +35,21 @@ class LoginController extends Controller
         $user->role = 1;
         $user->email = $request->email;
 
-        $user->save();  
-        
-
+        $user->save();
     }
-    public function index(){
+    public function index()
+    {
 
         return view('login');
     }
 
-    public function register_page(){
+    public function register_page()
+    {
 
         return view('register');
+    }
+    public function admin_profile()
+    {
+        return view('users-profile');
     }
 }

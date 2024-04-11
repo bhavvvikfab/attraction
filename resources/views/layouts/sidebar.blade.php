@@ -211,7 +211,7 @@
       </li> <!-- End Register Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.php">
+        <a class="nav-link collapsed" href="{{url('admin_profile')}}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>

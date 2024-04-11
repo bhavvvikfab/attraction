@@ -27,6 +27,7 @@ Route::get('/', [LoginController::class, 'index']);
 Route::get('/register', [LoginController::class, 'register_page']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [LoginController::class, 'register']);
+Route::get('/admin_profile', [LoginController::class, 'admin_profile']);
 
 
 Route::get('/all_attraction', [AttractionController::class, 'index']);
