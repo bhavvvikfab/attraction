@@ -17,7 +17,7 @@
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
- <!-- Vendor CSS Files -->
+  <!-- Vendor CSS Files -->
   <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
@@ -29,12 +29,12 @@
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
 
-   
+
 </head>
 
 <body>
 
-  
+
 
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
@@ -61,7 +61,7 @@
           <a class="nav-link nav-icon search-bar-toggle " href="#">
             <i class="bi bi-search"></i>
           </a>
-        </li><!-- End Search Icon-->       
+        </li><!-- End Search Icon-->
 
         <!-- </li> --><!-- End Messages Nav -->
         <!-- <li class="nav-item dropdown pe-3" placement="bottom-right">
@@ -70,8 +70,8 @@
               <span class="text-dark"><b>SGD 55</b></span>
             </a>
           </li> -->
-          
-          <!-- <li class="nav-item dropdown pe-3 ps-3" placement="bottom-right">
+
+        <!-- <li class="nav-item dropdown pe-3 ps-3" placement="bottom-right">
             <a class="nav-link text-muted" href="cart.php">
               <i class="bi bi-cart-fill" style="font-size:18px;"></i>
               <span class="text-dark"><b>(0)</b></span>
@@ -95,7 +95,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
+              <a class="dropdown-item d-flex align-items-center" href="{{url('admin_profile')}}">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
