@@ -34,7 +34,7 @@
         </a>
         <ul id="order-nav" class="nav-content collapse " data-bs-parent="#order-nav">
           <li>
-            <a href="Allbooking.php">
+            <a href="{{url('all_booking')}}">
               <i class="bi bi-circle"></i><span>All Bookings</span>
             </a>
           </li>
