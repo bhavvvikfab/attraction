@@ -16,12 +16,12 @@
         </a>
         <ul id="Supl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{{url('all_attraction')}}">
+            <a href="{{ route(session('prefix', 'agent') . '.all_attraction') }}">
               <i class="bi bi-circle"></i><span>List Attractions</span>
             </a>
           </li>
           <li>
-            <a href="{{url('view_attraction')}}">
+            <a href="{{ route(session('prefix', 'agent') . '.view_attraction') }}">
               <i class="bi bi-circle"></i><span>View All Attraction</span>
             </a>
           </li>
@@ -34,7 +34,7 @@
         </a>
         <ul id="order-nav" class="nav-content collapse " data-bs-parent="#order-nav">
           <li>
-            <a href="{{url('all_booking')}}">
+            <a href="{{ route(session('prefix', 'agent') . '.all_booking') }}">
               <i class="bi bi-circle"></i><span>All Bookings</span>
             </a>
           </li>
@@ -53,12 +53,12 @@
         </a>
         <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{{url('all_agent')}}">
+            <a href="{{ route(session('prefix', 'agent') . '.all_agent') }}">
               <i class="bi bi-circle"></i><span>All Agents</span>
             </a>
           </li>
           <li>
-            <a href="{{url('add_agent')}}">
+            <a href="{{ route(session('prefix', 'agent') . '.add_agent') }}">
               <i class="bi bi-circle"></i><span>Add New Agents</span>
             </a>
           </li>
@@ -84,7 +84,7 @@
 
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{url('topup')}}">
+        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.topup') }}">
           <i class="bi bi-phone-fill"></i>
           <span>Top Up</span>
         </a>
@@ -93,7 +93,7 @@
       <!-- End top op Nav-->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{url('admin_invoice')}}">
+        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.admin_invoice') }}">
           <i class="bi bi-receipt"></i>
           <span>Invoice</span>
         </a>
@@ -102,7 +102,7 @@
       <!-- End Invoice Nav-->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{url('all_chat')}}">
+        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.all_chat') }}">
           <i class="bi bi-chat-dots"></i>
           <span>Chat</span>
         </a>
@@ -211,7 +211,7 @@
       </li> <!-- End Register Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{url('admin_profile')}}">
+        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.admin_profile') }}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>

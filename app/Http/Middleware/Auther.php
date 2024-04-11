@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class Auther
 {
@@ -20,45 +21,47 @@ class Auther
 
         // Extract the prefix from the request URL
         $prefix = explode('/', $request->getPathInfo())[1] ?? 'agent';
-    
+
         // Check if the prefix is one of the allowed prefixes
         if (in_array($prefix, $allowedPrefixes)) {
-            if ($request->is($prefix.'/login') || $request->is($prefix.'/register') || $request->is($prefix.'/loginporcess')){
+            if ($request->is($prefix . '/login') || $request->is($prefix . '/register') || $request->is($prefix . '/loginporcess')) {
                 if (Auth::check()) {
                     return redirect("/$prefix");
                 }
-            }else{
-                if(!Auth::check()){
-                    return redirect($prefix.'/login');
+            } else {
+                if (!Auth::check()) {
+                    return redirect($prefix . '/login');
                 }
                 $userRole = Auth::user()->role;
-                if($userRole == 2 && $prefix != 'agent'){
+                if ($userRole == 2 && $prefix != 'agent') {
                     return redirect('agent/login');
-                }else if($userRole == 1 && $prefix != 'admin'){
+                } else if ($userRole == 1 && $prefix != 'admin') {
                     return redirect('admin/login');
                 }
                 Auth::user()->prefix = $prefix;
+                Session::put('prefix', $prefix);
             }
         } else {
             if (!Auth::check()) {
                 return redirect("$prefix/login");
             }
             $userRole = Auth::user()->role;
-            if($userRole == 2 && $prefix != 'agent'){
+            if ($userRole == 2 && $prefix != 'agent') {
                 return redirect('agent/login');
-            }else if($userRole == 1 && $prefix != 'admin'){
+            } else if ($userRole == 1 && $prefix != 'admin') {
                 return redirect('admin/login');
             }
             Auth::user()->prefix = $prefix;
+            Session::put('prefix', $prefix);
         }
         // if ($request->is('admin/login') || $request->is('admin/register') || $request->is('admin/loginporcess')) {
         //     if(Auth::check()){
         //         return redirect('/admin');
         //     }
         // }else{
-            // if(!Auth::check()){
-            //     return redirect('admin/login');
-            // }
+        // if(!Auth::check()){
+        //     return redirect('admin/login');
+        // }
         // }
         return $next($request);
     }
