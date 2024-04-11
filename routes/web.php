@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AttractionController;
+use App\Http\Controllers\BookingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,3 +27,5 @@ Route::post('/register', [LoginController::class, 'register']);
 
 Route::get('/all_attraction', [AttractionController::class, 'index']);
 Route::get('/view_attraction', [AttractionController::class, 'view_attraction']);
+
+Route::get('/all_booking',[BookingController::class,'index']);
