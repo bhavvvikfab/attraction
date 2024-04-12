@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', function(){ return redirect('/agent'); });
 
 // route's for ADMIN start
 Route::prefix('admin')->middleware([Auther::class])->group(function () {
@@ -55,6 +56,8 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
 
     Route::get('/all_chat', [ChatController::class, 'index'])->name('admin.all_chat');
     Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('admin.view_chat');
+    Route::get('/topup', [TopupController::class, 'index']);
+    Route::post('/update-topup-status', [TopupController::class, 'updateTopUpStatus']);
 });
 // route's for ADMIN end
 
@@ -75,5 +78,8 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
 
     Route::get('/all_attraction', [AttractionController::class, 'index']);
     Route::get('/view_attraction', [AttractionController::class, 'view_attraction']);
+
+    Route::get('/topup', [TopupController::class, 'index']);
+    Route::post('/request-topup', [TopupController::class, 'requestTopUp']);
 });
 // route's for AGENT end
