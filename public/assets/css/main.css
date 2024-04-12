@@ -143,3 +143,10 @@ button.btn.btnmoreinfo.btn-prime {
   color: #185174;
   text-decoration: underline;
 }
+
+.tab-btn{
+  color:white !important;
+}
+.nav-link.active .tab-btn {
+  color:#185174 !important;
+}

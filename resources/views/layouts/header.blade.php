@@ -63,20 +63,14 @@
           </a>
         </li><!-- End Search Icon-->
 
-        <!-- </li> --><!-- End Messages Nav -->
-        <!-- <li class="nav-item dropdown pe-3" placement="bottom-right">
-            <a class="nav-link text-muted" href="SDGmanage-credit.php">
-              <i class="bi bi-coin sgdcoin"></i>
-              <span class="text-dark"><b>SGD 55</b></span>
-            </a>
-          </li> -->
+        <li class="border border-primary dropdown me-2 nav-item px-1 py-1 rounded-3">
+          <div class="align-items-center border border-primary d-flex px-2 py-1 rounded-3">
+              <i class="bi bi-wallet2 text-head me-2"></i>
+              <span class="me-1">$</span>
+              <span class="fw-bold">{{ Auth::user()->credit_balance }}</span>
+          </div>
+        </li>
 
-        <!-- <li class="nav-item dropdown pe-3 ps-3" placement="bottom-right">
-            <a class="nav-link text-muted" href="cart.php">
-              <i class="bi bi-cart-fill" style="font-size:18px;"></i>
-              <span class="text-dark"><b>(0)</b></span>
-            </a>
-          </li> -->
 
         <li class="nav-item dropdown pe-3 ps-3">
 

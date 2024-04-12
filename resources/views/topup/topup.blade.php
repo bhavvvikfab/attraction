@@ -8,10 +8,15 @@
         <h1>Topup</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{url('welcome')}}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/')}}">Dashboard</a></li>
             <li class="breadcrumb-item active">Topup</li>
           </ol>
         </nav>
+        @if(Auth::user()->role != 1)
+        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#requestTopupModal">
+          Instant Topup
+        </button>
+        @endif
       </div>
     </div>
   </div><!-- End Page Title -->
@@ -22,169 +27,54 @@
 
         <div class="card">
 
-          <div class="card-header">
-            <div class="row">
-              <div class="col-lg-8">
-                <h5 class="card-title text-start">Topup</h5>
-              </div>
-              <!-- <div class="col-lg-4">
-                      <h5 class="card-title text-end addsup">
-                          <a href="addsupllider.php"> Add New Supplier </a></h5>
-                  </div> -->
-            </div>
+          <div class="card-header pb-0 px-4">
+
+            <ul class="border-0 mt-3 nav nav-tabs" id="transactionTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link p-2 active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true">
+                  <span class="fw-medium tab-btn">All</span>
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link p-2" id="requested-tab" data-bs-toggle="tab" data-bs-target="#requested" type="button" role="tab" aria-controls="requested" aria-selected="false">
+                  <span class="fw-medium tab-btn">Requested</span>
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link p-2" id="approved-tab" data-bs-toggle="tab" data-bs-target="#approved" type="button" role="tab" aria-controls="approved" aria-selected="false">
+                  <span class="fw-medium tab-btn">Approved</span>
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link p-2" id="rejected-tab" data-bs-toggle="tab" data-bs-target="#rejected" type="button" role="tab" aria-controls="rejected" aria-selected="false">
+                  <span class="fw-medium tab-btn">Rejected</span>
+                </button>
+              </li>
+            </ul>
+            
           </div>
 
+          <div class="card-body view-top-table table-responsive">           
 
-
-          <div class="card-body view-top-table table-responsive">
-
-            <div class="">
-
-              <div class="row p-2">
-                <div class="col-lg-4">
-                  <form>
-                    <div class="form-group">
-                      <h5><label for="num2">Top Up Amt</label></h5>
-                      <input type="number" class="form-control" id="num2" placeholder="">
-                    </div>
-                  </form>
-                  <!--<h5 class="font-weight-bold pt-2">Payment Service Fees</h5>-->
-                  <!--<h5 class="pt-2"> Credit Card </h5>-->
-                  <button class="btn-primary btn mt-2 mb-5"> Instant Top Up</button>
-
-                </div>
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                <!-- Transactions table with all transactions -->
+                @include('topup.partials.transaction_table', ['transactions' => $userTransactions])
               </div>
-
+              <div class="tab-pane fade" id="requested" role="tabpanel" aria-labelledby="requested-tab">
+                <!-- Transactions table with requested transactions -->
+                @include('topup.partials.transaction_table', ['transactions' => $pendingTransactions])
+              </div>
+              <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved-tab">
+                <!-- Transactions table with approved transactions -->
+                @include('topup.partials.transaction_table', ['transactions' => $approvedTransactions])
+              </div>
+              <div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected-tab">
+                <!-- Transactions table with failed transactions -->
+                @include('topup.partials.transaction_table', ['transactions' => $failedTransactions])
+              </div>
             </div>
-            <!-- Table with stripped rows -->
-            <!--  <div class="datatable-top">
-                    <div class="datatable-dropdown">
-                        <label>
-                           <select class="datatable-selector">
-                            <option value="5">5</option>
-                            <option value="10" selected="">10</option>
-                            <option value="15">15</option>
-                            <option value="-1">All</option>
-                          </select> entries per page
-                        </label>
-                    </div>
-                    <div class="datatable-search">
-                      <input class="datatable-input" placeholder="Search..." type="search" title="Search within table">
-                    </div>
-                </div> -->
-            <div class="datatable-container">
-              <table class="table table-borderless datatable top-table">
-                <!-- <table class="table datatable table-bordered supplier-table"> -->
-                <thead>
-                  <tr>
-                    <th> Sr. No. </th>
-                    <th>
-                      Request No.
-                    </th>
-                    <th data-type="date" data-format="DD/MM/YYYY">Request Date</th>
-
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th></th>
-
-                  </tr>
-                </thead>
-
-                <tbody>
-
-                  <tr>
-                    <td>1</td>
-                    <td> 487977987 </td>
-                    <td>23/03/2022</td>
-                    <td>1159</td>
-                    <td>
-                      <button type="button" class="btn btn-warning">Pending</button>
-                    </td>
-                    <td><button type="button" class="btn btn-primary">Payment Link</button></td>
-                  </tr>
-
-                  <tr>
-                    <td>2</td>
-                    <td> 487977987 </td>
-                    <td>23/03/2022</td>
-                    <td>1159</td>
-                    <td>
-                      <button type="button" class="btn btn-success">Success</button>
-                    </td>
-                    <td></td>
-                  </tr>
-
-                  <tr>
-                    <td>3</td>
-                    <td> 487977987 </td>
-                    <td>23/03/2022</td>
-                    <td>1159</td>
-                    <td>
-                      <button type="button" class="btn btn-success">Success</button>
-                    </td>
-                    <td></td>
-                  </tr>
-
-                  <tr>
-                    <td>4</td>
-                    <td> 487977987 </td>
-                    <td>23/03/2022</td>
-                    <td>1159</td>
-                    <td>
-                      <button type="button" class="btn btn-warning">Pending</button>
-                    </td>
-                    <td><button type="button" class="btn btn-primary">Payment Link</button></td>
-                  </tr>
-
-                  <tr>
-                    <td>5</td>
-                    <td> 487977987 </td>
-                    <td>23/03/2022</td>
-                    <td>1159</td>
-                    <td>
-                      <button type="button" class="btn btn-success">Success</button>
-                    </td>
-                    <td></td>
-                  </tr>
-
-                  <tr>
-                    <td>6</td>
-                    <td> 487977987 </td>
-                    <td>23/03/2022</td>
-                    <td>1159</td>
-                    <td>
-                      <button type="button" class="btn btn-danger">Rejected</button>
-                    </td>
-                    <td></td>
-
-                    <!-- <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="editsup p-1">
-                          <a href="editsupplier.php">
-                            <button type="button" class="btn btn-secondary"><i class='bx bx-edit'></i></button>
-                          </a>
-                        </div>
-                        <div class="viewsup p-1">
-                          <a href="viewsupplier.php">
-                            <button type="button" class="btn btn-primary"><i class="ri-eye-line"></i></button>
-                          </a>
-                        </div>
-                        <div class="deletsup p-1">
-                          <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-warning">Pending</button>
-                    </td> -->
-                  </tr>
-
-
-
-                </tbody>
-              </table>
-            </div>
-            <!-- End Table with stripped rows -->
 
           </div>
         </div>
@@ -195,5 +85,49 @@
 
 
 </main><!-- End #main -->
+
+<!-- Bootstrap Modal for Success and Error Messages -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="messageContent"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="requestTopupModal" tabindex="-1" aria-labelledby="requestTopupModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="requestTopupModalLabel">Request Topup</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Form to request topup -->
+        <form id="requestTopupForm">
+          <!-- Add form fields here -->
+          <!-- For example: -->
+          <div class="mb-3">
+            <label for="topupAmount" class="form-label">Topup Amount</label>
+            <input type="number" class="form-control" id="topupAmount" name="topupAmount">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="submitRequestTopup">Submit Request</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 @include('layouts.footer');
