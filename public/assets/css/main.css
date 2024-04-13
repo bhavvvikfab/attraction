@@ -150,3 +150,8 @@ button.btn.btnmoreinfo.btn-prime {
 .nav-link.active .tab-btn {
   color:#185174 !important;
 }
+
+.notifications-container.notify-is-top {
+  --distance: 5px !important;
+  top: 45px;
+}

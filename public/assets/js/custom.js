@@ -57,18 +57,22 @@ function validateForm() {
   return isValid;
 }
 
-function showMessage(message, isSuccess) {
-    $('#messageContent').text(message);
+function showMessage(title, message, isSuccess) {
     if (isSuccess) {
-        $('#messageModal').removeClass('modal-danger').addClass('modal-success');
+        new Notify ({
+            status: 'success',
+            title: title,
+            text: message,
+            autoclose: true
+        });
     } else {
-        $('#messageModal').removeClass('modal-success').addClass('modal-danger');
+        new Notify ({
+            status: 'error',
+            title: title,
+            text: message,
+            autoclose: true
+        });
     }
-    $('#messageModal').modal('show');
-    setTimeout(function() {
-        $('#messageModal').modal('hide');
-        location.reload(0);
-    }, 2000);
 }
 
 
@@ -87,11 +91,11 @@ $(document).on("change", "#topup-request", function() {
             },
             success: function(response) {                
                 console.log(response);
-                showMessage(response.message, true);
+                showMessage('Message', response.message, true);
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
-                showMessage(xhr.responseText, false);
+                showMessage('Message', xhr.responseText, false);
             }
         });
     }
@@ -115,11 +119,11 @@ $(document).on("click", "#submitRequestTopup", function() {
             },
             success: function(response) {                
                 console.log(response);
-                showMessage(response.message, true);
+                showMessage('Message', response.message, true);
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
-                showMessage(xhr.responseText, false);
+                showMessage('Message', xhr.responseText, false);
             }
         });
     }

@@ -24,11 +24,15 @@
   <link href="{{ asset('assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">  
+
+  <!-- Toast Main js File -->
+  <!-- Use Link To Change Message https://www.jqueryscript.net/blog/Best-Toast-Notification-jQuery-Plugins.html -->
+  <link href="https://www.cssscript.com/demo/toast-simple-notify/simple-notify.min.css" rel="stylesheet">
+  <script src="https://www.cssscript.com/demo/toast-simple-notify/dist/simple-notify.min.js"></script>
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
-
 
 </head>
 
@@ -81,8 +85,7 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
+              <h6>{{ Auth::user()->name }}</h6>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -97,29 +100,8 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-
-            <!-- <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.php">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
-              </a>
-            </li> -->
-            <!-- <li>
-              <hr class="dropdown-divider">
-            </li> -->
-
-            <!-- <li>
-              <a class="dropdown-item d-flex align-items-center" href="faq.php">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li> -->
-            <!-- <li>
-              <hr class="dropdown-divider">
-            </li> -->
-
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="{{ route(session('prefix', 'agent') . '.logout') }}">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
