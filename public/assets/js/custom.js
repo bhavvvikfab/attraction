@@ -128,3 +128,86 @@ $(document).on("click", "#submitRequestTopup", function() {
         });
     }
 });
+setTimeout(function() {
+    $('#successAlert').fadeOut('fast');
+}, 5000);
+
+// Function to remove error message after 5 seconds
+setTimeout(function() {
+    $('#errorAlert').fadeOut('fast');
+}, 5000);
+
+
+$(document).on("click", "#btn_chng_pass", function () {
+    //   alert ("hh");
+     var current_password = $('#currentPassword').val();
+       var new_password = $('#newPassword').val();
+       var confirm_password = $('#confirmPassword').val();
+        var flag = 1;
+    
+       if(current_password==""){
+         $('.curr_pass_error').text('Current Password is required').addClass("text-danger");
+         flag = 0;
+       }else{
+         $('.curr_pass_error').text('');
+       }
+    
+       if(new_password==""){
+         $('.new_pass_error').text('New Password is required').addClass("text-danger");
+         flag = 0;
+       }else{
+         $('.new_pass_error').text('');
+       }
+    
+       if(confirm_password==""){
+         $('.confirm_pass_error').text('Confirm Password is required').addClass("text-danger");
+         flag = 0;
+       }else{
+         $('.confirm_pass_error').text('');
+       }
+       if(new_password !== confirm_password){
+         $('.confirm_pass_error').text('New Password and Confirm Password does not Match').addClass("text-danger");
+         flag = 0;
+       }
+    
+       if (flag == 1) {
+         // console.log("ok");
+         var changePasswordUrl = $('#url').val();
+         let myform = document.getElementById("change_password_form");
+         let fd = new FormData(myform);
+         $.ajax({
+           url: changePasswordUrl,
+           data: fd,
+           cache: false,
+           processData: false,
+           contentType: false,
+           type: "POST",
+           success: function (data) {
+             // console.log(data);
+             if (data == 2) {
+               // $("#msg").removeClass("text-danger");
+               $("#msg").html("Current Password Wrong!").addClass("text-danger");
+               // $("form").trigger("reset");
+            //    setTimeout(function () {
+            //      window.location.reload();
+            //    }, 2000);
+               
+             }
+             else if(data==3){
+               // $(".curr_pass_error").html("").removeClassClass("text-danger");
+               $(".curr_pass_error").html("Current Password Wrong!").addClass("text-danger");
+    
+             } else {
+               $("#msg").html("Password Change Successfully!").addClass("text-success");
+               setTimeout(function () {
+                     window.location.reload();
+                   }, 2000);
+             }
+             // do something with the result
+           },
+         });
+       } else {
+         return false;
+       }
+    
+    });

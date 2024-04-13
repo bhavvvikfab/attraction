@@ -79,12 +79,12 @@
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
                         <label class="form-check-label" for="rememberMe">Remember me</label>
                       </div>
-                    </div>
+                    </div> -->
                     <p class="text-center" id="msg"></p>
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="button" id="login_btn">Login</button>

@@ -25,6 +25,7 @@ class User extends Authenticatable
         'status',
         'phone',
         'country',
+        'profile',
         'email_verified_at',
         'address'
     ];

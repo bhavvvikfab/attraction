@@ -32,7 +32,9 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::post('/register', [LoginController::class, 'register']);
     Route::get('/login', [LoginController::class, 'index']);
     Route::get('/register', [LoginController::class, 'register_page']);
-    Route::get('/admin_profile', [LoginController::class, 'admin_profile'])->name('admin.admin_profile');
+    Route::get('/profile', [LoginController::class, 'profile'])->name('admin.profile');
+    Route::post('/update_profile', [LoginController::class, 'update_profile'])->name('admin.update_profile');
+    Route::post('/change_password', [LoginController::class, 'change_password'])->name('admin.change_password');
 
     Route::get('/', function () {
         $data['authUser'] = Auth::user();
@@ -64,10 +66,12 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
 Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('agent.logout');
     Route::post('/loginporcess', [LoginController::class, 'login']);
-    Route::post('/register', [LoginController::class, 'register']);
-    Route::get('/login', [LoginController::class, 'index']);
+    Route::post('/register', [LoginController::class, 'register'])->name('agent.register');
+    Route::get('/login', [LoginController::class, 'index'])->name('agent.login');
     Route::get('/register', [LoginController::class, 'register_page']);
-    Route::get('/admin_profile', [LoginController::class, 'admin_profile'])->name('agent.admin_profile');
+    Route::get('/profile', [LoginController::class, 'profile'])->name('agent.profile');
+    Route::post('/update_profile', [LoginController::class, 'update_profile'])->name('agent.update_profile');
+    Route::post('/change_password', [LoginController::class, 'change_password'])->name('agent.change_password');
 
     Route::get('/', function () {
         $data['authUser'] = Auth::user();
@@ -89,6 +93,7 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/admin_invoice', [AttractionController::class, 'view_attraction'])->name('agent.admin_invoice');
     
     Route::get('/all_chat', [AttractionController::class, 'view_attraction'])->name('agent.all_chat');
+    
 
 });
 // route's for AGENT end
