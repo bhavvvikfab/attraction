@@ -26,10 +26,13 @@
   <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">  
 
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <!-- Toast Main js File -->
   <!-- Use Link To Change Message https://www.jqueryscript.net/blog/Best-Toast-Notification-jQuery-Plugins.html -->
   <link href="https://www.cssscript.com/demo/toast-simple-notify/simple-notify.min.css" rel="stylesheet">
   <script src="https://www.cssscript.com/demo/toast-simple-notify/dist/simple-notify.min.js"></script>
+
+  
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
@@ -79,8 +82,9 @@
         <li class="nav-item dropdown pe-3 ps-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="{{ asset('assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+          <img src="{{ asset('assets/img/' . Auth::user()->profile) }}" alt="Profile" class="rounded-circle">
+
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{Auth::user()->name}}</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -92,7 +96,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="{{ route(session('prefix', 'agent') . '.admin_profile') }}">
+              <a class="dropdown-item d-flex align-items-center" href="{{ route(session('prefix', 'agent') . '.profile') }}">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>

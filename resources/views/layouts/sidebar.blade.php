@@ -211,7 +211,7 @@
       </li> <!-- End Register Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.admin_profile') }}">
+        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.profile') }}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
