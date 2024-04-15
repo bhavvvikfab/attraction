@@ -23,7 +23,7 @@
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img src="{{ asset('assets/img/' . $userdata->profile)}}" alt="Profile" class="rounded-circle">
+          <img src="{{ asset('assets/img/' . (!empty($userdata->profile) ? $userdata->profile : 'default.jpg')) }}" alt="User Profile Image">
             <h2>{{$userdata->name}}</h2>
             <!-- <h3>Web Designer</h3>
             <div class="social-links mt-2">
@@ -124,9 +124,9 @@
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                     <div class="col-md-8 col-lg-9">
-                      <img src="{{ asset('assets/img/' . $userdata->profile)}}" alt="Profile">
+                      <img src="{{ asset('assets/img/' . (!empty($userdata->profile) ? $userdata->profile : 'default.jpg')) }}" alt="Profile">
                       <div class="pt-2">
-                        <input type="file" name="new_img" id="new_img" style="display:none";>
+                        <input type="file" name="new_img" id="new_img" style="display:none"; accept="image/*">
                         <input type="hidden" name="old_img" id="old_img" value="{{$userdata->profile}}">
 
                         <label  href="#" for="new_img" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></lable>

@@ -4,7 +4,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{{url('welcome')}}">
+        <a class="nav-link " href="{{url('/')}}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>

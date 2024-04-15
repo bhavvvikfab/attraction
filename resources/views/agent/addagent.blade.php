@@ -41,7 +41,7 @@
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="inputNanme4" class="form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> First Name</label>
-                  <input type="text" class="form-control" id="inputNanme4" value="">
+                  <input type="text" class="form-control" name="name" id="name" value="">
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="inputNanme05" class="form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Last Name</label>
@@ -70,46 +70,26 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="inputNumber1" class="form-label"><i class="bi bi-coin" style="font-size: 18px;"></i>
-                    Credit Limit</label>
-                  <input type="number" class="form-control" value="">
-                </div>
+              
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="inputNumber" class="form-label"> <i class="bi bi-coin" style="font-size: 18px;"></i>
                     Credit Balance</label>
                   <input type="number" class="form-control" value="">
                 </div>
-
-              </div>
-              <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="inputNumber" class="form-label"><i class="bi bi-cart-check-fill" style="font-size: 18px;"></i> Bookings</label>
-                  <input type="text" class="form-control" id="inputNumber" value="">
-                </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="formFile" class="form-label"><i class="bi bi-image-fill" aria-hidden="true" style="font-size: 18px;"></i> Agent Image </label>
                   <input class="form-control" type="file" id="formFile">
                 </div>
-              </div>
 
-              <!-- <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                      <label for="inputPassword" class="form-label"> <i class="bi bi-geo-alt-fill"style="font-size: 18px;"></i>Address</label>
-                      <textarea class="form-control" style="height: 100px">159,pyq , San Joe, Country </textarea>
-                    </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                      <label for="inputPassword" class="form-label"> <i class="bi bi-list-ul" style="font-size: 18px;"></i> Description </label>
-                      <textarea class="form-control" style="height: 100px">hello</textarea>
-                    </div>
-                </div> -->
+              </div>
+              
               <div class="row mb-3">
                 <!-- <label class="col-sm-2 col-form-label">Submit Button</label> -->
                 <div class="col-sm-12">
                   <!-- <a href="allsupplier.php">
                     <button type="submit" class="btn editsup-btn">Save Changes</button>
                     </a> -->
-                  <a class="btn editsup-btn" href="appuser.php" role="submit">Add Agent</a>
+                  <a class="btn btn-primary editsup-btn" href="appuser.php" role="submit">Add Agent</a>
                 </div>
               </div>
 
