@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user_transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('transaction_id')->unique();
+            $table->text('transaction_id')->unique();
             $table->decimal('amount', 10, 2);
             $table->enum('type', ['credit', 'debit']);
             $table->enum('status', ['pending', 'completed', 'failed']);
