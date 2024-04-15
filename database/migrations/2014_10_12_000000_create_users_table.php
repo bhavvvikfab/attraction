@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('role')->comment("1=admin,2=agent");
-            $table->text('name');
-            $table->text('email')->unique();
+            $table->string('name',191);
+            $table->string('email',191)->unique();
             $table->text('phone')->nullable();
             $table->text('country')->nullable();
             $table->text('address')->nullable();
             $table->text('profile')->nullable();
             $table->tinyInteger('status')->comment("0=pending,1=active,2=unactive");
             $table->timestamp('email_verified_at')->nullable();
-            $table->text('password');
+            $table->text('password',191);
             $table->rememberToken();
             $table->decimal('credit_balance', 10, 2)->default(0);
             $table->timestamps();
