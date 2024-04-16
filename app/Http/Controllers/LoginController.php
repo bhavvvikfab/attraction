@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\AgentController;
 
 class LoginController extends Controller
 {
@@ -28,8 +29,20 @@ class LoginController extends Controller
     public function register(Request $request)
     {
         try{
-            // dd($request->all());
+            $agent = new AgentController();
+            return $agent->store($request);
+        }catch (Exception $e) {
+            $responseData =[
+                'status' => false,
+                'message' => $e->getMessage()
+            ];
+            return response()->json($responseData, 401);
+            // return redirect(route(session('prefix', 'agent') . '.register'))->with('message', $e->getMessage())->setStatusCode(401);
+        }
+    }
 
+    public function addAgent(){
+        try{
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email|unique:users,email',
             ]);
@@ -44,27 +57,7 @@ class LoginController extends Controller
                 return response()->json($responseData, 200);
             }
 
-            $user = new User();
-            $user->name = $request->name;
-            $user->password = Hash::make($request->password);
-            $user->email = $request->email;
-            $user->address = $request->address;
-            $user->phone = $request->phone_number;
-            $user->country = $request->country;
-            $user->status = isset($request->status)? $request->status:0;
-            $user->role = 2;
-
-
-            $user->save();
-            $responseData =[
-                'status' => true,
-                'message' => 'Rgister successfully!'
-            ];
-            if(isset($request->redirecturl)){
-                $responseData['redirecturl'] = $request->redirecturl;
-            }
-            return response()->json($responseData, 200);
-            // return redirect(route(session('prefix', 'agent') . '.register'))->with('message', 'Rgister successfully!')->setStatusCode(200);
+            return $this->storeUser($request);
         }catch (Exception $e) {
             $responseData =[
                 'status' => false,
@@ -73,7 +66,6 @@ class LoginController extends Controller
             return response()->json($responseData, 401);
             // return redirect(route(session('prefix', 'agent') . '.register'))->with('message', $e->getMessage())->setStatusCode(401);
         }
-        
     }
 
     public function index(Request $request){

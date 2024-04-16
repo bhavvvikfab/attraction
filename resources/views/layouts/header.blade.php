@@ -31,6 +31,14 @@
   <!-- Use Link To Change Message https://www.jqueryscript.net/blog/Best-Toast-Notification-jQuery-Plugins.html -->
   <link href="https://www.cssscript.com/demo/toast-simple-notify/simple-notify.min.css" rel="stylesheet">
   <script src="https://www.cssscript.com/demo/toast-simple-notify/dist/simple-notify.min.js"></script>
+  
+
+<!-- DataTables CSS CDN -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+<!-- DataTables JS CDN -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
 
   
 

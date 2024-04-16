@@ -38,7 +38,7 @@
           <div class="card-body allappuser-table table-responsive">
             <!-- Table with stripped rows -->
 
-            <div class="datatable-top">
+            <!-- <div class="datatable-top">
               <div class="datatable-dropdown">
                 <label>
                   <select class="datatable-selector">
@@ -53,209 +53,85 @@
                 <input class="datatable-input" placeholder="Enter Keyword" type="search" title="Search within table">
 
                 <button class="btn search-button text-white" placement="top" type="submit"> Search
-                  <!-- <span>
-                        <i class="bi bi-search mx-2" style="color:white;"></i> -->
-                  </span>
+                  
+                 
                 </button>
               </div>
-            </div>
+            </div> -->
 
-            <table class="table table-borderless appuser-table">
+            <table class="table table-borderless appuser-table" id="agenttable">
               <!-- <table class="table datatable table-bordered supplier-table"> -->
               <thead>
                 <tr>
                   <th> Sr. No. </th>
-                  <!-- <th>
+                  <th>
                       Agent Image
-                    </th> -->
+                    </th>
                   <th> Agents Name</th>
                   <th>Email Address</th>
-                  <th>Credit Limit</th>
+                  <!-- <th>Credit Limit</th> -->
                   <th>Credit Balance</th>
-                  <th>Action</th>
                   <th>Status</th>
+                  <th>Action</th>
+                  
                 </tr>
               </thead>
               <tbody>
+              <?php $i = 1; ?>
+                @foreach($agent_data as $singledata)
                 <tr>
-                  <td>1</td>
+                  <td>{{$i++}}</td>
 
-                  <!-- <td>
+                  <td>
                       <div class="user-thumbnail">
-                        <img src="assets/img/josh-d-avatar.jpg">
-                      </div>
-                    </td> -->
-                  <td>Krishna</td>
-                  <td>kr123@gmail.com</td>
-                  <td>SDG 543210</td>
-                  <td>SDG 250</td>
-                  <td>
-                    <div class="d-flex justify-content-around align-items-center">
-                      <div class="edituser p-1">
-                        <a href="editagent.php">
-                          <button type="button" class="btn btn-secondary"><i class='bx bx-edit'></i></button>
-                        </a>
-                      </div>
-                      <div class="viewsuser p-1">
-                        <a href="viewagentdetail.php">
-                          <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
-                        </a>
-                      </div>
-                      <div class="deletuser p-1">
-                        <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success">Approve</button>
-                    <!--<span class="badge text-success">Approved</span>-->
-                  </td>
-                </tr>
+                        <!-- <img src="{{ $singledata->profile ? asset('assets/img/' . ($singledata->profile) ): asset('assets/img/default.jpg')  }}"> -->
+                        <img src="{{ asset('assets/img/' . (!empty($singledata->profile) ? $singledata->profile : 'default.jpg')) }}" height="100" width="100">
 
-                <tr>
-                  <td>2</td>
-                  <td>Theodore</td>
-                  <td>th123@gmail.com</td>
-                  <td>SDG 543210</td>
-                  <td>SDG 250</td>
+                      </div>
+                    </td>
+                  <td>{{$singledata->name}}</td>
+                  <td>{{$singledata->email}}</td>
+                  <!-- <td>SDG 543210</td> -->
+                  <td>{{$singledata->credit_balance}}</td>
                   <td>
-                    <div class="d-flex justify-content-around align-items-center">
+                  <select class="agent_status custom-select btn <?php if($singledata->status==1){echo "btn-success";}elseif($singledata->status==2){echo"btn-danger";}elseif($singledata->status==0){echo"btn-warning";}?>" data-id="<?php echo $singledata->id;?>">
+                            <!--<option selected>Choose...</option>-->
+                            <?php 
+                            if($singledata->status==0){ ?>
+                            <option value="0" <?php if($singledata->status==0){ echo "selected";} ?>>Pending</option>
+                            <option value="1" <?php if($singledata->status==1){ echo "selected";} ?>>Active</option>
+                            <option value="2" <?php if($singledata->status==2){ echo "selected";} ?>>Inactive</option>
+                            <?php }else{ ?>
+                              <option value="1" <?php if($singledata->status==1){ echo "selected";} ?>>Active</option>
+                            <option value="2" <?php if($singledata->status==2){ echo "selected";} ?>>Inactive</option>
+                           <?php  } ?>
+                         
+                        </select>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-around align-items-center"> 
                       <div class="edituser p-1">
-                        <a href="editagent.php">
+                        <a href="{{ route('admin.editagent', ['id' => $singledata->id]) }}">
                           <button type="button" class="btn btn-secondary"><i class='bx bx-edit'></i></button>
                         </a>
                       </div>
                       <div class="viewsuser p-1">
-                        <a href="viewagentdetail.php">
+                        <a href="{{ route('admin.viewagent', ['id' => $singledata->id]) }}">
                           <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
                         </a>
                       </div>
                       <div class="deletuser p-1">
-                        <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
+                   
+                     
+                        <button type="button" class="btn btn-danger agent_delete" data-id="{{$singledata->id}}"><i class="ri-delete-bin-line"></i></button>
+                        
                       </div>
                     </div>
                   </td>
-                  <td>
-                    <button type="button" class="btn btn-warning">Pending</button>
-                    <!--<span class="badge text-success">Approved</span>-->
-                  </td>
+                  
                 </tr>
-
-                <tr>
-                  <td>3</td>
-                  <td>Kristan</td>
-                  <td>krt123@gmail.com</td>
-                  <td>SDG 543210</td>
-                  <td>SDG 250</td>
-                  <td>
-                    <div class="d-flex justify-content-around align-items-center">
-                      <div class="edituser p-1">
-                        <a href="editagent.php">
-                          <button type="button" class="btn btn-secondary"><i class='bx bx-edit'></i></button>
-                        </a>
-                      </div>
-                      <div class="viewsuser p-1">
-                        <a href="viewagentdetail.php">
-                          <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
-                        </a>
-                      </div>
-                      <div class="deletuser p-1">
-                        <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success">Approve</button>
-                    <!--<span class="badge text-success">Approved</span>-->
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>4</td>
-                  <td>Yug</td>
-                  <td>yug123@gmail.com</td>
-                  <td>SDG 543210</td>
-                  <td>SDG 250</td>
-                  <td>
-                    <div class="d-flex justify-content-around align-items-center">
-                      <div class="edituser p-1">
-                        <a href="editagent.php">
-                          <button type="button" class="btn btn-secondary"><i class='bx bx-edit'></i></button>
-                        </a>
-                      </div>
-                      <div class="viewsuser p-1">
-                        <a href="viewagentdetail.php">
-                          <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
-                        </a>
-                      </div>
-                      <div class="deletuser p-1">
-                        <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-danger">Rejected</button>
-                    <!--<span class="badge text-success">Approved</span>-->
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>5</td>
-                  <td>Riddhi</td>
-                  <td>rm123@gmail.com</td>
-                  <td>SDG 543210</td>
-                  <td>SDG 250</td>
-                  <td>
-                    <div class="d-flex justify-content-around align-items-center">
-                      <div class="edituser p-1">
-                        <a href="editagent.php">
-                          <button type="button" class="btn btn-secondary"><i class='bx bx-edit'></i></button>
-                        </a>
-                      </div>
-                      <div class="viewsuser p-1">
-                        <a href="viewagentdetail.php">
-                          <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
-                        </a>
-                      </div>
-                      <div class="deletuser p-1">
-                        <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success">Approve</button>
-                    <!--<span class="badge text-success">Approved</span>-->
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>6</td>
-                  <td>Teju</td>
-                  <td>teju123@gmail.com</td>
-                  <td>SDG 543210</td>
-                  <td>SDG 250</td>
-                  <td>
-                    <div class="d-flex justify-content-around align-items-center">
-                      <div class="edituser p-1">
-                        <a href="editagent.php">
-                          <button type="button" class="btn btn-secondary"><i class='bx bx-edit'></i></button>
-                        </a>
-                      </div>
-                      <div class="viewsuser p-1">
-                        <a href="viewagentdetail.php">
-                          <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
-                        </a>
-                      </div>
-                      <div class="deletuser p-1">
-                        <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success">Approve</button>
-                    <!--<span class="badge text-success">Approved</span>-->
-                  </td>
-                </tr>
+            @endforeach
+                
 
 
 
@@ -274,3 +150,8 @@
 </main><!-- End #main -->
 
 @include('layouts.footer');
+<script>
+$(document).ready(function() {
+    $('#agenttable').DataTable();
+});
+</script>

@@ -48,6 +48,12 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::get('/all_agent', [AgentController::class, 'index'])->name('admin.all_agent');
     Route::get('/add_agent', [AgentController::class, 'add_agent'])->name('admin.add_agent');
     Route::get('/view_agent', [AgentController::class, 'view_agent'])->name('admin.view_agent');
+    Route::post('/storeAgent', [AgentController::class, 'store'])->name('admin.storeAgent');
+    Route::get("/editagent/{id}", [AgentController::class, 'editagent'])->name('admin.editagent');
+    Route::post("/updateAgent", [AgentController::class, 'updateAgent'])->name('admin.updateAgent');
+    Route::post("/deleteagent", [AgentController::class, 'deleteagent'])->name('admin.deleteagent');
+    Route::get("/viewagent/{id}", [AgentController::class, 'viewagent'])->name('admin.viewagent');
+    Route::post("/agent_status_change", [AgentController::class, 'agent_status_change'])->name('admin.agent_status_change');
 
 
     Route::get('/topup', [TopupController::class, 'index'])->name('admin.topup');
@@ -59,6 +65,7 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
 
     Route::get('/all_chat', [ChatController::class, 'index'])->name('admin.all_chat');
     Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('admin.view_chat');
+
 });
 // route's for ADMIN end
 
@@ -66,9 +73,9 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
 Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('agent.logout');
     Route::post('/loginporcess', [LoginController::class, 'login']);
-    Route::post('/register', [LoginController::class, 'register'])->name('agent.register');
+    Route::post('/register', [LoginController::class, 'register']);
     Route::get('/login', [LoginController::class, 'index'])->name('agent.login');
-    Route::get('/register', [LoginController::class, 'register_page']);
+    Route::get('/register', [LoginController::class, 'register_page'])->name('agent.register');
     Route::get('/profile', [LoginController::class, 'profile'])->name('agent.profile');
     Route::post('/update_profile', [LoginController::class, 'update_profile'])->name('agent.update_profile');
     Route::post('/change_password', [LoginController::class, 'change_password'])->name('agent.change_password');
