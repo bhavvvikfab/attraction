@@ -203,12 +203,13 @@
 
       <!--<li class="nav-heading">Pages</li>-->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="register.php">
           <i class="bi bi-card-list"></i>
           <span>Register Agent</span>
         </a>
-      </li> <!-- End Register Page Nav -->
+      </li>  -->
+      <!-- End Register Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.profile') }}">

@@ -113,6 +113,15 @@
               <hr class="dropdown-divider">
             </li>
             <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{ route(session('prefix', 'agent') . '.setting') }}">
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
               <a class="dropdown-item d-flex align-items-center" href="{{ route(session('prefix', 'agent') . '.logout') }}">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>

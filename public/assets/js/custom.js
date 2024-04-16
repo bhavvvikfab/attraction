@@ -444,4 +444,74 @@ $(document).on("click", "#btn_chng_pass", function () {
          });
        }
   });
+  function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+    }
+
+  $(document).on("click", "#update_credential", function () {
+    // alert ("hh");
+   
+     var email = $('#email').val();
+     var password = $('#password').val();
+     
+      var flag = 1;
+
+      if (email == "") {
+        $(".email_err").text("This field is required!").addClass("text-danger");
+        flag = 0;
+      }else if(!validateEmail(email)){
+        $(".email_err").text("Please Enter Valid Email.").addClass("text-danger");
+        flag=0;
+      } else {
+        $(".email_err").text("");
+      }
+  
+     if(password==""){
+       $('.password_err').text('password  is required').addClass("text-danger");
+       flag = 0;
+     }else{
+       $('.password_err').text('');
+     }
+   
+    //  var updateagent_url=$('#url').val();
+    //  var redirecturl=$('#redirecturl').val();
+  
+     if (flag == 1) {
+       // console.log("ok");
+      
+       let myform = document.getElementById("credential_form");
+       let fd = new FormData(myform);
+       $.ajax({
+         url: 'update_credential',
+         data: fd,
+         cache: false,
+         processData: false,
+         contentType: false,
+         type: "POST",
+         success: function (data) {
+          if (data.status) {
+            showMessage('message', data.message, true)
+            
+                  setTimeout(function(){
+            
+                    window.location.reload();
+           
+                },2000);            
+          }else {
+            $.each(data.errors, function(index, value) {
+              showMessage('error', value, false)
+              
+          });
+            
+          }
+           console.log(data);
+         
+         },
+       });
+     } else {
+       return false;
+     }
+  
+  }); 
     

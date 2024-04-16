@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Api_credential;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\AgentController;
@@ -174,5 +175,10 @@ class LoginController extends Controller
         $request->session()->regenerateToken(); // Regenerate the CSRF token
         $prefix = explode('/', $request->getPathInfo())[1] ?? 'agent';
         return redirect('/'.$prefix); // Redirect to the login page after logout
+    }
+    public function setting(){
+        $credential_data=Api_credential::first();
+        // dd( $credential_data);
+        return view('setting',compact('credential_data'));
     }
 }

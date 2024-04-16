@@ -47,23 +47,13 @@
                   <input type="text" class="form-control" name="name" id="name" value="{{$agent->name}}">
                   <p class="name_err"></p>
                 </div>
-                <!-- <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="inputNanme05" class="form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Last Name</label>
-                  <input type="text" class="form-control" id="inputNanme05" value="">
-                </div> -->
-              </div>
-              <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="inputEmail" class="form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email</label>
                   <input type="email" class="form-control" name="email" id="email" value="{{$agent->email}}">
                   <p class="email_err"></p>
                 </div>
-                <!-- <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="inputPassword" class="form-label"><i class="bi bi-eye-slash-fill" style="font-size: 18px;"></i> Password</label>
-                  <input type="password" class="form-control" name="password" id="password">
-                  <p class="password_err"></p>
-                </div> -->
               </div>
+             
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="inputNumber" class="form-label"> <i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>
