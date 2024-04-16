@@ -211,3 +211,237 @@ $(document).on("click", "#btn_chng_pass", function () {
        }
     
     });
+
+    $(document).on("click", "#addagent_btn", function () {
+        // alert ("hh");
+       var name = $('#name').val();
+         var email = $('#email').val();
+         var password = $('#password').val();
+         var phone_number = $('#phone_number').val();
+         var country = $('#country').val();
+         var credit_balance = $('#credit_balance').val();
+         var image = $('#image').val();
+         
+
+          var flag = 1;
+      
+         if(name==""){
+           $('.name_err').text('Name is required').addClass("text-danger");
+           flag = 0;
+         }else{
+           $('.name_err').text('');
+         }
+      
+         if(password==""){
+           $('.password_err').text('Password is required').addClass("text-danger");
+           flag = 0;
+         }else{
+           $('.password_err').text('');
+         }
+      
+         if(phone_number==""){
+           $('.phone_number_err').text('phone number is required').addClass("text-danger");
+           flag = 0;
+         }else{
+           $('.phone_number_err').text('');
+         }
+         if(image==""){
+          $('.image_err').text('image is required').addClass("text-danger");
+          flag = 0;
+        }else{
+          $('.image_err').text('');
+        }
+         var registerurl=$('#url').val();
+         var redirecturl=$('#redirecturl').val();
+      
+         if (flag == 1) {
+           // console.log("ok");
+           var changePasswordUrl = $('#url').val();
+           let myform = document.getElementById("add_agent_form");
+           let fd = new FormData(myform);
+           $.ajax({
+             url: registerurl,
+             data: fd,
+             cache: false,
+             processData: false,
+             contentType: false,
+             type: "POST",
+             success: function (data) {
+              if (data.status) {
+                showMessage('message', "Stored Successfully.", true)
+                // $("#msg").text(data.message).addClass("text-success");
+                      setTimeout(function(){
+                //       if(data.redirecturl != ''){
+                //         window.location.href = data.redirecturl
+                //       }else{
+                  window.location.href = data.redirecturl
+                //       }
+                    },2000);            
+              }else {
+                $.each(data.errors, function(index, value) {
+                  showMessage('error', value, false)
+                  // $("#msg").text(value).addClass("text-danger");
+              });
+                
+              }
+               console.log(data);
+              //  if (data == 2) {
+              //    // $("#msg").removeClass("text-danger");
+              //    $("#msg").html("Current Password Wrong!").addClass("text-danger");
+              //    // $("form").trigger("reset");
+              // //    setTimeout(function () {
+              // //      window.location.reload();
+              // //    }, 2000);
+                 
+              //  }
+              //  else if(data==3){
+              //    // $(".curr_pass_error").html("").removeClassClass("text-danger");
+              //    $(".curr_pass_error").html("Current Password Wrong!").addClass("text-danger");
+      
+              //  } else {
+              //    $("#msg").html("Password Change Successfully!").addClass("text-success");
+              //    setTimeout(function () {
+              //          window.location.reload();
+              //        }, 2000);
+              //  }
+               // do something with the result
+             },
+           });
+         } else {
+           return false;
+         }
+      
+      });
+ $(document).on("click", "#editagent_btn", function () {
+        // alert ("hh");
+       var name = $('#name').val();
+         var email = $('#email').val();
+         var password = $('#password').val();
+         var phone_number = $('#phone_number').val();
+         var country = $('#country').val();
+         var credit_balance = $('#credit_balance').val();
+         var image = $('#image').val();
+         
+
+          var flag = 1;
+      
+         if(name==""){
+           $('.name_err').text('Name is required').addClass("text-danger");
+           flag = 0;
+         }else{
+           $('.name_err').text('');
+         }
+      
+      
+         if(phone_number==""){
+           $('.phone_number_err').text('phone number is required').addClass("text-danger");
+           flag = 0;
+         }else{
+           $('.phone_number_err').text('');
+         }
+       
+         var updateagent_url=$('#url').val();
+         var redirecturl=$('#redirecturl').val();
+      
+         if (flag == 1) {
+           // console.log("ok");
+          
+           let myform = document.getElementById("edit_agent_form");
+           let fd = new FormData(myform);
+           $.ajax({
+             url: updateagent_url,
+             data: fd,
+             cache: false,
+             processData: false,
+             contentType: false,
+             type: "POST",
+             success: function (data) {
+              if (data.status) {
+                showMessage('message', "Updated Successfully.", true)
+                
+                      setTimeout(function(){
+                
+                  window.location.href = data.redirecturl
+               
+                    },2000);            
+              }else {
+                $.each(data.errors, function(index, value) {
+                  showMessage('error', value, false)
+                  
+              });
+                
+              }
+               console.log(data);
+             
+             },
+           });
+         } else {
+           return false;
+         }
+      
+      });  
+      
+      $(document).on('click', '.agent_delete', function (){
+        //  alert('kk');
+         var agent_id=$(this).attr("data-id");
+          // alert (agent_id);
+         if (confirm('Are you sure delete this record?')) {
+           // alert ($user_id);
+           $.ajax({
+             type: 'POST',
+             url: 'deleteagent',
+             data: { agent_id:agent_id },
+            //  contentType: false,
+            //   processData: false,
+             success: function (data) {
+    
+              console.log(data);
+              if(data.status){
+                showMessage('message', "Record Deleted Successfully.", true)
+                
+                  setTimeout(function(){
+                
+                  window.location.reload();
+               
+                    },2000);
+              }
+             }
+    
+    
+           });
+         }
+    });
+
+    $(document).on('change', '.agent_status', function (){
+      //  alert('kk');
+       var agent_id=$(this).attr("data-id");
+       var selectedValue = $(this).val();
+        
+        // alert (agent_id);
+       if (confirm('Are you sure Change this record?')) {
+         // alert ($user_id);
+         $.ajax({
+           type: 'POST',
+           url: 'agent_status_change',
+           data: { agent_id:agent_id,selectedValue:selectedValue },
+          //  contentType: false,
+          //   processData: false,
+           success: function (data) {
+  
+            console.log(data);
+            if(data.status){
+              showMessage('message', data.message, true)
+              
+                setTimeout(function(){
+              
+                window.location.reload();
+             
+                  },2000);
+            }
+           }
+  
+  
+         });
+       }
+  });
+    
