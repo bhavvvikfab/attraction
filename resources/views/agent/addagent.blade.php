@@ -8,7 +8,7 @@
         <h1>Add New Agents</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
             <li class="breadcrumb-item active">Add New Agents</li>
           </ol>
         </nav>
@@ -46,44 +46,43 @@
                   <input type="text" class="form-control" name="name" id="name" value="">
                   <p class="name_err"></p>
                 </div>
-                <!-- <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="inputNanme05" class="form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Last Name</label>
-                  <input type="text" class="form-control" id="inputNanme05" value="">
-                </div> -->
-              </div>
-              <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="inputEmail" class="form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email</label>
                   <input type="email" class="form-control" name="email" id="email" value="">
                   <p class="email_err"></p>
                 </div>
+              </div>
+              <div class="row">
+                
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="inputPassword" class="form-label"><i class="bi bi-eye-slash-fill" style="font-size: 18px;"></i> Password</label>
                   <input type="password" class="form-control" name="password" id="password">
                   <p class="password_err"></p>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="inputNumber" class="form-label"> <i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>
                   <input type="number" class="form-control" name="phone_number" id="phone_number">
                   <p class="phone_number_err"></p>
                 </div>
+              </div>
+              <div class="row">
+                
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="inputNumber2" class="form-label"><i class="bi bi-flag-fill" style="font-size: 18px;"></i>
                     Country Code</label>
                   <input type="number" class="form-control" value="" name="country" id="country">
                   <p class="country_err"></p>
                 </div>
-              </div>
-              <div class="row">
-              
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="inputNumber" class="form-label"> <i class="bi bi-coin" style="font-size: 18px;"></i>
                     Credit Balance</label>
                   <input type="number" class="form-control" value="" name="credit_balance" id="credit_balance">
                   <p class="credit_balance_err"></p>
                 </div>
+              </div>
+              <div class="row">
+              
+                
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="formFile" class="form-label"><i class="bi bi-image-fill" aria-hidden="true" style="font-size: 18px;"></i> Agent Image </label>
                   <input class="form-control" type="file" id="image" name="image">

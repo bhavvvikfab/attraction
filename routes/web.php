@@ -9,6 +9,7 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\TopupController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Api_credentialController;
 use App\Http\Middleware\Auther;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,6 +36,7 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::get('/profile', [LoginController::class, 'profile'])->name('admin.profile');
     Route::post('/update_profile', [LoginController::class, 'update_profile'])->name('admin.update_profile');
     Route::post('/change_password', [LoginController::class, 'change_password'])->name('admin.change_password');
+    Route::get('/setting', [LoginController::class, 'setting'])->name('admin.setting');
 
     Route::get('/', function () {
         $data['authUser'] = Auth::user();
@@ -64,7 +66,9 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
 
 
     Route::get('/all_chat', [ChatController::class, 'index'])->name('admin.all_chat');
-    Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('admin.view_chat');
+    Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('admin.view_chat'); 
+
+    Route::post('/update_credential', [Api_credentialController::class, 'index'])->name('admin.update_credential');
 
 });
 // route's for ADMIN end
