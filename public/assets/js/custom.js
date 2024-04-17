@@ -20,22 +20,17 @@ $(document).ready(function() {
               success: function(response) {
                   
                   if (response.token) {
-                      // Login successful, redirect or perform desired action
                       $('#msg').text('Login Successfully').addClass('text-success')
-                      // alert('Login successful');
-                      // Example: Redirect to home page
-                    //   window.location.href = '';
-                        location.reload();
+                      location.reload();
                   } else {
-                      // Login failed, display error message
+                    console.log(response);
                       $('#msg').text(response.message).addClass('text-danger')
-                      // alert('Login failed: ' + response.message);
                   }
               },
               error: function(xhr, status, error) {
-                  // Handle errors
-                  $('#msg').text('Incorrect Username or Password.').addClass('text-danger');
-                  // alert('Error occurred while logging in: ' + error);
+                // Handle errors
+                $('#msg').text('Incorrect Username or Password.').addClass('text-danger');
+                // alert('Error occurred while logging in: ' + error);
 
               }
           });
@@ -64,7 +59,7 @@ function showMessage(title, message, isSuccess) {
             title: title,
             text: message,
             autoclose: true
-        });
+        });        
     } else {
         new Notify ({
             status: 'error',
@@ -81,24 +76,33 @@ $(document).on("change", "#topup-request", function() {
     var newStatus = $(this).val();
     var message = newStatus == "completed" ? "approve" : "reject";
     
-    if (confirm("Are you sure you want to " + message + " the top-up request?")) {
-        $.ajax({
-            url: '/admin/update-topup-status',
-            type: 'POST',
-            data: {
-                transaction_id: transactionId,
-                status: newStatus
-            },
-            success: function(response) {                
-                console.log(response);
-                showMessage('Message', response.message, true);
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                showMessage('Message', xhr.responseText, false);
-            }
-        });
-    }
+    Swal.fire({
+        title: "Are you sure you want to " + message + " the top-up request?",
+        showCancelButton: true,
+        confirmButtonText: "Sure",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/admin/update-topup-status',
+                type: 'POST',
+                data: {
+                    transaction_id: transactionId,
+                    status: newStatus
+                },
+                success: function(response) {                
+                    console.log(response);
+                    showMessage('Message', response.message, true);
+                    setTimeout(function() {
+                      location.reload();
+                    }, 2000);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    showMessage('Message', xhr.responseText, false);
+                }
+            });
+        } 
+      });    
 });
 
 $(document).on("click", "#submitRequestTopup", function() {
@@ -109,25 +113,35 @@ $(document).on("click", "#submitRequestTopup", function() {
         return;
     }
     
-    if (confirm("Are you sure you want to request for the top-up?")) {
-        $('#requestTopupModal').modal('hide');
-        $.ajax({
-            url: '/agent/request-topup',
-            type: 'POST',
-            data: {
-                requestedAmount: requestedAmount,
-            },
-            success: function(response) {                
-                console.log(response);
-                showMessage('Message', response.message, true);
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                showMessage('Message', xhr.responseText, false);
-            }
-        });
-    }
+    Swal.fire({
+        title: "Are you sure you want to request a top-up?",
+        showCancelButton: true,
+        confirmButtonText: "Sure",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            $('#requestTopupModal').modal('hide');
+            $.ajax({
+                url: '/agent/request-topup',
+                type: 'POST',
+                data: {
+                    requestedAmount: requestedAmount,
+                },
+                success: function(response) {                
+                    console.log(response);
+                    showMessage('Message', response.message, true);
+                    setTimeout(function() {
+                      location.reload();
+                    }, 2000);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    showMessage('Message', xhr.responseText, false);
+                }
+            });
+        } 
+      });  
 });
+
 setTimeout(function() {
     $('#successAlert').fadeOut('fast');
 }, 5000);

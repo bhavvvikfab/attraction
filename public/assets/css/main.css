@@ -155,3 +155,9 @@ button.btn.btnmoreinfo.btn-prime {
   --distance: 5px !important;
   top: 45px;
 }
+.align-items-center {
+  text-decoration: none;
+}
+.nav-content a{
+  text-decoration: none;
+}

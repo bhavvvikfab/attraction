@@ -85,7 +85,7 @@ form .page .btns button.next{
 }
 .container .progress-bar{
   display: flex;
-  margin: 40px 0;
+  margin: 10px 0;
   flex-direction: row;
   user-select: none;
 }
@@ -122,9 +122,10 @@ form .page .btns button.next{
     align-items: center;
     justify-content: center;
 }
-.progress-bar .step .bullet.active span{
-  display: none;
-}
+/* .progress-bar .step .bullet.active span{ */
+  /* display: none; */
+  /* color: white; */
+/* } */
 .progress-bar .step .bullet:before, .progress-bar .step .bullet:after {
     position: absolute;
     content: '';
@@ -164,4 +165,7 @@ form .page .btns button.next{
 .progress-bar .step .check.active{
   display: block;
   color: #fff;
+}
+.col-12 .mb-0.ms-4.ps-1 {
+  margin-top: -9%;
 }

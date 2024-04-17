@@ -19,11 +19,16 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $token = $user->createToken('MyApp')->accessToken;
 
-            return response()->json(['token' => $token], 200);
+            if (($user->role == 1 && $request->prefix == 'admin') || ($user->role == 2 && $request->prefix == 'agent')) {
+                $token = $user->createToken('MyApp')->accessToken;
+                return response()->json(['token' => $token], 200);
+            } else {
+                Auth::logout();
+                return response()->json(['message' => 'Unauthorized user to login here.'], 200);
+            }
         } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Invalid email or password.'], 401);
         }
     }
 

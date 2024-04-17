@@ -290,10 +290,10 @@
     const imageInput = document.querySelector("input[name='image']");
     
     // Check if an image is uploaded
-    if (imageInput.value.trim() === "") {
-      alert("Please upload an image.");
-      return;
-    }
+    // if (imageInput.value.trim() === "") {
+    //   alert("Please upload an image.");
+    //   return;
+    // }
 
     // If an image is uploaded, submit the form
     // bullet[current - 1].classList.add("active");
