@@ -25,7 +25,7 @@
   <link href="{{ asset('assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css') }}"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
   <!-- Template Main CSS File -->
@@ -46,8 +46,8 @@
       <div class="row justify-content-center">
         <div class="col-lg-6 col-md-6 d-flex flex-column align-items-center justify-content-center">
           <div class="d-flex justify-content-center py-4">
-            <a href="index.php" class="logo d-flex align-items-center w-auto">
-              <img src="assets/img/logo.png" alt="">
+            <a href="#" class="logo d-flex align-items-center w-auto">
+              <img src="{{asset('assets/img/logo.png')}}" alt="">
               <span class="d-none d-lg-block">Attraction</span>
             </a>
           </div><!-- End Logo -->
@@ -56,7 +56,7 @@
             <div class="card-body">
               <div class="pt-4 pb-2">
                 <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
-                <p class="text-center small">Enter your personal details to create account</p>
+                <p class="mb-0 text-center small">Enter your personal details to create account</p>
               </div>
 
               <div class="container-xs">
@@ -136,7 +136,7 @@
                     </div>
 
                     <div class="page">
-                      <div class="title">Contect Profile:</div>
+                      <div class="title">Contact Profile:</div>
                       <!-- <div class="field">
                         <div class="label">Country Code</div>
                         <input type="text" name="country_code">
@@ -172,7 +172,7 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <p class="mb-0">Already have an account? <a href="/">Log in</a></p>
+                  <p class="mb-0 ms-4 ps-1">Already have an account? <a href="/">Log in</a></p>
                 </div>
               </div>
             </div>

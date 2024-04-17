@@ -40,7 +40,9 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 
-  
+  <!-- sweetalert2  -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css">
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
@@ -112,12 +114,14 @@
             <li>
               <hr class="dropdown-divider">
             </li>
+            @if(session('prefix') == 'admin')
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="{{ route(session('prefix', 'agent') . '.setting') }}">
+              <a class="dropdown-item d-flex align-items-center" href="{{ route(session('prefix') . '.setting') }}">
                 <i class="bi bi-gear"></i>
                 <span>Settings</span>
               </a>
             </li>
+            @endif
             <li>
               <hr class="dropdown-divider">
             </li>

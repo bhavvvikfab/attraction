@@ -29,7 +29,7 @@ Route::get('/', function(){ return redirect('/agent'); });
 // route's for ADMIN start
 Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
-    Route::post('/loginporcess', [LoginController::class, 'login']);
+    Route::post('/loginporcess', [LoginController::class, 'login'])->defaults('prefix', 'admin');
     Route::post('/register', [LoginController::class, 'register']);
     Route::get('/login', [LoginController::class, 'index']);
     Route::get('/register', [LoginController::class, 'register_page']);
@@ -76,8 +76,8 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
 // route's for AGENT start
 Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('agent.logout');
-    Route::post('/loginporcess', [LoginController::class, 'login']);
-    Route::post('/register', [LoginController::class, 'register']);
+    Route::post('/loginporcess', [LoginController::class, 'login'])->defaults('prefix', 'agent');
+    Route::post('/register', [LoginController::class, 'register'])->name('agent.register');
     Route::get('/login', [LoginController::class, 'index'])->name('agent.login');
     Route::get('/register', [LoginController::class, 'register_page'])->name('agent.register');
     Route::get('/profile', [LoginController::class, 'profile'])->name('agent.profile');
