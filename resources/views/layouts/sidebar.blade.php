@@ -49,7 +49,7 @@
         </ul>
       </li>
       <!--==========  End Order----------------->
-
+       <?php if(session('prefix')=='admin'){?>
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-people"></i><span>Agents</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -66,7 +66,9 @@
             </a>
           </li>
         </ul>
-      </li><!-- End User Nav -->
+      </li>
+      <?php } ?>
+      <!-- End User Nav -->
 
       <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#Subcri-nav" data-bs-toggle="collapse" href="#">

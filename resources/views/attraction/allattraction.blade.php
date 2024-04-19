@@ -34,7 +34,7 @@
             <div class="card-body view-attraction-table table-responsive">
                           <!-- Table with stripped rows -->
                           
-                <div class="datatable-top">
+                <!-- <div class="datatable-top">
                   <div class="datatable-dropdown">
                       <label>
                         <select class="datatable-selector">
@@ -52,9 +52,9 @@
                       </span>
                     </button>
                   </div>
-                </div>
+                </div> -->
                 
-              <table class="table table-borderless attraction-table">
+              <table class="table table-borderless attraction-table" id="attractiontable">
              
                 <thead>
                   <tr>
@@ -66,25 +66,31 @@
                     <th data-type="date" data-format="DD/MM/YYYY">Opening Date</th>
                     <th>Duration</th>
  
-                    <th>Price</th>
-                    <th>Bookings</th>
+                    <th>Country</th>
+                    <!-- <th>Bookings</th> -->
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
+                  <?php $i= 1; ?>
+             @foreach($attraction_data as $single_att)
+             <?php $ff = json_decode($single_att->fields); 
+            //  print_r($single_att->fields); die;
+             ?>
+
                   <tr>
-                    <td>1</td>
+                    <td>{{$i++}}</td>
                     
                     <td>
                       <div class="attr-thumbnail">
-                        <img src="assets/img/tourist-places-in-shillong.jpg">
+                      <img src="{{ asset('assets/img/' . (!empty($single_att->image) ? $single_att->image : 'default.jpg')) }}" height="100" width="100">
                       </div>
                     </td>
-                    <td>Tiger Hills, Dargling</td>
-                    <td>23/03/2022</td>
-                    <td>12 Days</td>
-                    <td>$159</td>
-                    <td>16</td>
+                    <td>{{$single_att->name}}</td>
+                    <td>{{$ff->opening_date}}</td>
+                    <td>{{$ff->duration}}</td>
+                    <td>{{$single_att->country}}</td>
+                    <!-- <td>16</td> -->
                     <td>
                       <div class="d-flex justify-content-around align-items-center">
                         <div class="viewattr p-1">
@@ -95,119 +101,7 @@
                     </td>
                   </tr>
 
-                  <tr>
-                    <td>2</td>
-                    
-                    <td>
-                      <div class="attr-thumbnail">
-                        <img src="assets/img/tourist-places-in-shillong.jpg">
-                      </div>
-                    </td>
-                    <td>Tiger Hills, Dargling</td>
-                    <td>23/03/2022</td>
-                    <td>21 Days</td>
-                    <td>$159</td>
-                    <td>27</td>
-                    <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="viewattr p-1">
-                          <a href="viewattraction.php">
-                            <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
-                          </a>
-                        </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>3</td>
-                    
-                    <td>
-                      <div class="attr-thumbnail">
-                        <img src="assets/img/tourist-places-in-shillong.jpg">
-                      </div>
-                    </td>
-                    <td>Tiger Hills, Dargling</td>
-                    <td>23/03/2022</td>
-                    <td>3 Days</td>
-                    <td>$321</td>
-                    <td>67</td>
-                    <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="viewattr p-1">
-                          <a href="viewattraction.php">
-                            <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
-                          </a>
-                        </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>4</td>
-                    
-                    <td>
-                      <div class="attr-thumbnail">
-                        <img src="assets/img/tourist-places-in-shillong.jpg">
-                      </div>
-                    </td>
-                    <td>Tiger Hills, Dargling</td>
-                    <td>23/03/2022</td>
-                    <td>10 Days</td>
-                    <td> $540 </td>
-                    <td>7</td>
-                    <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="viewattr p-1">
-                          <a href="viewattraction.php">
-                            <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
-                          </a>
-                        </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>5</td>
-                    <td>
-                      <div class="attr-thumbnail">
-                        <img src="assets/img/tourist-places-in-shillong.jpg">
-                      </div>
-                    </td>
-                    <td>Tiger Hills, Dargling</td>
-                    <td>23/03/2022</td>
-                    <td>4 Days</td>
-                    <td>$890</td>
-                    <td>6</td>
-                    <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="viewattr p-1">
-                          <a href="viewattraction.php">
-                            <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
-                          </a>
-                        </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>6</td>
-                    <td>
-                      <div class="attr-thumbnail">
-                        <img src="assets/img/tourist-places-in-shillong.jpg">
-                      </div>
-                    </td>
-                    <td>Tiger Hills, Dargling</td>
-                    <td>23/03/2022</td>
-                    <td>10 days</td>
-                    <td>$567</td>
-                    <td>67</td>
-                    <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="viewattr p-1">
-                          <a href="viewattraction.php">
-                            <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
-                          </a>
-                        </div>
-                    </td>
-                     
-                  </tr>
+                 @endforeach
                   
                  
                   
@@ -225,3 +119,8 @@
 
  
   @include('layouts.footer');
+  <script>
+$(document).ready(function() {
+    $('#attractiontable').DataTable();
+});
+</script>

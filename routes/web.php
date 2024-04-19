@@ -38,12 +38,11 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::post('/change_password', [LoginController::class, 'change_password'])->name('admin.change_password');
     Route::get('/setting', [LoginController::class, 'setting'])->name('admin.setting');
 
-    Route::get('/', function () {
-        $data['authUser'] = Auth::user();
-        return view('index', $data);
-    })->name('admin');
+     
+    Route::get('/', [LoginController::class,'deshborad_page'])->name('admin');
     Route::get('/all_attraction', [AttractionController::class, 'index'])->name('admin.all_attraction');
     Route::get('/view_attraction', [AttractionController::class, 'view_attraction'])->name('admin.view_attraction');
+    Route::get('/add_attraction', [AttractionController::class, 'add_attraction'])->name('admin.add_attraction');
 
     Route::get('/all_booking', [BookingController::class, 'index'])->name('admin.all_booking');
 
@@ -84,11 +83,12 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::post('/update_profile', [LoginController::class, 'update_profile'])->name('agent.update_profile');
     Route::post('/change_password', [LoginController::class, 'change_password'])->name('agent.change_password');
 
-    Route::get('/', function () {
-        $data['authUser'] = Auth::user();
+    // Route::get('/', function () {
+    //     $data['authUser'] = Auth::user();
 
-        return view('index');
-    })->name('agent');
+    //     return view('index');
+    // })->name('agent');
+    Route::get('/', [LoginController::class,'deshborad_page'])->name('agent');
 
     Route::get('/all_attraction', [AttractionController::class, 'index'])->name('agent.all_attraction');
     Route::get('/view_attraction', [AttractionController::class, 'view_attraction'])->name('agent.view_attraction');

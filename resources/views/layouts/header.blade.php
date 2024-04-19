@@ -47,6 +47,8 @@
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
 
+  
+
 </head>
 
 <body>
@@ -121,10 +123,11 @@
                 <span>Settings</span>
               </a>
             </li>
-            @endif
+          
             <li>
               <hr class="dropdown-divider">
             </li>
+            @endif
             <li>
               <a class="dropdown-item d-flex align-items-center" href="{{ route(session('prefix', 'agent') . '.logout') }}">
                 <i class="bi bi-box-arrow-right"></i>
