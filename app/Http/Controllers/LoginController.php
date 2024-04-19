@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Api_credential;
+use App\Models\Attraction;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\AgentController;
@@ -45,6 +46,12 @@ class LoginController extends Controller
             return response()->json($responseData, 401);
             // return redirect(route(session('prefix', 'agent') . '.register'))->with('message', $e->getMessage())->setStatusCode(401);
         }
+    }
+    public function deshborad_page(){
+
+        $data['authUser'] = Auth::user();
+        $data['attraction_count']=Attraction::count();
+        return view('index', $data);
     }
 
     public function addAgent(){
