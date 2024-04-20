@@ -39,7 +39,7 @@
                 <i class="bi bi-people"></i>
               </div>
               <div class="ps-3">
-                      <h6>{{$attraction_count}}</h6>
+                      <h6>{{ $attraction_count !== null ? $attraction_count : 0 }}</h6>
                       <!-- <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> -->
               </div>
             </div>
@@ -69,7 +69,8 @@
                 <i class="bi bi-cart"></i>
               </div>
               <div class="ps-3">
-                <h6>100</h6>
+                <h6>{{ $booking_count !== null ? $booking_count : 0 }}</h6>
+                
                 <!-- <span class="text-success small pt-1 fw-bold">8%</span>
                 <span class="text-muted small pt-2 ps-1">increase</span> -->
               </div>
@@ -150,19 +151,37 @@
               <li><a class="dropdown-item" href="#">This Year</a></li>
             </ul>
           </div> -->
+          <?php if(session('prefix')=='admin'){ ?>
           <div class="card-body">
+            <h5 class="card-title">Agents</h5>
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-people"></i>
+              </div>
+              <div class="ps-3">
+                <h6>{{ $agent_count !== null ? $agent_count : 0 }}</h6>
+                <!-- <span class="text-success small pt-1 fw-bold">8%</span>
+                <span class="text-muted small pt-2 ps-1">increase</span> -->
+              </div>
+            </div>
+          </div>
+          <?php }else{ ?>
+
+            <div class="card-body">
             <h5 class="card-title">Balance</h5>
             <div class="d-flex align-items-center">
               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                 <i class="bi bi-currency-dollar"></i>
               </div>
               <div class="ps-3">
-                <h6>SGD 55</h6>
+                <h6>{{ Auth::user()->credit_balance  !== null ? Auth::user()->credit_balance : 0 }}</h6>
                 <!-- <span class="text-success small pt-1 fw-bold">8%</span>
                 <span class="text-muted small pt-2 ps-1">increase</span> -->
               </div>
             </div>
           </div>
+          <?php } ?>
+
         </div>
       </div>
 
@@ -337,7 +356,7 @@
           <!-- Latest Orders -->
           <div class="col-12">
             <div class="card recent-sales overflow-auto dashbord-order-table ">
-              <div class="filter">
+              <!-- <div class="filter">
                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                   <li class="dropdown-header text-start">
@@ -347,78 +366,38 @@
                   <li><a class="dropdown-item" href="#">This Month</a></li>
                   <li><a class="dropdown-item" href="#">This Year</a></li>
                 </ul>
-              </div>
+              </div> -->
               <div class="card-body">
                 <h5 class="card-title">Bookings <span>| Today</span></h5>
                 <table class="table table-borderless datatable dash-order-table">
                   <thead>
                     <tr>
                       <th scope="col">Sr no.</th>
-                      <th scope="col">Order Id</th>
+                      <!-- <th scope="col">Order Id</th> -->
                       <th scope="col">Customer Name</th>
-                      <th scope="col">Product</th>
+                      <th scope="col">Attraction</th>
                       <th scope="col" data-type="date" data-format="DD/MM/YYYY">Date</th>
                       <th scope="col">Price</th>
                       <th scope="col">Booking Status</th>
                     </tr>
                   </thead>
                   <tbody>
+                  <?php
+                  $i=1;
+                  foreach($booking_data as $single_data){
+                  ?>
                     <tr>
-                      <td>1</td>
-                      <th scope="row"><a href="#">#2457</a></th>
-                      <td>Brandon Jacob</td>
-                      <td><a href="#" class="prlink">At praesentium minu</a></td>
-                      <td>13/05/2023</td>
-                      <td>$64</td>
+                      <td>{{$i++}}</td>
+                      <!-- <th scope="row"><a href="#">#2457</a></th> -->
+                      <td>{{$single_data->user->name}}</td>
+                      <td>{{$single_data->attraction->name}}</td>
+                      <td>{{ $single_data->created_at->format('Y-m-d') }}</td>
+                      <td>{{$single_data->amount}}</td>
                      <td>
                         <button type="button" class="btn btn-success">Approve</button>
                     </td>
                     </tr>
-                    <tr>
-                      <td>2</td>
-                      <th scope="row"><a href="#">#2147</a></th>
-                      <td>Bridie Kessler</td>
-                      <td><a href="#" class="prlink">Blanditiis dolor omnis similique</a></td>
-                      <td>13/05/2023</td>
-                      <td>$47</td>
-                      <td><button type="button" class="btn btn-warning">Pending</button></td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <th scope="row"><a href="#">#2049</a></th>
-                      <td>Ashleigh Langosh</td>
-                      <td><a href="#" class="prlink">At recusandae consectetur</a></td>
-                      <td>13/05/2023</td>
-                      <td>$147</td>
-                      <td><button type="button" class="btn btn-success">Approve</button></td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <th scope="row"><a href="#">#2644</a></th>
-                      <td>Angus Grady</td>
-                      <td><a href="#" class="prlink">Ut voluptatem id earum et</a></td>
-                      <td>13/05/2023</td>
-                      <td>$67</td>
-                      <td><button type="button" class="btn btn-danger">Rejected</button></td>
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <th scope="row"><a href="#">#2644</a></th>
-                      <td>Raheem Lehner</td>
-                      <td><a href="#" class="prlink">Sunt similique distinctio</a></td>
-                      <td>13/05/2023</td>
-                      <td>$165</td>
-                      <td><button type="button" class="btn btn-success">Approve</button></td>
-                    </tr>
-                    <tr>
-                      <td>6</td>
-                      <th scope="row"><a href="#">#2644</a></th>
-                      <td>Raheem Lehner</td>
-                      <td><a href="#" class="prlink">Sunt similique distinctio2</a></td>
-                      <td>13/05/2023</td>
-                      <td>$165</td>
-                      <td><button type="button" class="btn btn-success">Approve</button></td>
-                    </tr>
+                   <?php } ?>
                   </tbody>
                 </table>
 

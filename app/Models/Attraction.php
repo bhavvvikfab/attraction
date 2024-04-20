@@ -19,4 +19,8 @@ class Attraction extends Model
         'fields'
         
     ];
+    public function booking()
+    {
+        return $this->belongsTo(Booking::class, 'attraction_id', 'id');
+    }
 }

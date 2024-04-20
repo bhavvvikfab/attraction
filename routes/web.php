@@ -96,7 +96,7 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/topup', [TopupController::class, 'index'])->name('agent.topup');
     Route::post('/request-topup', [TopupController::class, 'requestTopUp']);
 
-    Route::get('/all_booking', [AttractionController::class, 'index'])->name('agent.all_booking');
+    Route::get('/all_booking', [BookingController::class, 'index'])->name('agent.all_booking');
 
     Route::get('/all_agent', [AttractionController::class, 'view_attraction'])->name('agent.all_agent');
     Route::get('/add_agent', [AttractionController::class, 'view_attraction'])->name('agent.add_agent');
