@@ -11,6 +11,11 @@ class Attraction extends Model
     protected $table = 'attractions';
     protected $primarykey = "id";
 
+    // protected $casts = [
+    //     'fields' => 'array',
+    // ];
+    
+
     protected $fillable = [
         'attraction_id',
         'name',

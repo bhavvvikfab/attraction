@@ -1,4 +1,9 @@
 $(document).ready(function() {
+  $('#country').countrySelect({
+      defaultCountry: "in",
+      displayCountryName: true
+  }); 
+
   $('#login_btn').on('click', function(e) {
       e.preventDefault(); // Prevent the default form submission
 
@@ -227,40 +232,38 @@ $(document).on("click", "#btn_chng_pass", function () {
     });
 
     $(document).on("click", "#addagent_btn", function () {
-        // alert ("hh");
-       var name = $('#name').val();
-         var email = $('#email').val();
-         var password = $('#password').val();
-         var phone_number = $('#phone_number').val();
-         var country = $('#country').val();
-         var credit_balance = $('#credit_balance').val();
-         var image = $('#image').val();
-         
-
+          var name = $('#name').val();
+          var email = $('#email').val();
+          var password = $('#password').val();
+          var phone_number = $('#phone_number').val();
+          var country = $('#country').val();
+          var credit_balance = $('#credit_balance').val();
+          var image = $('#image').val();
           var flag = 1;
+
       
          if(name==""){
-           $('.name_err').text('Name is required').addClass("text-danger");
+           $('.name_err').text('Name is required.').addClass("text-danger");
            flag = 0;
          }else{
            $('.name_err').text('');
          }
       
          if(password==""){
-           $('.password_err').text('Password is required').addClass("text-danger");
+           $('.password_err').text('Password is required.').addClass("text-danger");
            flag = 0;
          }else{
            $('.password_err').text('');
          }
       
-         if(phone_number==""){
-           $('.phone_number_err').text('phone number is required').addClass("text-danger");
-           flag = 0;
-         }else{
-           $('.phone_number_err').text('');
-         }
+        //  if(phone_number==""){
+        //    $('.phone_number_err').text('Phone number is required.').addClass("text-danger");
+        //    flag = 0;
+        //  }else{
+        //    $('.phone_number_err').text('');
+        //  }
          if(image==""){
-          $('.image_err').text('image is required').addClass("text-danger");
+          $('.image_err').text('Image is required.').addClass("text-danger");
           flag = 0;
         }else{
           $('.image_err').text('');
@@ -273,6 +276,9 @@ $(document).on("click", "#btn_chng_pass", function () {
            var changePasswordUrl = $('#url').val();
            let myform = document.getElementById("add_agent_form");
            let fd = new FormData(myform);
+           var countryData = $("#country").countrySelect("getSelectedCountryData");
+           fd.append("countryCode", countryData.iso2);
+
            $.ajax({
              url: registerurl,
              data: fd,
@@ -328,7 +334,7 @@ $(document).on("click", "#btn_chng_pass", function () {
       });
  $(document).on("click", "#editagent_btn", function () {
         // alert ("hh");
-       var name = $('#name').val();
+        var name = $('#name').val();
          var email = $('#email').val();
          var password = $('#password').val();
          var phone_number = $('#phone_number').val();
@@ -347,12 +353,12 @@ $(document).on("click", "#btn_chng_pass", function () {
          }
       
       
-         if(phone_number==""){
-           $('.phone_number_err').text('phone number is required').addClass("text-danger");
-           flag = 0;
-         }else{
-           $('.phone_number_err').text('');
-         }
+        //  if(phone_number==""){
+        //    $('.phone_number_err').text('phone number is required').addClass("text-danger");
+        //    flag = 0;
+        //  }else{
+        //    $('.phone_number_err').text('');
+        //  }
        
          var updateagent_url=$('#url').val();
          var redirecturl=$('#redirecturl').val();
@@ -362,6 +368,8 @@ $(document).on("click", "#btn_chng_pass", function () {
           
            let myform = document.getElementById("edit_agent_form");
            let fd = new FormData(myform);
+           var countryData = $("#country").countrySelect("getSelectedCountryData");
+           fd.append("countryCode", countryData.iso2);
            $.ajax({
              url: updateagent_url,
              data: fd,

@@ -92,6 +92,7 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
 
     Route::get('/all_attraction', [AttractionController::class, 'index'])->name('agent.all_attraction');
     Route::get('/view_attraction', [AttractionController::class, 'view_attraction'])->name('agent.view_attraction');
+    // Route::get('/view_attraction_search', [AttractionController::class, 'view_attraction'])->name('agent.view_attraction.search');
 
     Route::get('/topup', [TopupController::class, 'index'])->name('agent.topup');
     Route::post('/request-topup', [TopupController::class, 'requestTopUp']);

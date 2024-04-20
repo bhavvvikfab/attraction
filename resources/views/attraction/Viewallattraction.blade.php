@@ -1,5 +1,10 @@
 @include('layouts.header');
+  <style>
+    .country-select.inside{
+      width: 100%;
+    }
 
+  </style>
 
   <main id="main1" class="main">
     <div class="pagetitle">
@@ -26,42 +31,44 @@
             <div class="row">
               <div class="col-lg-2 col-md-2 col-sm-12"></div>
                 <div class="col-lg-8 col-md-8 col-sm-12 bg-box-search">
-                  <form id="searchBar" class="">
-                  <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                      <div class="input-group d-block">
-                        <div class="input-group-prepend px-0 mb-2">
-                          <form  class="form ng-untouched ng-pristine ng-valid" novalidate="">
-                            <div class="datatable-dropdown">
-                              <!-- <label for="selector" class="mb-2 text-white">Select Location</label> -->
-                              <select  class="form-select search-text-form datatable-selector w-100" aria-label="Default select example" >
-                                <option value="1"> Singapore </option>
-                                <option value="2">Indonesia  </option>
-                                <option value="3">Hong Kong </option>
-                                <option value="4"> Thailand </option>
-                              </select>
-                            </div>
-                          </form>
+                  <form id="searchBar" class="" action="{{ route('agent.view_attraction') }}" method="GET">
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="input-group d-block">
+                          <div class="input-group-prepend px-0 mb-2">
+                            <!-- <form  class="form ng-untouched ng-pristine ng-valid" novalidate=""> -->
+                              <div class="datatable-dropdown">
+                                <input type="text" class="form-control w-100" value="" name="country" id="country" style="padding-block: 10px">
+
+                                <!-- <label for="selector" class="mb-2 text-white">Select Location</label> -->
+                                <!-- <select  class="form-select search-text-form datatable-selector w-100" aria-label="Default select example" >
+                                  <option value="1"> Singapore </option>
+                                  <option value="2">Indonesia  </option>
+                                  <option value="3">Hong Kong </option>
+                                  <option value="4"> Thailand </option>
+                                </select> -->
+                              </div>
+                            <!-- </form> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="input-group-append flex-grow-1 mb-2">
+                          <!-- <label for="Search-attraction" class="mb-2 text-white">Search Attraction</label> -->
+                          <input _ aria-label="Text input with dropdown button" class="form-control search-text font-size-md search-text-form" name="keyword" placeholder="Search attraction" value="{{ $keyword ?? '' }}" type="search">
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                      <div class="input-group-append flex-grow-1 mb-2">
-                        <!-- <label for="Search-attraction" class="mb-2 text-white">Search Attraction</label> -->
-                        <input _ aria-label="Text input with dropdown button" class="form-control search-text font-size-md search-text-form" name="keyword" placeholder="Search attraction" type="search">
-                      </div>
+                    <div class="input-group-append">
+                      <button class=" text-white btn search-button search-text-form" id="button-addon2" ngbtooltip="Search" placement="top" type="submit">
+                        <span>
+                          <!-- <i class="bi bi-search mx-2" style="color:white;"></i> -->
+                          Search
+                        </span>
+                      </button>
                     </div>
-                  </div>
-                  <div class="input-group-append">
-                    <button class=" text-white btn search-button search-text-form" id="button-addon2" ngbtooltip="Search" placement="top" type="submit">
-                      <span>
-                        <!-- <i class="bi bi-search mx-2" style="color:white;"></i> -->
-                        Search
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </form>
+                    </div>
+                  </form>
               <div class="col-lg-2 col-md-2 col-sm-12"></div>
             </div>
           </div>
@@ -174,33 +181,57 @@
             <div class="col-lg-9">
 
               <div class="row">
-
-                <div class="col-lg-4 col-12">
-
+                @if(count($attractions)>0)
+                @foreach($attractions as $attraction)
+                  <?php $fields = json_decode($attraction->fields); ?>
+                  <div class="col-lg-4 col-12">
                     <div class="bg-white attr">
-                      <a href="singleatt.php">
-                      <div class="card">
-                        <img class="card-img-top" src="{{ asset('assets/img/att6.jpg') }}" alt="Card image cap">
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-lg-10">
-                                  <h5 class="search-title-card">Attraction</h5>
+                      <a href="#">
+                        <div class="card">
+                          <img class="card-img-top" src="{{ asset('assets/img/') }}/{{ $attraction->image }}" alt="Card image cap">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-lg-10">
+                                    <h5 class="search-title-card">{{ $attraction->name }}</h5>
+                                  </div>
+                                  <div class="col-lg-2">
+                                    <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
+                                  </div>
                                 </div>
-                                <div class="col-lg-2">
-                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
-                                </div>
-                              </div>
-                                <p class="card-text text-dark">Dargling, North East, India</p>
-                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
+                                  <p class="card-text text-dark">{{ $fields->address }} {{ $fields->city }}</p>
+                                  <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date {{ \Carbon\Carbon::createFromFormat('d/m/Y', $fields->opening_date)->format('Y-m-d') }}  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
 
-                             </div>
-                      </div>
-                    </a>
+                              </div>
+                        </div>  
+                      </a>
                     </div>
                   </div>
+                @endforeach
+                @else
+                <div class='text-center text-muted my-5'>
+                  <span>No Attractions Found</span>
+                </div>
+                @endif
+                {{--$attractions->links() --}}
+                  <ul class="pagination d-flex justify-content-center">
+                      @if ($attractions->onFirstPage())
+                          <li class="page-item disabled"><span class="page-link">«</span></li>
+                      @else
+                          <li class="page-item"><a class="page-link" href="{{ $attractions->previousPageUrl() }}" rel="prev">«</a></li>
+                      @endif
 
-                <div class="col-lg-4 col-12">
+                      @foreach ($attractions->getUrlRange(1, $attractions->lastPage()) as $page => $url)
+                          <li class="page-item {{ $page == $attractions->currentPage() ? 'active' : '' }}"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                      @endforeach
 
+                      @if ($attractions->hasMorePages())
+                          <li class="page-item"><a class="page-link" href="{{ $attractions->nextPageUrl() }}" rel="next">»</a></li>
+                      @else
+                          <li class="page-item disabled"><span class="page-link">»</span></li>
+                      @endif
+                  </ul>
+
+                  <!-- <div class="col-lg-4 col-12">
                     <div class="bg-white attr">
                       <a href="singleatt.php">
                       <div class="card">
@@ -244,11 +275,11 @@
                       </div>
                       </a>
                     </div>
-                  </div>
+                  </div> -->
 
               </div>
 
-              <div class="row">
+              <!-- <div class="row">
 
                 <div class="col-lg-4 col-12">
 
@@ -410,7 +441,7 @@
                           </a></li>
                       </ul>
 
-              </div>
+              </div> -->
             </div>
 
 

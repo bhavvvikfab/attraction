@@ -62,8 +62,8 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="inputNumber2" class="form-label"><i class="bi bi-flag-fill" style="font-size: 18px;"></i>
-                    Country Code</label>
-                  <input type="number" class="form-control"  name="country" id="country" value="{{$agent->country}}">
+                    Country Code</label><br>
+                  <input type="text" class="form-control"  name="country" id="country">
                   <p class="country_err"></p>
                 </div>
               </div>
@@ -113,3 +113,9 @@
 </main>
 
 @include('layouts.footer');
+
+<script>
+  $('#country').countrySelect({
+      defaultCountry: "{{$agent->country}}",
+  }); 
+</script>
