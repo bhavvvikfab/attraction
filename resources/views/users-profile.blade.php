@@ -22,8 +22,8 @@
 
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-          <img src="{{ asset('assets/img/' . (!empty($userdata->profile) ? $userdata->profile : 'default.jpg')) }}" alt="User Profile Image">
+          <?php $defalut_profile = asset('assets/img/default.jpg'); ?>
+          <img src="{{ asset('assets/img/' . (!empty($userdata->profile) ? $userdata->profile : 'default.jpg')) }}" onerror="this.onerror=null; this.src='{{$defalut_profile}}'" alt="User Profile Image">
             <h2>{{$userdata->name}}</h2>
             <!-- <h3>Web Designer</h3>
             <div class="social-links mt-2">
