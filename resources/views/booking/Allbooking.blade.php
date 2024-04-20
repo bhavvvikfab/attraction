@@ -8,7 +8,7 @@
         <h1>All Booking</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
             <li class="breadcrumb-item active">All Booking</li>
           </ol>
         </nav>
@@ -38,7 +38,7 @@
                           <!-- Table with stripped rows -->
               <!--<table class="table datatable table table-borderless datatable datatable-table allorder-table">-->
 
-                <div class="datatable-top">
+                <!-- <div class="datatable-top">
                   <div class="datatable-dropdown">
                       <label>
                         <select class="datatable-selector">
@@ -52,35 +52,40 @@
                           <input class="datatable-input" placeholder="Enter Keyword" type="search" title="Search within table">
 
                          <button class="btn search-button text-white" placement="top" type="submit"> Search
-                          <!-- <span>
-                        <i class="bi bi-search mx-2" style="color:white;"></i> -->
+                          
                       </span>
                     </button>
                   </div>
-                </div>
+                </div> -->
 
-              <table class="table table-borderless allorder-table">
+              <table class="table table-borderless allorder-table" id="booking_table">
                   <thead>
                     <tr>
                       <th scope="col">Sr no.</th>
-                      <th scope="col">Transaction Id</th>
+                      <!-- <th scope="col">Transaction Id</th> -->
                       <th data-type="date" data-format="DD/MM/YYYY">Date Issued</th>
                       <th scope="col">Customer Name</th>
-                      <th scope="col">Product</th>
-                      <th scope="col">Code</th>
-                      <th scope="col">Action</th>
+                      <th scope="col">Attraction</th>
+                      <th scope="col">Price</th>
+                      <!-- <th scope="col">Action</th> -->
                       <th scope="col">Status</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <?php 
+                    $i=1;
+                    foreach($booking_data as $sinle_book){
+
+                    // print_r($sinle_book->created_at);
+                    ?>
                     <tr>
-                      <td>1</td>
-                      <td scope="row"><a href="#">#2457</a></td>
-                      <td>13/05/2023</td>
-                      <td>Brandon Jacob</td>
-                      <td><a href="#" class="prlink">At praesentium minu</a></td>
-                      <td>12364</td>
-                      <td>
+                      <td>{{$i++}}</td>
+                      <!-- <td scope="row"><a href="#">#2457</a></td> -->
+                      <td>{{ $sinle_book->created_at->format('Y-m-d') }}</td>
+                      <td>{{$sinle_book->user->name}}</td>
+                      <td><a href="#" class="prlink">{{$sinle_book->attraction->name}}</a></td>
+                      <td>{{$sinle_book->amount}}</td>
+                      <!-- <td>
                       <div class="d-flex justify-content-around align-items-center">
                         <div class="viewbooking p-1">
                           <a href="viewbookingdetail.php">
@@ -92,140 +97,14 @@
                           <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
                         </div>
                       </div>
-                    </td>
+                    </td> -->
                     <td>
                         <button type="button" class="btn btn-success">Approve</button>
                         <!--<span class="badge text-success">Approved</span>-->
                     </td>
                     </tr>
                     
-                    <tr>
-                      <td>2</td>
-                      <td scope="row"><a href="#">#2147</a></td>
-                      <td>13/05/2023</td>
-                      <td>Bridie Kessler</td>
-                      <td><a href="#" class="prlink">Blanditiis dolor omnis similique</a></td>
-                      <td>555247</td>
-                      <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="viewbooking p-1">
-                          <a href="viewbookingdetail.php">
-                            <button type="button" class="btn btn-primary"><i class='ri-eye-line'></i></button>
-                          </a>
-                        </div>
-                        
-                        <div class="deletbooking p-1">
-                          <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-warning">Pending</button>
-                        <!--<span class="badge text-success">Approved</span>-->
-                    </td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td scope="row"><a href="#">#2049</a></td>
-                      <td>13/05/2023</td>
-                      <td>Ashleigh Langosh</td>
-                      <td><a href="#" class="prlink">At recusandae consectetur</a></td>
-                      <td>112147</td>
-                      <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="viewbooking p-1">
-                          <a href="viewbookingdetail.php">
-                            <button type="button" class="btn btn-primary"><i class='ri-eye-line'></i></button>
-                          </a>
-                        </div>
-                        
-                        <div class="deletbooking p-1">
-                          <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger">Rejected</button>
-                        <!--<span class="badge text-success">Approved</span>-->
-                    </td>
-                    </tr>
-                    
-                    <tr>
-                      <td>4</td>
-                      <td scope="row"><a href="#">#2644</a></td>
-                      <td>13/05/2023</td>
-                      <td>Angus Grady</td>
-                      <td><a href="#" class="prlink">Ut voluptatem id earum et</a></td>
-                      <td>56567</td>
-                      <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="viewbooking p-1">
-                          <a href="viewbookingdetail.php">
-                            <button type="button" class="btn btn-primary"><i class='ri-eye-line'></i></button>
-                          </a>
-                        </div>
-                        
-                        <div class="deletbooking p-1">
-                          <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-warning">Pending</button>
-                        <!--<span class="badge text-success">Approved</span>-->
-                    </td>
-                    </tr>
-                    
-                    <tr>
-                      <td>5</td>
-                      <td scope="row"><a href="#">#2644</a></td>
-                      <td>13/05/2023</td>
-                      <td>Raheem Lehner</td>
-                      <td><a href="#" class="prlink">Sunt similique distinctio</a></td>
-                      <td>42165</td>
-                      <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="viewbooking p-1">
-                          <a href="viewbookingdetail.php">
-                            <button type="button" class="btn btn-primary"><i class='ri-eye-line'></i></button>
-                          </a>
-                        </div>
-                        
-                        <div class="deletbooking p-1">
-                          <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-warning">Pending</button>
-                        <!--<span class="badge text-success">Approved</span>-->
-                    </td>
-                    </tr>
-                    <tr>
-                      <td>6</td>
-                      <td scope="row"><a href="#">#2644</a></td>
-                      <td>13/05/2023</td>
-                      <td>Raheem Lehner</td>
-                      <td><a href="#" class="prlink">Sunt similique distinctio2</a></td>
-                      <td>144165</td>
-                      <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="viewbooking p-1">
-                          <a href="viewbookingdetail.php">
-                            <button type="button" class="btn btn-primary"><i class='ri-eye-line'></i></button>
-                          </a>
-                        </div>
-                        
-                        <div class="deletbooking p-1">
-                          <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-success">Approve</button>
-                        <!--<span class="badge text-success">Approved</span>-->
-                    </td>
-                    </tr>
+                    <?php } ?>
                   </tbody>
                 </table>
               <!-- End Table with stripped rows -->
@@ -239,3 +118,8 @@
   </main><!-- End #main -->
 
   @include('layouts.footer');
+  <script>
+$(document).ready(function() {
+    $('#booking_table').DataTable();
+});
+</script>

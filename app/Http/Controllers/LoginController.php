@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Api_credential;
 use App\Models\Attraction;
+use App\Models\Booking;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\AgentController;
@@ -51,6 +52,17 @@ class LoginController extends Controller
 
         $data['authUser'] = Auth::user();
         $data['attraction_count']=Attraction::count();
+
+       if(Auth::user()->role== 1){
+        $data['booking_count']=Booking::count();
+        $data['agent_count']=User::count();
+        $data['booking_data']=Booking::with('user','attraction')->get();
+
+       }else{
+        $data['booking_count']=Booking::where('customer_id',Auth::user()->id)->count();
+        $data['booking_data']=Booking::with('user','attraction')->where('customer_id',Auth::user()->id)->get();
+        
+       }
         return view('index', $data);
     }
 
