@@ -26,10 +26,14 @@ class LoginController extends Controller
                 if($user->role ==2 && $user->status == 1){
                     $token = $user->createToken('MyApp')->accessToken;
                     return response()->json(['token' => $token], 200);
+                }else if($user->role ==2){
+                    $token = $user->createToken('MyApp')->accessToken;
+                    return response()->json(['token' => $token], 200);   
+                                     
                 }else{
                     Auth::logout();
                     return response()->json(['message' => 'Unauthorized user to login.'], 200);
-                }                
+                }
             } else {
                 Auth::logout();
                 return response()->json(['message' => 'Unauthorized user to login here.'], 200);
