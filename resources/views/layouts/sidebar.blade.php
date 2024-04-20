@@ -216,12 +216,12 @@
       </li>  -->
       <!-- End Register Page Nav -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.profile') }}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
-      </li><!-- End Profile Page Nav -->
+      </li> -->
 
       <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="faq.php">
@@ -239,12 +239,12 @@
 
 
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="login.php">
           <i class="bi bi-box-arrow-in-right"></i>
           <span>Login</span>
         </a>
-      </li><!-- End Login Page Nav -->
+      </li> -->
 
       <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="error-404.php">
