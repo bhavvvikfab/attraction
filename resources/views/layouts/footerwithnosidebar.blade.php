@@ -21,8 +21,28 @@
   <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/country-select-js@2.1.0/build/js/countrySelect.min.js"></script>
+
   <!-- Template Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
+  <script>
+    $('#country').countrySelect({
+        defaultCountry: "{{ $countryCode ?? 'in' }}", 
+    }); 
+    $('#searchBar').submit(function(event) {
+        // Prevent default form submission
+        event.preventDefault();
+
+        // Get the selected country code
+        var countryCode = $('#country').countrySelect("getSelectedCountryData").iso2;
+
+        // Add the country code as a hidden input field to the form
+        $(this).append('<input type="hidden" name="country_code" value="' + countryCode + '">');
+
+        // Now you can submit the form
+        this.submit();
+    });
+  </script>
 
 </body>
 

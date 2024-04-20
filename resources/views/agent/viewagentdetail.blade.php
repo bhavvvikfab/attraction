@@ -99,7 +99,7 @@
                      
 
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-flag-fill" aria-hidden="true"></i>
-                        <label class="form-label" for="inputNanme4"> <b> Country Code: </b> {{$agent_data->country}}
+                        <label class="form-label" for="inputNanme4"> <b> Country Code: </b> <input type="text" class="form-control"  id="country" disabled="true" >
                         </label>
                       </div>
 
@@ -121,3 +121,10 @@
 </main><!-- End #main -->
 
 @include('layouts.footer');
+
+<script>
+  $('#country').countrySelect({
+      onlyCountries: ['{{$agent_data->country ?? "in"}}'],
+      disabled: true
+  }); 
+</script>
