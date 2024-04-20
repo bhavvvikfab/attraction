@@ -56,7 +56,7 @@ class AgentController extends Controller
             $user->email = $request->email;
             $user->address = $request->address;
             $user->phone = $request->phone_number;
-            $user->country = $request->country;
+            $user->country = $request->countryCode;
             $user->status = isset($request->status)? $request->status:0;
             $user->role = 2;
             $user->profile = $imageName;
