@@ -195,7 +195,7 @@
           <!-- Reports -->
           <div class="col-12">
             <div class="card">
-              <div class="filter">
+              <!-- <div class="filter">
                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                   <li class="dropdown-header text-start">
@@ -205,24 +205,46 @@
                   <li><a class="dropdown-item" href="#">This Month</a></li>
                   <li><a class="dropdown-item" href="#">This Year</a></li>
                 </ul>
-              </div>
+              </div> -->
               <div class="card-body">
-                <h5 class="card-title">Reports <span>/Today</span></h5>
+                <h5 class="card-title">Reports <span class="small text-muted">(Weekly)</span></h5>
                 <!-- Line Chart -->
                 <div id="reportsChart"></div>
                 <script>
+                   const generatePastSixDays = () => {
+                        const dates = [];
+                        for (let i = 6; i >= 0; i--) {
+                          const date = new Date();
+                          date.setDate(date.getDate() - i);
+                          dates.push(date.toISOString());
+                        }
+                        return dates;
+                      };
                   document.addEventListener("DOMContentLoaded", () => {
+                    const bookingchart= <?php echo $booking_chart; ?> ;
+                    const agent_chart= <?php echo $agent_chart; ?>;
+                    var prefix = '<?php echo session('prefix') ?? 'agent'; ?>';
+
+                    var data = [{
+                        name: 'Bookings',
+                        data: bookingchart
+                      }];
+
+                    if(prefix != '' && prefix == 'admin'){
+                      data = [{
+                        name: 'Bookings',
+                        data: bookingchart
+                      }
+                      ,{
+                        name: 'Agents',
+                        data: agent_chart
+                      }]
+                    }
+
+
                     new ApexCharts(document.querySelector("#reportsChart"), {
-                      series: [{
-                        name: 'Total Customers',
-                        data: [15, 11, 32, 18, 9, 24, 11]
-                      },{
-                        name: 'Revenue',
-                        data: [11, 32, 45, 32, 34, 52, 41]
-                      },{
-                        name: 'Order',
-                        data: [31, 40, 28, 51, 42, 56],
-                      }  ],
+                    
+                      series: data,
                       chart: {
                         height: 350,
                         type: 'area',
@@ -252,7 +274,7 @@
                       },
                       xaxis: {
                         type: 'datetime',
-                        categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                        categories: generatePastSixDays()
                       },
                       tooltip: {
                         x: {
@@ -261,7 +283,8 @@
                       }
                     }).render();
                   });
-                </script><!-- End Line Chart -->
+                </script>
+                <!-- End Line Chart -->
               </div>
             </div>
           </div><!-- End Reports -->
@@ -288,57 +311,69 @@
           </div>
 
           <div class="card-body">
-            <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+            <h5 class="card-title">Recent Activity <span></span></h5>
 
             <div class="activity">
+                <?php 
+                foreach($notifications as $noti){
+                  $formattedDate = date('d-m-y', strtotime($noti->created_at));
 
+                  ?>
               <div class="activity-item d-flex">
-                <div class="activite-label">32 min</div>
+                <div class="activite-label">{{$formattedDate}}</div>
                 <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
                 <div class="activity-content">
-                  Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                  <!-- Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae -->
+                  {{!!$noti->notification !!}}
                 </div>
-              </div><!-- End activity item-->
+              </div>
+              <?php } ?>
+              <!-- End activity item-->
 
-              <div class="activity-item d-flex">
+              <!-- <div class="activity-item d-flex">
                 <div class="activite-label">56 min</div>
                 <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
                 <div class="activity-content">
                   Voluptatem blanditiis blanditiis eveniet
                 </div>
-              </div><!-- End activity item-->
+              </div> -->
+              <!-- End activity item-->
 
-              <div class="activity-item d-flex">
+              <!-- <div class="activity-item d-flex">
                 <div class="activite-label">2 hrs</div>
                 <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
                 <div class="activity-content">
                   Voluptates corrupti molestias voluptatem
                 </div>
-              </div><!-- End activity item-->
+              </div> -->
+              <!-- End activity item-->
 
-              <div class="activity-item d-flex">
+              <!-- <div class="activity-item d-flex">
                 <div class="activite-label">1 day</div>
                 <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
                 <div class="activity-content">
                   Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
                 </div>
-              </div><!-- End activity item-->
+              </div> -->
+              <!-- End activity item-->
 
-              <div class="activity-item d-flex">
+              <!-- <div class="activity-item d-flex">
                 <div class="activite-label">2 days</div>
                 <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
                 <div class="activity-content">
                   Est sit eum reiciendis exercitationem
                 </div>
-              </div><!-- End activity item-->
+              </div> -->
+              <!-- End activity item-->
 
-              <div class="activity-item d-flex">
+              <!-- <div class="activity-item d-flex">
                 <div class="activite-label">4 weeks</div>
                 <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
                 <div class="activity-content">
                   Dicta dolorem harum nulla eius.
                 </div>
-              </div><!-- End activity item-->
+              </div> -->
+              <!-- End activity item-->
 
             </div>
 
@@ -368,7 +403,7 @@
                 </ul>
               </div> -->
               <div class="card-body">
-                <h5 class="card-title">Bookings <span>| Today</span></h5>
+                <h5 class="card-title">Bookings <span></span></h5>
                 <table class="table table-borderless datatable dash-order-table">
                   <thead>
                     <tr>
@@ -389,7 +424,7 @@
                     <tr>
                       <td>{{$i++}}</td>
                       <!-- <th scope="row"><a href="#">#2457</a></th> -->
-                      <td>{{$single_data->user->name}}</td>
+                      <td>{{$single_data->user->name ?? "" }}</td>
                       <td>{{$single_data->attraction->name}}</td>
                       <td>{{ $single_data->created_at->format('Y-m-d') }}</td>
                       <td>{{$single_data->amount}}</td>
