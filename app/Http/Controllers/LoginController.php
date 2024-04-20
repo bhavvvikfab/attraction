@@ -8,9 +8,11 @@ use App\Models\User;
 use App\Models\Api_credential;
 use App\Models\Attraction;
 use App\Models\Booking;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\AgentController;
+use Illuminate\Support\Carbon;
 
 class LoginController extends Controller
 {
@@ -61,16 +63,89 @@ class LoginController extends Controller
 
         $data['authUser'] = Auth::user();
         $data['attraction_count']=Attraction::count();
+        $data['booking_chart'] = json_encode(array(0,0,0,0,0,0,0));
+        $data['agent_chart'] = json_encode(array());
+        $notifications = Notification::where('user_id',Auth::user()->id )
+            ->latest()
+            ->take(5)
+            ->get();
+        $data['notifications'] = $notifications;
+        // print_r( $data['notifications']); die;
 
        if(Auth::user()->role== 1){
         $data['booking_count']=Booking::count();
-        $data['agent_count']=User::count();
+        $data['agent_count']=User::where('role',2)->count();
         $data['booking_data']=Booking::with('user','attraction')->get();
+        
+        // Get the bookings for the past six days
+                    $bookings = Booking::whereBetween('created_at', [now()->subDays(6)->startOfDay(), now()->endOfDay()])->get();
+
+                    // Initialize an array to store the booking count for each day
+                    $bookingCounts = [];
+
+                    // Loop through the past six days
+                    for ($i = 6; $i >= 0; $i--) {
+                        // Get the date for the current iteration
+                        $date = now()->subDays($i)->toDateString();
+
+                        // Count the bookings for the current date
+                        $count = $bookings->where('created_at', '>=', now()->subDays($i)->startOfDay())
+                                        ->where('created_at', '<=', now()->subDays($i)->endOfDay())
+                                        ->count();
+
+                        // Store the booking count for the current date
+                        $bookingCounts[] = $count;
+                    }
+                    $data['booking_chart'] = json_encode(array_values($bookingCounts));
+
+                    $agents = User::whereBetween('created_at', [now()->subDays(6)->startOfDay(), now()->endOfDay()])->get();
+
+                    // Initialize an array to store the agent count for each day
+                    $agentCounts = [];
+                    
+                    // Loop through the past six days
+                    for ($i = 6; $i >= 0; $i--) {
+                        // Get the date for the current iteration
+                        $date = now()->subDays($i)->toDateString();
+                    
+                        // Count the agents for the current date
+                        $count = $agents->where('created_at', '>=', now()->subDays($i)->startOfDay())
+                                        ->where('created_at', '<=', now()->subDays($i)->endOfDay())
+                                        ->count();
+                    
+                        // Store the agent count for the current date
+                        $agentCounts[] = $count;
+                    }
+                    
+                    // Convert the array to JSON format and assign it to the 'agent_chart' key in the $data array
+                    $data['agent_chart'] = json_encode(array_values($agentCounts));    
+            
 
        }else{
         $data['booking_count']=Booking::where('customer_id',Auth::user()->id)->count();
         $data['booking_data']=Booking::with('user','attraction')->where('customer_id',Auth::user()->id)->get();
-        
+
+        // Get the bookings for the past six days
+        $bookings = Booking::whereBetween('created_at', [now()->subDays(6)->startOfDay(), now()->endOfDay()])->where('customer_id',Auth::user()->id)->get();
+
+        // Initialize an array to store the booking count for each day
+        $bookingCounts = [];
+
+        // Loop through the past six days
+        for ($i = 6; $i >= 0; $i--) {
+            // Get the date for the current iteration
+            $date = now()->subDays($i)->toDateString();
+
+            // Count the bookings for the current date
+            $count = $bookings->where('created_at', '>=', now()->subDays($i)->startOfDay())
+                            ->where('created_at', '<=', now()->subDays($i)->endOfDay())
+                            ->count();
+
+            // Store the booking count for the current date
+            $bookingCounts[] = $count;
+        }
+        $data['booking_chart'] = json_encode(array_values($bookingCounts));
+        // print_r($data['booking_chart']); die;
        }
         return view('index', $data);
     }

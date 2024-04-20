@@ -83,7 +83,7 @@
                       <!-- <td scope="row"><a href="#">#2457</a></td> -->
                       <td>{{ $sinle_book->created_at->format('Y-m-d') }}</td>
                       <td>{{$sinle_book->user->name}}</td>
-                      <td><a href="#" class="prlink">{{$sinle_book->attraction->name}}</a></td>
+                      <td>{{$sinle_book->attraction->name}}</td>
                       <td>{{$sinle_book->amount}}</td>
                       <!-- <td>
                       <div class="d-flex justify-content-around align-items-center">
