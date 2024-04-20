@@ -222,77 +222,122 @@
   const bullet = document.querySelectorAll(".step .bullet");
   let current = 1;
 
+  function displayErrorMessage(parentNode, message) {
+      const labelDiv = parentNode; //parentNode.querySelector('.label');
+      const errorMessage = document.createElement('span');
+      errorMessage.classList.add('error-message', 'fw-bold', 'text-danger');
+      errorMessage.style.fontSize = 'small'; 
+      errorMessage.innerHTML = `<i class="bi bi-info-circle-fill"></i> ${message}`;
+      // labelDiv.appendChild(errorMessage);
+      labelDiv.insertAdjacentElement('afterend', errorMessage);
+  }
+
   nextBtnFirst.addEventListener("click", function(event){
-    event.preventDefault();
-    const nameInput = document.querySelector("input[name='name']");
-    const emailInput = document.querySelector("input[name='email']");
-    const passwordInput = document.querySelector("input[name='password']");
+      event.preventDefault();
+      const nameInput = document.querySelector("input[name='name']");
+      const emailInput = document.querySelector("input[name='email']");
+      const passwordInput = document.querySelector("input[name='password']");
+      const confirmPasswordInput = document.querySelector("input[name='confirm_password']");
+      const re = /\S+@\S+\.\S+/;
+      
+      // Remove previous error messages
+      document.querySelectorAll('.error-message').forEach(e => e.remove());
+      
+      // Check if name is empty
+      if (nameInput.value.trim() === "") {
+          console.log(11)
+          displayErrorMessage(nameInput.parentNode, "Please enter your name.");
+          return;
+      }
+
+      // Check if email is empty
+      if (emailInput.value.trim() === "") {
+          displayErrorMessage(emailInput.parentNode, "Please enter your email.");
+          return;
+      } else if (!re.test(emailInput.value.trim())) {
+          displayErrorMessage(emailInput.parentNode, "Please enter a valid email address.");
+          return;
+      }
+
+
+      if (passwordInput.value.trim() === "") {
+          displayErrorMessage(passwordInput.parentNode, "Please enter your Password.");
+          return;
+      }
+
+      if (confirmPasswordInput.value.trim() === "") {
+        displayErrorMessage(confirmPasswordInput.parentNode, "Please confirm your Password.");
+        return;
+      }
+      
+      if (passwordInput.value.trim() !== confirmPasswordInput.value.trim()) {
+        displayErrorMessage(confirmPasswordInput.parentNode, "Confirm Password does not match Password.");
+        return;
+      }
+
+
+      slidePage.style.marginLeft = "-25%";
+      bullet[current - 1].classList.add("active");
+      progressCheck[current - 1].classList.add("active");
+      progressText[current - 1].classList.add("active");
+      current += 1;
+  });  
+
+  // nextBtnSec.addEventListener("click", function(event){
+  //   event.preventDefault();
+  //   const addressInput = document.querySelector("input[name='address']");
+  //   const phoneInput = document.querySelector("input[name='phone_number']");
+  //   const countryInput = document.querySelector("input[name='country']");
     
-    // Check if name is empty
-    if (nameInput.value.trim() === "") {
-      alert("Please enter your name.");
-      return;
-    }
+  //   // Check if address is empty
+  //   if (addressInput.value.trim() === "") {
+  //     alert("Please enter your address.");
+  //     return;
+  //   }
 
-    // Check if email is empty
-    if (emailInput.value.trim() === "") {
-      alert("Please enter your email.");
-      return;
-    }
+  //   // Check if phone number is empty
+  //   if (phoneInput.value.trim() === "") {
+  //     alert("Please enter your phone number.");
+  //     return;
+  //   }
 
-    if (passwordInput.value.trim() === "") {
-      alert("Please enter your Password.");
-      return;
-    }
+  //   // Check if country is empty
+  //   if (countryInput.value.trim() === "") {
+  //     alert("Please enter your country.");
+  //     return;
+  //   }
 
-    // If both fields are filled, proceed to the next step
-    slidePage.style.marginLeft = "-25%";
-    bullet[current - 1].classList.add("active");
-    progressCheck[current - 1].classList.add("active");
-    progressText[current - 1].classList.add("active");
-    current += 1;
-  });
+  //   // If all fields are filled, proceed to the next step
+  //   slidePage.style.marginLeft = "-50%";
+  //   bullet[current - 1].classList.add("active");
+  //   progressCheck[current - 1].classList.add("active");
+  //   progressText[current - 1].classList.add("active");
+  //   current += 1;
+  // });
 
-  nextBtnSec.addEventListener("click", function(event){
+  submitBtn.addEventListener("click", function(event){
     event.preventDefault();
     const addressInput = document.querySelector("input[name='address']");
     const phoneInput = document.querySelector("input[name='phone_number']");
     const countryInput = document.querySelector("input[name='country']");
-    
-    // Check if address is empty
-    if (addressInput.value.trim() === "") {
-      alert("Please enter your address.");
-      return;
-    }
-
-    // Check if phone number is empty
-    if (phoneInput.value.trim() === "") {
-      alert("Please enter your phone number.");
-      return;
-    }
-
-    // Check if country is empty
-    if (countryInput.value.trim() === "") {
-      alert("Please enter your country.");
-      return;
-    }
-
-    // If all fields are filled, proceed to the next step
-    slidePage.style.marginLeft = "-50%";
-    bullet[current - 1].classList.add("active");
-    progressCheck[current - 1].classList.add("active");
-    progressText[current - 1].classList.add("active");
-    current += 1;
-  });
-
-  submitBtn.addEventListener("click", function(event){
-    event.preventDefault();
     const imageInput = document.querySelector("input[name='image']");
     
-    // Check if an image is uploaded
-    // if (imageInput.value.trim() === "") {
-    //   alert("Please upload an image.");
-    //   return;
+    // Remove previous error messages
+    document.querySelectorAll('.error-message').forEach(e => e.remove());      
+    
+    // if (addressInput.value.trim() === "") {
+    //     displayErrorMessage(addressInput.parentNode, "Please eneter your address.");
+    //     return;
+    // }    
+
+    if (countryInput.value.trim() === "") {
+        displayErrorMessage(countryInput.parentNode, "Please eneter your country.");
+        return;
+    }
+
+    // if (phoneInput.value.trim() === "") {
+    //     displayErrorMessage(phoneInput.parentNode, "Please eneter your phone number.");
+    //     return;
     // }
 
     // If an image is uploaded, submit the form
@@ -302,9 +347,13 @@
     // current += 1;
 
          var registerUrl = $('#url').val();
-        if(registerUrl != '' && typeof(registerUrl) != 'undefined'){ 
+        if(registerUrl != '' && typeof(registerUrl) != 'undefined'){
+            showLoader();
             let myform = document.getElementById("registrationForm");
+
             let fd = new FormData(myform);
+            var countryData = $("#country").countrySelect("getSelectedCountryData");
+            fd.append("countryCode", countryData.iso2);
               $.ajax({
               url: registerUrl,
               data: fd,
@@ -313,10 +362,8 @@
               contentType: false,
               type: "POST",
               success: function (data) {
-                console.log('asd');
-
                 if (data.status) {
-
+                  hideLoader();
                   $("#msg").text(data.message).addClass("text-success");
                         setTimeout(function(){
                         if(data.redirecturl != ''){
@@ -326,19 +373,23 @@
                         }
                       },1000)
                   
-                }
-                else {
+                }else {
+                  hideLoader();
+                  prevBtnSec.click();
                   $.each(data.errors, function(index, value) {
-                    $("#msg").text(value).addClass("text-danger");
-                });
-                  
+                    const emailInput = document.querySelector("input[name='email']");
+                    displayErrorMessage(emailInput.parentNode, value);
+                    // $("#msg").text(value).addClass("text-danger");
+                  });
                 }
                 // do something with the result
               },
               error: function(xhr, status, error) {
+                hideLoader();
                 // Handle error
                 console.error('API call failed:', error);
                 $("#msg").text(error).addClass("text-danger");
+                
             }
               });
         }
@@ -350,6 +401,15 @@
     // },800);
   });
 
+  function showLoader() {
+    document.getElementById("loaderOverlay").style.display = "block";
+  }
+  
+  
+  function hideLoader() {
+    document.getElementById("loaderOverlay").style.display = "none";
+  }
+
   prevBtnSec.addEventListener("click", function(event){
     event.preventDefault();
     slidePage.style.marginLeft = "0%";
@@ -359,13 +419,16 @@
     current -= 1;
   });
 
-  prevBtnThird.addEventListener("click", function(event){
-    event.preventDefault();
-    slidePage.style.marginLeft = "-25%";
-    bullet[current - 2].classList.remove("active");
-    progressCheck[current - 2].classList.remove("active");
-    progressText[current - 2].classList.remove("active");
-    current -= 1;
-  });
+  // prevBtnThird.addEventListener("click", function(event){
+  //   event.preventDefault();
+  //   slidePage.style.marginLeft = "-25%";
+  //   bullet[current - 2].classList.remove("active");
+  //   progressCheck[current - 2].classList.remove("active");
+  //   progressText[current - 2].classList.remove("active");
+  //   current -= 1;
+  // });
+
+ 
+
 
 

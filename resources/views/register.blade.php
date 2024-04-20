@@ -34,6 +34,9 @@
   <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/css/register.css') }}" rel="stylesheet">
 
+  <!-- Country Selector CSS File -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/country-select-js@2.1.0/build/css/countrySelect.min.css">
+
 
 </head>
 
@@ -52,7 +55,14 @@
             </a>
           </div><!-- End Logo -->
           <div class="card mb-3 col-lg-12">
-         <div id="msg" class="fs-3 text-center"></div>
+              <div class="loader-overlay" id="loaderOverlay" style="display: none;">
+                <div class="loader-wrapper">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            <div id="msg" class="fs-3 text-center"></div>
             <div class="card-body">
               <div class="pt-4 pb-2">
                 <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
@@ -65,92 +75,94 @@
                     <div class="bullet">
                       <span>1</span>
                     </div>
-                    <p>Name</p>
+                    <p>Basic Info</p>
                     <div class="check fas fa-check"></div>
                   </div>
                   <div class="step">
                     <div class="bullet">
                       <span>2</span>
                     </div>
-                    <p>Contact</p>
+                    <p>Other Information</p>
                     <div class="check fas fa-check"></div>
                   </div>
                   <!-- <div class="step">
                     <div class="bullet">
                       <span>3</span>
                     </div>
-                    <p>Details</p>
-                    <div class="check fas fa-check"></div>
-                  </div> -->
-                  <div class="step">
-                    <div class="bullet">
-                      <span>3</span>
-                    </div>
                     <p>Submit</p>
                     <div class="check fas fa-check"></div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="form-outer">
-                  <form  id="registrationForm">
-                  <input type="hidden" name="url" id="url" value="{{ route(session('prefix', 'agent') . '.register') }}
-                  ">
-                  <input type="hidden" name="redirecturl" id="redirecturl" value="{{ route(session('prefix', 'agent') . '.login') }}
-                  ">
+                  <form id="registrationForm">
+                    <input type="hidden" name="url" id="url" value="{{ route(session('prefix', 'agent') . '.register') }}">
+                    <input type="hidden" name="redirecturl" id="redirecturl" value="{{ route(session('prefix', 'agent') . '.login') }}">
                     <div class="page slide-page">
-                      <div class="title">Basic Info:</div>
-                      <div class="field">
+                      <!-- <div class="title">Basic Info:</div> -->
+                      <div class="field mb-0">
                         <div class="label">Name</div>
                         <input type="text" name="name">
                       </div>
-                      <div class="field">
+                      <div class="field mb-0">
                         <div class="label">Email</div>
                         <input type="email" name="email">
                       </div>
-                      <div class="field">
+                      <div class="field mb-0">
                         <div class="label">Password</div>
                         <input type="password" name="password">
                       </div>
-                      <div class="field">
+                      <div class="field mb-0">
+                        <div class="label">Confirm Password</div>
+                        <input type="password" name="confirm_password">
+                      </div>
+                      <div class="field mb-0">
                         <button class="firstNext next">Next</button>
                       </div>
                     </div>
 
                     <div class="page">
-                      <div class="title">Contact Info:</div>
-                      <div class="field">
+                      <!-- <div class="title">Contact Info:</div> -->
+                      <div class="field mb-0">
                         <div class="label">Address</div>
                         <input type="text" name="address">
+                      </div>                      
+                      <div class="field mb-0">                        
+                        <div class="label">Country</div>
+                        <input type="text" name="country" id="country">
+                        <!-- <input type="text" name="country"> -->
                       </div>
-                      <div class="field">
+                      <div class="field mb-0">
                         <div class="label">Phone</div>
                         <input type="number" name="phone_number">
                       </div>
-                      <div class="field">
-                        <div class="label">Country</div>
-                        <input type="text" name="country">
+                      <div class="field mb-0">
+                        <div class="label">Image</div>
+                        <input type="file" name="image" style="padding: 6px;">
                       </div>
-                      <div class="field btns">
+                      <div class="field mb-0 btns">
+                        <button class="prev-1 prev">Previous</button>
+                        <!-- <button class="next-2 next">Next</button> -->
+                        <button class="submit" type="submit" >Create Account</button>
+                      </div>
+                      <!-- <div class="field btns">
                         <button class="prev-1 prev">Previous</button>
                         <button class="next-1 next">Next</button>
-                      </div>
+                      </div> -->
                     </div>
 
-                    <div class="page">
-                      <div class="title">Contact Profile:</div>
+                    <!-- <div class="page"> -->
+                      <!-- <div class="title">Contact Profile:</div> -->
                       <!-- <div class="field">
                         <div class="label">Country Code</div>
                         <input type="text" name="country_code">
                       </div> -->
-                      <div class="field">
-                        <div class="label">Image</div>
-                        <input type="file" name="image" style=" padding: 6px;">
-                      </div>
-                      <div class="field btns">
-                        <button class="prev-2 prev">Previous</button>
+                      
+                      <!-- <div class="field btns">
+                        <button class="prev-2 prev">Previous</button> -->
                         <!-- <button class="next-2 next">Next</button> -->
-                        <button type="submit" class="submit">Create Account</button>
-                      </div>
-                    </div>
+                        <!-- <button type="submit" class="submit">Create Account</button> -->
+                      <!-- </div> -->
+                    <!-- </div> -->
 
                     <!-- <div class="page">
                       <div class="title">Login Details:</div>
@@ -169,10 +181,11 @@
                     </div> -->
                   </form>
                 </div>
-              </div>
+              </div>           
+
               <div class="row">
                 <div class="col-12">
-                  <p class="mb-0 ms-4 ps-1">Already have an account? <a href="/">Log in</a></p>
+                  <p class="ms-4 ps-1">Already have an account? <a href="/">Log in</a></p>
                 </div>
               </div>
             </div>
@@ -197,10 +210,18 @@
   <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/country-select-js@2.1.0/build/js/countrySelect.min.js"></script>
+
   <!-- Template Main JS File -->
-  <script src="{{ asset('assets/js/main.js') }}"></script>
+
+ <script src="{{ asset('assets/js/main.js') }}"></script>
  <script src="{{ asset('assets/js/script.js') }}"></script>
  <script src="{{ asset('assets/js/custom.js') }}"></script>
+ <script>
+  $('#country').countrySelect({
+      defaultCountry: "in"
+  }); 
+ </script>
 
 </body>
 

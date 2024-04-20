@@ -23,8 +23,13 @@ class LoginController extends Controller
             $user = Auth::user();
 
             if (($user->role == 1 && $request->prefix == 'admin') || ($user->role == 2 && $request->prefix == 'agent')) {
-                $token = $user->createToken('MyApp')->accessToken;
-                return response()->json(['token' => $token], 200);
+                if($user->role ==2 && $user->status == 1){
+                    $token = $user->createToken('MyApp')->accessToken;
+                    return response()->json(['token' => $token], 200);
+                }else{
+                    Auth::logout();
+                    return response()->json(['message' => 'Unauthorized user to login.'], 200);
+                }                
             } else {
                 Auth::logout();
                 return response()->json(['message' => 'Unauthorized user to login here.'], 200);
