@@ -1,4 +1,3 @@
-
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
@@ -1607,6 +1606,19 @@ div#nav-tab001 {
     background-repeat: no-repeat;
     padding: 183px 82px;
 }
+
+@media only screen and (min-width: 765px) and (max-width: 1025px) {
+  .bannerimg {
+    padding: 150px 0 !important;
+  }
+}
+
+@media only screen and (max-width: 764px){
+  .bannerimg {
+    padding: 60px 30px !important;
+  }
+}
+
 .search-text-form {
     padding: 10px;
     border-radius: 5px;
@@ -1813,7 +1825,7 @@ i.bi.bi-lightning-fill {
 
 span.card-icon-label {
  font-size: 12px;
- padding: 0px 8px;
+ padding: 0px 7px;
  color: #185174;
 }
 span.label-tag {
@@ -1916,9 +1928,9 @@ border-radius: 15px 15px 0px 0px;
     border: none;
     font-size: 16px;
 }
-.bannerimg {
-    padding: 60px 11px;
-}
+/*.bannerimg {*/
+/*    padding: 60px 11px;*/
+/*}*/
 .custom-tabset>ul {
     padding: 1.5rem 0rem;
 }

@@ -8,7 +8,7 @@
         <h1>View Attraction</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
             <li class="breadcrumb-item active">View Attraction</li>
           </ol>
         </nav>
@@ -31,7 +31,7 @@
                   </div>
                   <div class="col-lg-4">
                       <h5 class="card-title text-end addsup">
-                          <a href="allattraction.php"> Back </a></h5>
+                          <a href="{{ route(session('prefix', 'agent') . '.all_attraction') }}"> Back </a></h5>
                   </div>
                 </div>
              </div>
@@ -48,7 +48,7 @@
                   <label class="form-label" for="inputNanme4"> <b> Attraction Image: </b>
                   </label> <!-- <img src="assets/img/tourist-places-in-shillong.jpg"> -->
                     <div class="attraction-thumbnail">
-                          <img src="{{ asset('assets/img/tourist-places-in-shillong.jpg') }}" width="300px;">
+                          <img src="{{ asset('assets/img/' . (!empty($attraction_single->image) ? $attraction_single->image : 'default.jpg')) }}" width="300px;">
                     </div>               
 
                 </div>
@@ -58,11 +58,11 @@
                   <div class="row">
 
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                      <i class="bi bi-person-circle" aria-hidden="true"></i><label class="form-label" for="inputNanme05"> <b> Attraction Name: </b></label>Tiger Hills, Dargling    
+                      <i class="bi bi-person-circle" aria-hidden="true"></i><label class="form-label" for="inputNanme05"> <b> Attraction Name: </b></label> {{$attraction_single->name}}    
                      </div>
-                       
+                       <?php $field_data= json_decode($attraction_single->fields) ?>
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-calendar-check-fill" aria-hidden="true"></i>
-                      <label class="form-label" for="inputNanme4"> <b> Opening Date: </b> 23/03/2022
+                      <label class="form-label" for="inputNanme4"> <b> Opening Date: </b> {{$field_data->opening_date}}
                     </label> 
                      </div>
                   </div>
@@ -71,11 +71,11 @@
                                             
                 
                   <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                    <i class="bi bi-calendar-check-fill" aria-hidden="true"></i><label class="form-label" for=""> <b>  Duration:</b></label>$15 Days  
+                    <i class="bi bi-calendar-check-fill" aria-hidden="true"></i><label class="form-label" for=""> <b>  Duration:</b></label> {{$field_data->duration}}  
                    </div>
 
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-cash" aria-hidden="true"></i>
-                        <label class="form-label" for=""> <b> Price: </b> $159
+                        <label class="form-label" for=""> <b> Price: </b> {{$field_data->price}}
                         </label>
                      </div>
                  
@@ -84,11 +84,11 @@
               <div class="row">
                                                 
                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                    <i class="bi bi-geo-alt-fill" aria-hidden="true"></i><label class="form-label" for=""> <b>Location: </b></label> Dargling, India   
+                    <i class="bi bi-geo-alt-fill" aria-hidden="true"></i><label class="form-label" for=""> <b>Location: </b></label> {{$field_data->city}}   
                    </div>
 
                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-cart-check-fill" aria-hidden="true"></i>
-                  <label class="form-label" for="inputNanme4"> <b> Bookings: </b> 16
+                  <label class="form-label" for="inputNanme4"> <b> Bookings: </b> {{$field_data->booking}}
                   </label>
                 </div>
                  
@@ -102,7 +102,7 @@
                    </div>
  -->
                    <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-list-ul" aria-hidden="true"></i>
-                  <label class="form-label" for="inputNanme4"> <b> Description: </b> lorem ipsum
+                  <label class="form-label" for="inputNanme4"> <b> Description: </b> {{$field_data->description}}
                   </label>
                 </div>
                  

@@ -18,13 +18,13 @@
         @if(session('prefix') == 'admin')
           <li>
             <a href="{{ route(session('prefix', 'agent') . '.all_attraction') }}">
-              <i class="bi bi-circle"></i><span>List Attractions</span>
+              <i class="bi bi-circle"></i><span>All Attractions</span>
             </a>
           </li>
         @else
           <li>
             <a href="{{ route(session('prefix', 'agent') . '.view_attraction') }}">
-              <i class="bi bi-circle"></i><span>View All Attraction</span>
+              <i class="bi bi-circle"></i><span>All Attraction</span>
             </a>
           </li>
           @endif

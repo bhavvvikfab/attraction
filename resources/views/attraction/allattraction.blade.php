@@ -64,6 +64,7 @@
                     </th>
                     <th>Atrraction Name</th>
                     <th data-type="date" data-format="DD/MM/YYYY">Opening Date</th>
+                    <th>Price</th>
                     <th>Duration</th>
  
                     <th>Country</th>
@@ -88,13 +89,14 @@
                     </td>
                     <td>{{$single_att->name}}</td>
                     <td>{{$ff->opening_date}}</td>
+                    <td>{{$ff->price}}</td>
                     <td>{{$ff->duration}}</td>
                     <td>{{$single_att->country}}</td>
                     <!-- <td>16</td> -->
                     <td>
                       <div class="d-flex justify-content-around align-items-center">
                         <div class="viewattr p-1">
-                          <a href="viewattraction.php">
+                        <a href="{{ route(session('prefix', 'agent') . '.view_single_attraction' ,['id'=>$single_att->id]) }}">
                             <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
                           </a>
                         </div>
