@@ -46,4 +46,16 @@ class AttractionController extends Controller
     public function add_attraction(){
         return view('attraction.addattraction');
     }
+    public function view_single_attraction($id){
+
+        $attraction_single=Attraction::find($id);
+        $top_three_attractions = Attraction::latest()->take(3)->get();
+
+        if(session('prefix')=='admin'){
+           return view('attraction.viewattraction',compact('attraction_single'));
+        }else{
+           return view('attraction.singleatt',compact('attraction_single','top_three_attractions'));
+        }
+        
+    }
 }

@@ -1,8 +1,14 @@
 @include('layouts.header');
+@include('layouts.sidebar');
   <style>
     .country-select.inside{
       width: 100%;
     }
+    @media only screen and (min-width: 1025px) {
+      .sidebar {
+        display: none;
+      }
+}
 
   </style>
 
@@ -13,13 +19,13 @@
           <h1>Attraction</h1>
           <nav>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
               <li class="breadcrumb-item active">Attraction</li>
             </ol>
           </nav>
         </div>
         <div class="col-xxl-2 col-lg-2 col-md-2 col-sm-12 d-flex justify-content-md-end">
-            <a href="index.php"> <h5 class="text-back">Back</h5></a>
+            <a href="{{ route(session('prefix', 'agent')) }}"> <h5 class="text-back">Back</h5></a>
         </div>
       </div>
     </div>
@@ -186,7 +192,7 @@
                   <?php $fields = json_decode($attraction->fields); ?>
                   <div class="col-lg-4 col-12">
                     <div class="bg-white attr">
-                      <a href="#">
+                      <a href="{{ route(session('prefix', 'agent') . '.view_single_attraction' ,['id'=>$attraction->id]) }}">
                         <div class="card">
                           <img class="card-img-top" src="{{ asset('assets/img/') }}/{{ $attraction->image }}" alt="Card image cap">
                               <div class="card-body">

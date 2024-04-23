@@ -297,7 +297,7 @@
 
         <!-- Recent Activity -->
         <div class="card">
-          <div class="filter">
+          <!-- <div class="filter">
             <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
               <li class="dropdown-header text-start">
@@ -308,13 +308,14 @@
               <li><a class="dropdown-item" href="#">This Month</a></li>
               <li><a class="dropdown-item" href="#">This Year</a></li>
             </ul>
-          </div>
+          </div> -->
 
           <div class="card-body">
             <h5 class="card-title">Recent Activity <span></span></h5>
 
             <div class="activity">
                 <?php 
+                if(isset($notifications) && count($notifications) > 0){
                 foreach($notifications as $noti){
                   $formattedDate = date('d-m-y', strtotime($noti->created_at));
 
@@ -327,7 +328,9 @@
                   {{!!$noti->notification !!}}
                 </div>
               </div>
-              <?php } ?>
+              <?php }}else{?>
+                <div>No Activity Found</div>
+                <?php }?>
               <!-- End activity item-->
 
               <!-- <div class="activity-item d-flex">
