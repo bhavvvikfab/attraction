@@ -536,4 +536,102 @@ $(document).on("click", "#btn_chng_pass", function () {
      }
   
   }); 
+
+  $(document).on("click", "#update_markup_btn", function () {
+    // alert ("hh");
+   
     
+      
+       let myform = document.getElementById("update_markup_form");
+       let fd = new FormData(myform);
+       $.ajax({
+         url: 'update_markup',
+         data: fd,
+         cache: false,
+         processData: false,
+         contentType: false,
+         type: "POST",
+         success: function (data) {
+          if (data.status) {
+            showMessage('message', data.message, true)
+            
+                  setTimeout(function(){
+            
+                    window.location.reload();
+           
+                },2000);            
+          }else {
+            $.each(data.errors, function(index, value) {
+              showMessage('error', value, false)
+              
+          });
+            
+          }
+           console.log(data);
+         
+         },
+       });
+    //  } else {
+    //    return false;
+    //  }
+  
+  }); 
+  
+  $(document).on("change", ".attraction_mark_up_type,.attraction_mark_up", function () {
+    // alert ("hh");
+            var parent = $(this).parent(); 
+            var markup_value = parent.find('.attraction_mark_up').val();
+            var markup_style = parent.find('.attraction_mark_up_type').val();
+            var attraction_id= parent.find('.attraction_id').val();
+            var mark_up_error = parent.find('.mark_up_error');
+            flag= 1;
+
+            if(markup_value==""){
+              mark_up_error.text('Input is required').addClass("text-danger");
+              flag = 0;
+            }else{
+              mark_up_error.text('');
+            }
+            if(markup_style == "2") {
+              if(markup_value < 1 || markup_value > 100) {
+                mark_up_error.text('Value must be between 1 to 100').addClass("text-danger");
+                  flag = 0;
+              } else {
+                mark_up_error.text('');
+              }
+          }
+
+            if (flag == 1) {
+      
+       $.ajax({
+         url: 'update_attraction_markup',
+         data: {markup_value : markup_value, markup_style : markup_style, attraction_id : attraction_id},
+        //  cache: false,
+        //  processData: false,
+        //  contentType: false,
+         type: "POST",
+         success: function (data) {
+          if (data.status) {
+            showMessage('message', data.message, true)
+            
+                  setTimeout(function(){
+            
+                    window.location.reload();
+           
+                },2000);            
+          }else {
+            $.each(data.errors, function(index, value) {
+              showMessage('error', value, false)
+              
+          });
+            
+          }
+           console.log(data);
+         
+         },
+       });
+    } else {
+       return false;
+     }  
+  
+  }); 

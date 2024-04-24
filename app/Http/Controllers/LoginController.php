@@ -284,9 +284,9 @@ class LoginController extends Controller
         $prefix = explode('/', $request->getPathInfo())[1] ?? 'agent';
         return redirect('/'.$prefix); // Redirect to the login page after logout
     }
-    public function setting(){
-        $credential_data=Api_credential::first();
-        // dd( $credential_data);
-        return view('setting',compact('credential_data'));
-    }
+    // public function setting(){
+    //     $credential_data=Api_credential::first();
+    //     // dd( $credential_data);
+    //     return view('setting',compact('credential_data'));
+    // }
 }

@@ -42,7 +42,7 @@
               </li>
 
               <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Setting 2</button>
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#price_markup">Price Markup</button>
               </li>
 
               <!-- <li class="nav-item">
@@ -94,14 +94,14 @@
 
               </div>
 
-              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+              <div class="tab-pane fade profile-edit pt-3" id="price_markup">
 
                 <!-- Profile Edit Form -->
-                <form action="{{ route(session('prefix', 'agent') . '.update_profile') }}" method="post" enctype="multipart/form-data"> 
+                <form id="update_markup_form" method="post" enctype="multipart/form-data"> 
                   @csrf
                
 
-                  <div class="row mb-3">
+                  <!-- <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="fullName" type="text" class="form-control" id="fullName" value="">
@@ -109,26 +109,54 @@
                       <div class="text-danger">{{ $message }}</div>
                       @enderror
                     </div>
-                  </div>
+                  </div> -->
+
+                  <!-- <div class="row mb-3">
+                    <label for="selectOption" class="col-md-4 col-lg-3 col-form-label">Select Option</label>
+                    <div class="col-md-8 col-lg-9">
+                        <select name="selectOption" class="form-select" id="selectOption">
+                            
+                            <option value="percentage">Percentage</option>
+                            <option value="amount">Amount</option>
+             
+                           
+                        </select>
+                        @error('selectOption')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                  </div> -->
 
                   
 
                  
 
-                  <div class="row mb-3">
-                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                  <!-- <div class="row mb-3">
+                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Value</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="email" type="email" class="form-control" id="Email" value="">
-                      @error('email')
+                      <input name="value" type="number" class="form-control" id="value" value="">
+                      @error('value')
                       <div class="text-danger">{{ $message }}</div>
                       @enderror
                     </div>
+                  </div> -->
+                  <div class="col-md-6 mb-3">
+                      <label for="inputNumber" class="col-form-label"><strong>Markup</strong></label>
+                      <div class="input-group deposit">
+                          <?php $setting_field=json_decode($markup_data->settings,true);?>
+                          <input type="number" class="form-control amount_mark_up" name="attraction_mark_up" id="attraction_mark_up" value="<?php echo $setting_field['price_markup']['value'] ?>" aria-describedby="inputGroupPrepend9">
+                          <select class="form-select amount_mark_up_type" name="attraction_mark_up_type" id="attraction_mark_up_type"> 
+                              <option value="1" <?php if($setting_field['price_markup']['type']== 1){echo'selected';} ?>>Amount</option>
+                              <option value="2" <?php if($setting_field['price_markup']['type']== 2){echo'selected';} ?>>Percentage</option>
+                          </select>
+                          
+                      </div>
                   </div>
 
                   
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary" id="update_profile">Save Changes</button>
+                    <button type="button" class="btn btn-primary" id="update_markup_btn">Save Changes</button>
                   </div>
 
                 </form>
