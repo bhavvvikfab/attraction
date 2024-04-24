@@ -63,12 +63,13 @@
                       Attraction Image
                     </th>
                     <th>Atrraction Name</th>
-                    <th data-type="date" data-format="DD/MM/YYYY">Opening Date</th>
-                    <th>Price</th>
-                    <th>Duration</th>
+                    <!-- <th data-type="date" data-format="DD/MM/YYYY">Opening Date</th> -->
+                    <th>Original price</th>
+                    <th>Display Price</th>
+                    <!-- <th>Duration</th> -->
  
                     <th>Country</th>
-                    <!-- <th>Bookings</th> -->
+                    <th>Markup</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -88,11 +89,24 @@
                       </div>
                     </td>
                     <td>{{$single_att->name}}</td>
-                    <td>{{$ff->opening_date}}</td>
-                    <td>{{$ff->price}}</td>
-                    <td>{{$ff->duration}}</td>
+                    <!-- <td>{{$ff->opening_date}}</td> -->
+                    <td>{{ $single_att->original_price}}</td>
+                    <td>{{$single_att->display_price}}</td>
+                    <!-- <td>{{$ff->duration}}</td> -->
                     <td>{{$single_att->country}}</td>
-                    <!-- <td>16</td> -->
+                    <td>
+                    <div class="input-group deposit d-grid">
+                         <input type="hidden" name="attraction_id" class="attraction_id" value="{{ $single_att->id}}">                      
+                        <input type="number" class="form-control attraction_mark_up w-100" name="attraction_mark_up" id="attraction_mark_up" value="{{$single_att->markup_value}}" aria-describedby="inputGroupPrepend9">
+                        <select class="form-select attraction_mark_up_type w-100" id="attraction_mark_up_type"> 
+                            <option value="1" <?php if($single_att->markup_type==1){echo 'selected';} ?>>Amount</option>
+                            <option value="2" <?php if($single_att->markup_type==2){echo 'selected';} ?>>Percentage</option>
+                        </select>
+                        <p class="mark_up_error"></p>
+                    </div>
+
+
+                    </td>
                     <td>
                       <div class="d-flex justify-content-around align-items-center">
                         <div class="viewattr p-1">

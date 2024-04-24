@@ -21,6 +21,10 @@ class Attraction extends Model
         'name',
         'image',
         'country',
+        'original_price',
+        'display_price',
+        'markup_value',
+        'markup_type',
         'fields'
         
     ];

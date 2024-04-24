@@ -9,6 +9,7 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\TopupController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Api_credentialController;
 use App\Http\Middleware\Auther;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +37,7 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::get('/profile', [LoginController::class, 'profile'])->name('admin.profile');
     Route::post('/update_profile', [LoginController::class, 'update_profile'])->name('admin.update_profile');
     Route::post('/change_password', [LoginController::class, 'change_password'])->name('admin.change_password');
-    Route::get('/setting', [LoginController::class, 'setting'])->name('admin.setting');
+    // Route::get('/setting', [LoginController::class, 'setting'])->name('admin.setting');
 
      
     Route::get('/', [LoginController::class,'deshborad_page'])->name('admin');
@@ -69,6 +70,10 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('admin.view_chat'); 
 
     Route::post('/update_credential', [Api_credentialController::class, 'index'])->name('admin.update_credential');
+
+    Route::post('/update_markup', [SettingController::class, 'update_markup'])->name('admin.update_markup');
+    Route::get('/setting', [SettingController::class, 'setting'])->name('admin.setting');
+    Route::post('/update_attraction_markup', [SettingController::class, 'update_attraction_markup'])->name('admin.update_attraction_markup');
 
 });
 // route's for ADMIN end

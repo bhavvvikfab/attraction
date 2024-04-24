@@ -121,6 +121,14 @@
           <span>Report</span>
         </a>
       </li>
+      <?php if(session('prefix')=='admin'){?>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route(session('prefix') . '.setting') }}">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </a>
+      </li>
+      <?php }?>
 
       <!-- End Report Nav-->
 

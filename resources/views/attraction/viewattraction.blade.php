@@ -75,7 +75,7 @@
                    </div>
 
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-cash" aria-hidden="true"></i>
-                        <label class="form-label" for=""> <b> Price: </b> {{$field_data->price}}
+                        <label class="form-label" for=""> <b> Price: </b> {{$attraction_single->display_price}}
                         </label>
                      </div>
                  
