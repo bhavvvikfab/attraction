@@ -13,7 +13,7 @@ class Api_credential extends Model
 
     protected $fillable = [
         'email',
-        'password'
-        
+        'password',
+        'api_login_auth_key'
     ];
 }
