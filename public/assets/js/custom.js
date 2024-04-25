@@ -586,14 +586,17 @@ $(document).on("click", "#btn_chng_pass", function () {
             var mark_up_error = parent.find('.mark_up_error');
             flag= 1;
 
-            if(markup_value==""){
-              mark_up_error.text('Input is required').addClass("text-danger");
-              flag = 0;
-            }else{
-              mark_up_error.text('');
-            }
+            // if(markup_value==""){
+            //   mark_up_error.text('Input is required').addClass("text-danger");
+            //   flag = 0;
+            // }else{
+            //   mark_up_error.text('');
+            // }
             if(markup_style == "2") {
-              if(markup_value < 1 || markup_value > 100) {
+              if(markup_value==""){
+                mark_up_error.text('');
+              }
+              else if(markup_value < 1 || markup_value > 100) {
                 mark_up_error.text('Value must be between 1 to 100').addClass("text-danger");
                   flag = 0;
               } else {
