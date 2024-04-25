@@ -10,6 +10,7 @@ use App\Http\Controllers\TopupController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Api_credentialController;
 use App\Http\Middleware\Auther;
 use Illuminate\Support\Facades\Auth;
@@ -116,3 +117,6 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
 
 });
 // route's for AGENT end
+
+Route::resource('products', ProductController::class);
+

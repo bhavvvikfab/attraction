@@ -32,4 +32,9 @@ class Attraction extends Model
     {
         return $this->belongsTo(Booking::class, 'attraction_id', 'id');
     }
+
+    public function attractionTickets()
+    {
+        return $this->hasMany(AttractionTicket::class);
+    }
 }

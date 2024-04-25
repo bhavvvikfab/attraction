@@ -513,16 +513,15 @@ $(document).on("click", "#btn_chng_pass", function () {
          type: "POST",
          success: function (data) {
           if (data.status) {
-            showMessage('message', data.message, true)
-            
-                  setTimeout(function(){
-            
-                    window.location.reload();
-           
-                },2000);            
+            showMessage('Message', data.message, true);
+                       
+            setTimeout(function(){            
+                window.location.reload();           
+            },2000);            
           }else {
+            showMessage('Message', data.message, false);
             $.each(data.errors, function(index, value) {
-              showMessage('error', value, false)
+              showMessage('Error', value, false)
               
           });
             

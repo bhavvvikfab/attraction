@@ -7,8 +7,7 @@ use App\Models\Attraction;
 use Illuminate\Support\Facades\Auth;
 
 class AttractionController extends Controller
-{
-    //
+{  
     public function index(){
 
         $attraction_data= Attraction::all();
@@ -23,9 +22,11 @@ class AttractionController extends Controller
         $query = Attraction::query();
 
         if ($request->has('country_code')) {
+            $countryCode = $request->input('country_code');
             $query->where('country', $request->input('country_code'));
         }else{ 
             if(isset(Auth::user()->country) && !empty(Auth::user()->country)){
+                $countryCode = Auth::user()->country;
                 $query->where('country', Auth::user()->country);
             }
         }
@@ -35,8 +36,7 @@ class AttractionController extends Controller
             $query->where('name', 'like', '%' . $request->input('keyword') . '%');
         }
 
-        $attractions = $query->paginate(10);
-        $countryCode = $request->input('country_code');
+        $attractions = $query->paginate(9);
         $keyword = $request->input('keyword');
 
         return view('attraction.Viewallattraction', compact('attractions','countryCode','keyword'));
