@@ -97,11 +97,12 @@
                     <td>
                     <div class="input-group deposit d-grid">
                          <input type="hidden" name="attraction_id" class="attraction_id" value="{{ $single_att->id}}">                      
-                        <input type="number" class="form-control attraction_mark_up w-100" name="attraction_mark_up" id="attraction_mark_up" value="{{$single_att->markup_value}}" aria-describedby="inputGroupPrepend9">
+                        
                         <select class="form-select attraction_mark_up_type w-100" id="attraction_mark_up_type"> 
                             <option value="1" <?php if($single_att->markup_type==1){echo 'selected';} ?>>Amount</option>
                             <option value="2" <?php if($single_att->markup_type==2){echo 'selected';} ?>>Percentage</option>
                         </select>
+                        <input type="number" class="form-control attraction_mark_up w-100 mt-2" name="attraction_mark_up" id="attraction_mark_up" value="{{$single_att->markup_value}}" aria-describedby="inputGroupPrepend9">
                         <p class="mark_up_error"></p>
                     </div>
 
