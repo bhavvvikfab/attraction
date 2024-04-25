@@ -14,6 +14,7 @@ class AttractionController extends Controller
         // echo"<pre>";
         // print_r($attraction_data); die;
         // dd($attraction_data);
+        // dd($attraction_data[0]->display_final);
         return view('attraction.allattraction',compact('attraction_data'));
     }
 

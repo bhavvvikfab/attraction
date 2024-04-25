@@ -49,9 +49,9 @@
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
               </li> -->
 
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Setting 3</button>
-              </li>
+              </li> -->
 
             </ul>
             <div class="tab-content pt-2">
@@ -59,7 +59,8 @@
               <div class="tab-pane fade show active profile-overview" id="setting1">
                 <!-- <h5 class="card-title">About</h5>
                 <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p> -->
-
+                <h5 class="card-title">API URLS</h5>
+                <input type="text" class="form-control w-50" disabled value="{{env('API_BASE_URL')}}">
                 <h5 class="card-title">Credentials Details</h5>
 
                 <form id="credential_form" method="post" enctype="multipart/form-data"> 
@@ -142,13 +143,14 @@
                   </div> -->
                   <div class="col-md-6 mb-3">
                       <label for="inputNumber" class="col-form-label"><strong>Markup</strong></label>
-                      <div class="input-group deposit">
+                      <div class="input-group deposit d-grid">
                           <?php $setting_field=json_decode($markup_data->settings,true);?>
-                          <input type="number" class="form-control amount_mark_up" name="attraction_mark_up" id="attraction_mark_up" value="<?php echo $setting_field['price_markup']['value'] ?>" aria-describedby="inputGroupPrepend9">
-                          <select class="form-select amount_mark_up_type" name="attraction_mark_up_type" id="attraction_mark_up_type"> 
+                         
+                          <select class="form-select amount_mark_up_type w-50" name="attraction_mark_up_type" id="attraction_mark_up_type"> 
                               <option value="1" <?php if($setting_field['price_markup']['type']== 1){echo'selected';} ?>>Amount</option>
                               <option value="2" <?php if($setting_field['price_markup']['type']== 2){echo'selected';} ?>>Percentage</option>
                           </select>
+                          <input type="number" class="form-control amount_mark_up mt-2 w-50" name="attraction_mark_up" id="attraction_mark_up" value="<?php echo $setting_field['price_markup']['value'] ?>" aria-describedby="inputGroupPrepend9">
                           
                       </div>
                   </div>

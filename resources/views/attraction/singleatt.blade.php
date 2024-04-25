@@ -277,7 +277,7 @@
                           <div>
                             <h5 class="variation-title font-style-primary p-0">
                               <span class="font-weight-bold">
-                                SGD {{$attraction_single->display_price}}
+                                SGD {{$attraction_single->display_final}}
                               </span>
                             </h5>
                           </div>
@@ -477,7 +477,7 @@
                           <div>
                             <h5 class="variation-title font-style-primary p-0">
                               <span class="font-weight-bold">
-                                SGD {{$attraction_single->display_price}}
+                                SGD {{$attraction_single->display_final}}
                               </span>
                             </h5>
                           </div>
@@ -680,7 +680,7 @@
                           <div>
                             <h5 class="variation-title font-style-primary p-0">
                               <span class="font-weight-bold">
-                                SGD {{$attraction_single->display_price}}
+                                SGD {{$attraction_single->display_final}}
                               </span>
                             </h5>
                           </div>

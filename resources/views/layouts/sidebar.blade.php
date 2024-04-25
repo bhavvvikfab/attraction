@@ -246,14 +246,14 @@
       </li> --><!-- End Contact Page Nav -->
 
 
-
-      <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="login.php">
+      <?php if(session('prefix')=='agent'){?>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.logout') }}">
           <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
+          <span>Logout</span>
         </a>
-      </li> -->
-
+      </li>
+       <?php }?>
       <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="error-404.php">
           <i class="bi bi-dash-circle"></i>

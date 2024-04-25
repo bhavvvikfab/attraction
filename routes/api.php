@@ -19,4 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('/migrate-database', [DatabaseMigrationController::class, 'migrate']);
 Route::get('/getStoreAttractionApi', [DatabaseMigrationController::class, 'getStoreAttractionApi']);
+Route::get('/scheduleRun', [DatabaseMigrationController::class, 'scheduleRun']);
 Route::get('/swaggerGenerate', [DatabaseMigrationController::class, 'swaggerGenerate']);
