@@ -584,7 +584,11 @@ $(document).on("click", "#btn_chng_pass", function () {
             var attraction_id= parent.find('.attraction_id').val();
             var mark_up_error = parent.find('.mark_up_error');
             flag= 1;
-
+      if($(this).hasClass('attraction_mark_up_type')== true){
+        if(markup_value == ''){
+          return false;
+        }
+      }
             // if(markup_value==""){
             //   mark_up_error.text('Input is required').addClass("text-danger");
             //   flag = 0;

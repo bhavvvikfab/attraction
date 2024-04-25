@@ -58,11 +58,11 @@
                   <div class="row">
 
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                      <i class="bi bi-person-circle" aria-hidden="true"></i><label class="form-label" for="inputNanme05"> <b> Attraction Name: </b></label> {{$attraction_single->name}}    
+                      <i class="bi bi-person-circle" aria-hidden="true"></i><label class="form-label" for="inputNanme05"> <b class="m-1">  Attraction Name: </b></label> {{$attraction_single->name}}    
                      </div>
                        <?php $field_data= json_decode($attraction_single->fields) ?>
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-calendar-check-fill" aria-hidden="true"></i>
-                      <label class="form-label" for="inputNanme4"> <b> Opening Date: </b> {{$field_data->opening_date}}
+                      <label class="form-label" for="inputNanme4"> <b class="m-1"> Opening Date: </b> {{$field_data->opening_date}}
                     </label> 
                      </div>
                   </div>
@@ -71,11 +71,11 @@
                                             
                 
                   <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                    <i class="bi bi-calendar-check-fill" aria-hidden="true"></i><label class="form-label" for=""> <b>  Duration:</b></label> {{$field_data->duration}}  
+                    <i class="bi bi-calendar-check-fill" aria-hidden="true"></i><label class="form-label" for=""> <b class="m-1">  Duration:</b></label> {{$field_data->duration}}  
                    </div>
 
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-cash" aria-hidden="true"></i>
-                        <label class="form-label" for=""> <b> Price: </b> {{$attraction_single->display_price}}
+                        <label class="form-label" for=""> <b class="m-1"> Price: </b> {{$attraction_single->display_final}}
                         </label>
                      </div>
                  
@@ -84,11 +84,11 @@
               <div class="row">
                                                 
                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                    <i class="bi bi-geo-alt-fill" aria-hidden="true"></i><label class="form-label" for=""> <b>Location: </b></label> {{$field_data->city}}   
+                    <i class="bi bi-geo-alt-fill" aria-hidden="true"></i><label class="form-label" for=""> <b class="m-1">Location: </b></label> {{$field_data->city}}   
                    </div>
 
                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-cart-check-fill" aria-hidden="true"></i>
-                  <label class="form-label" for="inputNanme4"> <b> Bookings: </b> {{$field_data->booking}}
+                  <label class="form-label" for="inputNanme4"> <b class="m-1"> Bookings: </b> {{$field_data->booking}}
                   </label>
                 </div>
                  
@@ -102,7 +102,7 @@
                    </div>
  -->
                    <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-list-ul" aria-hidden="true"></i>
-                  <label class="form-label" for="inputNanme4"> <b> Description: </b> {{$field_data->description}}
+                  <label class="form-label" for="inputNanme4"> <b class="m-1"> Description: </b> {{$field_data->description}}
                   </label>
                 </div>
                  

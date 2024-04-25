@@ -203,55 +203,251 @@
                                   <div class="col-lg-2">
                                     <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
                                   </div>
-                                    <p class="card-text text-dark">{{ $fields->address }} {{ $fields->city }}</p>
-                                    <p class="card-text text-dark">
-                                        <i class="bi bi-calendar3 aticon1"></i> 
-                                        Open Date {{-- \Carbon\Carbon::createFromFormat('d/m/Y', $fields->opening_date)->format('Y-m-d') --}}  
-                                        <i class="bi bi-lightning-fill aticon2"></i>
-                                        Instant
-                                    </p>
                                 </div>
-                          </div>  
-                        </a>
-                      </div>
-                    </div>
-                  @endforeach
+                                  <p class="card-text text-dark">{{ $fields->address }} {{ $fields->city }}</p>
+                                  <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date {{ \Carbon\Carbon::createFromFormat('d/m/Y', $fields->opening_date)->format('Y-m-d') }}  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
 
-                  <!-- Pagination -->
+                              </div>
+                        </div>  
+                      </a>
+                    </div>
+                  </div>
+                @endforeach
+                @else
+                <div class='text-center text-muted my-5'>
+                  <span>No Attractions Found</span>
+                </div>
+                @endif
+                {{--$attractions->links() --}}
                   <ul class="pagination d-flex justify-content-center">
                       @if ($attractions->onFirstPage())
                           <li class="page-item disabled"><span class="page-link">«</span></li>
                       @else
-                          <li class="page-item"><a class="page-link" href="{{ $attractions->previousPageUrl() }}{{ '&' . http_build_query(request()->except('page')) }}" rel="prev">«</a></li>
+                          <li class="page-item"><a class="page-link" href="{{ $attractions->previousPageUrl() }}" rel="prev">«</a></li>
                       @endif
 
                       @foreach ($attractions->getUrlRange(1, $attractions->lastPage()) as $page => $url)
-                          <li class="page-item {{ $page == $attractions->currentPage() ? 'active' : '' }}">
-                              <a class="page-link" href="{{ $url }}{{ '&' . http_build_query(request()->except('page')) }}">{{ $page }}</a>
-                          </li>
+                          <li class="page-item {{ $page == $attractions->currentPage() ? 'active' : '' }}"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
                       @endforeach
 
                       @if ($attractions->hasMorePages())
-                          <li class="page-item"><a class="page-link" href="{{ $attractions->nextPageUrl() }}{{ '&' . http_build_query(request()->except('page')) }}" rel="next">»</a></li>
+                          <li class="page-item"><a class="page-link" href="{{ $attractions->nextPageUrl() }}" rel="next">»</a></li>
                       @else
                           <li class="page-item disabled"><span class="page-link">»</span></li>
                       @endif
                   </ul>
 
+                  <!-- <div class="col-lg-4 col-12">
+                    <div class="bg-white attr">
+                      <a href="singleatt.php">
+                      <div class="card">
+                        <img class="card-img-top" src="{{ asset('assets/img/att1.jpg') }}" alt="Card image cap">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-10">
+                                  <h5 class="search-title-card">Attraction</h5>
+                                </div>
+                                <div class="col-lg-2">
+                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
+                                </div>
+                              </div>
+                                <p class="card-text text-dark">Dargling, North East, India</p>
+                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
 
-                @else
-                <div _ngcontent-xtk-c5="" class="mt-5 mb-5 padding-container text-center">
-                  <img _ngcontent-xtk-c5="" alt="" src="{{ url('assets/images/no-result.png') }}">
-                  <div _ngcontent-xtk-c5="" class="py-4 ">
-                    <h4 _ngcontent-xtk-c5="" class="font-weight-bold text-center mb-2">Sorry! No results found :(</h4>
-                    <span _ngcontent-xtk-c5="">Please try to search for something else.</span>
+                             </div>
+                      </div>
+                    </a>
+                    </div>
                   </div>
-                  <!-- <div _ngcontent-xtk-c5="" class="load-more-button d-inline font-14">Back to Home</div> -->
-                </div>
-                @endif
 
-                  
-              </div>              
+                  <div class="col-lg-4 col-12">
+
+                    <div class="bg-white attr">
+                      <a href="singleatt.php">
+                      <div class="card">
+                        <img class="card-img-top" src="{{ asset('assets/img/att5.jpg') }}" alt="Card image cap">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-10">
+                                  <h5 class="search-title-card">Attraction</h5>
+                                </div>
+                                <div class="col-lg-2">
+                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
+                                </div>
+                              </div>
+                                <p class="card-text text-dark">Dargling, North East, India</p>
+                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
+                             </div>
+                      </div>
+                      </a>
+                    </div>
+                  </div> -->
+
+              </div>
+
+              <!-- <div class="row">
+
+                <div class="col-lg-4 col-12">
+
+                    <div class="bg-white attr">
+                        <a href="singleatt.php">
+                      <div class="card">
+                        <img class="card-img-top" src="{{ asset('assets/img/tourist-places-in-shillong.jpg') }}" alt="Card image cap">
+
+
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-10">
+                                  <h5 class="search-title-card">Attraction</h5>
+                                </div>
+                                <div class="col-lg-2">
+                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
+                                </div>
+                              </div>
+                                <p class="card-text text-dark">Dargling, North East, India</p>
+                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
+
+                             </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-12">
+
+                    <div class="bg-white attr">
+                      <a href="singleatt.php">
+                      <div class="card">
+                        <img class="card-img-top" src="{{ asset('assets/img/att6.jpg') }}" alt="Card image cap">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-10">
+                                  <h5 class="search-title-card">Attraction</h5>
+                                </div>
+                                <div class="col-lg-2">
+                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
+                                </div>
+                              </div>
+                                <p class="card-text text-dark">Dargling, North East, India</p>
+                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
+
+                             </div>
+                      </div>
+                    </a>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-12">
+
+                    <div class="bg-white attr">
+                        <a href="singleatt.php">
+                      <div class="card">
+                        <img class="card-img-top" src="{{ asset('assets/img/att2.jpg') }}" alt="Card image cap">
+
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-10">
+                                  <h5 class="search-title-card">Attraction</h5>
+                                </div>
+                                <div class="col-lg-2">
+                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
+                                </div>
+                              </div>
+                                <p class="card-text text-dark">Dargling, North East, India</p>
+                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
+                             </div>
+                             </a>
+                      </div>
+                    </div>
+                  </div>
+
+              </div>
+              <div class="row">
+
+                <div class="col-lg-4 col-12">
+                    <a href="singleatt.php">
+                    <div id="attr02" class="bg-white attr ">
+
+                      <div class="card">
+                        <img class="card-img-top" src="{{ asset('assets/img/att3.jpg') }}" alt="Card image cap">
+
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-10">
+                                  <h5 class="search-title-card">Attraction</h5>
+                                </div>
+                                <div class="col-lg-2">
+                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
+                                </div>
+                              </div>
+                                <p class="card-text text-dark">Dargling, North East, India</p>
+                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
+                             </div>
+                             </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-12">
+
+                    <div class="bg-white attr">
+                      <a href="singleatt.php">
+                      <div class="card">
+                        <img class="card-img-top" src="{{ asset('assets/img/att5.jpg') }}" alt="Card image cap">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-10">
+                                  <h5 class="search-title-card">Attraction</h5>
+                                </div>
+                                <div class="col-lg-2">
+                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
+                                </div>
+                              </div>
+                                <p class="card-text text-dark">Dargling, North East, India</p>
+                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
+                             </div>
+                      </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-12">
+
+                    <div id="attr02" class="bg-white attr">
+                        <a href="singleatt.php">
+                      <div class="card">
+                        <img class="card-img-top" src="{{ asset('assets/img/att4.jpg') }}" alt="Card image cap">
+
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-10">
+                                  <h5 class="search-title-card">Attraction</h5>
+                                </div>
+                                <div class="col-lg-2">
+                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
+                                </div>
+                              </div>
+                                <p class="card-text text-dark">Dargling, North East, India</p>
+                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
+                             </div>
+                             </a>
+                      </div>
+                    </div>
+                  </div>
+
+                    <ul class="pagination d-flex justify-content-center">
+                        <li class="page-item"><a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">«</span>
+                          </a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                          </a></li>
+                      </ul>
+
+              </div> -->
             </div>
 
 

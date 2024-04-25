@@ -91,7 +91,7 @@
                     <td>{{$single_att->name}}</td>
                     <!-- <td>{{$ff->opening_date}}</td> -->
                     <td>{{ $single_att->original_price}}</td>
-                    <td>{{$single_att->display_price}}</td>
+                    <td>{{$single_att->display_final}}</td>
                     <!-- <td>{{$ff->duration}}</td> -->
                     <td>{{$single_att->country}}</td>
                     <td>

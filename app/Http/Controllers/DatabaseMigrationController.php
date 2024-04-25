@@ -17,6 +17,16 @@ class DatabaseMigrationController extends Controller
         }
     }
 
+    public function scheduleRun()
+    {
+        try {
+            Artisan::call('schedule:run');
+            return 'Completed successfully.';
+        } catch (\Exception $e) {
+            return 'Failed: ' . $e->getMessage();
+        }
+    }
+
     public function getStoreAttractionApi()
     {
         try {
