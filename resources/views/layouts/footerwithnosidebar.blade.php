@@ -42,6 +42,41 @@
         // Now you can submit the form
         this.submit();
     });
+
+    $(document).ready(function() {
+
+        var queryParams = new URLSearchParams(window.location.search);
+        var urlCities = queryParams.get('city');
+
+        if (urlCities) {
+            var citiesArray = urlCities.split(','); // Split the cities string into an array
+
+            // Check checkboxes based on the cities present in the URL
+            citiesArray.forEach(function(city) {
+                $('#cities').find('input[value="' + city + '"]').prop('checked', true);
+            });
+        }
+
+        $('.city-checkbox').change(function() {
+            updateQueryString();
+        });
+        
+        // Function to update query string with checked cities
+        function updateQueryString() {
+            var checkedCities = $('.city-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
+
+            var redirectUrl = '{{ route(session('prefix', 'agent') . '.view_attraction') }}';
+            var existingQueryParams = {!! json_encode(request()->except('city')) !!};
+             // Exclude 'city' parameter if present
+            var queryString = $.param(existingQueryParams) + (checkedCities.length > 0 ? '&city=' + checkedCities.join(',') : '');
+            var newUrl = redirectUrl + (queryString ? '?' + queryString : '');
+            // Redirect to the new URL
+            window.location.href = newUrl;
+        }
+
+    });
   </script>
 
 </body>

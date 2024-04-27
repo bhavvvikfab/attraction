@@ -92,7 +92,7 @@
 
                   <div class="p-3 border border-1"> <h3>Filters</h3></div>
                       <!-- Section: Condition -->
-                      <div class="border border-1" data-filter="condition">
+                      <!-- <div class="border border-1" data-filter="condition">
                         <h5 class="font-weight-bold text-white">Frequent Filter</h5>
                         <div class="p-3">
                           <div class="form-check mb-3">
@@ -120,37 +120,31 @@
                             </label>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                       <!-- Section: Condition -->
 
                       <!-- Section: City -->
                           <div class="border border-1" data-filter="city">
                             <h5 class="font-weight-bold text-white">City</h5>
-                            <div class="p-3">
-                              <div class="form-check mb-3">
-                                <input class="form-check-input mycksty" type="checkbox" value="34" id="price-checkbox">
-                                <label class="form-check-label text-muted" for="price-checkbox">
-                                  Singapore
-                                </label>
-                              </div>
-                              <div class="form-check mb-3">
-                                <input class="form-check-input mycksty" type="checkbox" value="36" id="price-checkbox2">
-                                <label class="form-check-label text-muted" for="price-checkbox2">
-                                  Thailand
-                                </label>
-                              </div>
-                              <div class="form-check mb-3">
-                                <input class="form-check-input mycksty" type="checkbox" value="38" id="price-checkbox3">
-                                <label class="form-check-label text-muted" for="price-checkbox3">
-                                  Hong Kong
-                                </label>
-                              </div>
+                            <div class="p-3" id="cities">
+                              @if(!empty($citiesPage))
+                                @foreach($citiesPage as $city)
+                                      <div class="form-check mb-3">
+                                          <input class="form-check-input mycksty city-checkbox" name="city_check[]" type="checkbox" value="{{ $city }}" id="city-checkbox{{ $loop->index }}">
+                                          <label class="form-check-label text-muted" for="city-checkbox{{ $loop->index }}">
+                                              {{ $city }}
+                                          </label>
+                                      </div>
+                                @endforeach
+                              @endif
+                             
                             </div>
                         </div>
+                        
                       <!-- Section: City -->
 
                       <!-- Section: Category -->
-                          <div class="border border-1" data-filter="city">
+                          <!-- <div class="border border-1" data-filter="city">
                             <h5 class="font-weight-bold text-white">Category</h5>
                             <div class="p-3">
                               <div class="form-check mb-3">
@@ -178,7 +172,7 @@
                                 </label>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                       <!-- Section: Category -->
             </div>
           </div>
@@ -187,15 +181,27 @@
             <div class="col-lg-9">
 
               <div class="row">
+                @php
+                  $cities = [];
+                @endphp 
                 @if(count($attractions)>0)
                 @foreach($attractions as $attraction)
-                  <?php $fields = json_decode($attraction->fields); ?>
+                      @php
+                          $fields = json_decode($attraction->fields);
+                          if (isset($fields->city)) {
+                              $cities[] = $fields->city;
+                          }
+                      @endphp
                   <div class="col-lg-4 col-12">
                     <div class="bg-white attr">
                       <a href="{{ route(session('prefix', 'agent') . '.view_single_attraction' ,['id'=>$attraction->id]) }}">
                         <div class="card">
+                          @if($attraction->attraction_id)
+                          <img class="card-img-top" src="{{ env('API_IMAGE_URL') }}{{ $attraction->image }}" alt="Card image cap">                          
+                          @else
                           <img class="card-img-top" src="{{ asset('assets/img/') }}/{{ $attraction->image }}" alt="Card image cap">
-                              <div class="card-body">
+                          @endif
+                            <div class="card-body">
                                 <div class="row">
                                   <div class="col-lg-10">
                                     <h5 class="search-title-card">{{ $attraction->name }}</h5>
@@ -203,251 +209,56 @@
                                   <div class="col-lg-2">
                                     <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
                                   </div>
+                                    <p class="card-text text-dark">{{ $fields->address }} {{ $fields->city }}</p>
+                                    <p class="card-text text-dark">
+                                        <i class="bi bi-calendar3 aticon1"></i> 
+                                        Open Date {{-- \Carbon\Carbon::createFromFormat('d/m/Y', $fields->opening_date)->format('Y-m-d') --}}  
+                                        <i class="bi bi-lightning-fill aticon2"></i>
+                                        Instant
+                                    </p>
                                 </div>
-                                  <p class="card-text text-dark">{{ $fields->address }} {{ $fields->city }}</p>
-                                  <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date {{ \Carbon\Carbon::createFromFormat('d/m/Y', $fields->opening_date)->format('Y-m-d') }}  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
-
-                              </div>
-                        </div>  
-                      </a>
+                          </div>  
+                        </a>
+                      </div>
                     </div>
                   </div>
-                @endforeach
-                @else
-                <div class='text-center text-muted my-5'>
-                  <span>No Attractions Found</span>
-                </div>
-                @endif
-                {{--$attractions->links() --}}
+                  @endforeach
+
+                  <!-- Pagination -->
                   <ul class="pagination d-flex justify-content-center">
                       @if ($attractions->onFirstPage())
                           <li class="page-item disabled"><span class="page-link">«</span></li>
                       @else
-                          <li class="page-item"><a class="page-link" href="{{ $attractions->previousPageUrl() }}" rel="prev">«</a></li>
+                          <li class="page-item"><a class="page-link" href="{{ $attractions->previousPageUrl() }}{{ '&' . http_build_query(request()->except('page')) }}" rel="prev">«</a></li>
                       @endif
 
                       @foreach ($attractions->getUrlRange(1, $attractions->lastPage()) as $page => $url)
-                          <li class="page-item {{ $page == $attractions->currentPage() ? 'active' : '' }}"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                          <li class="page-item {{ $page == $attractions->currentPage() ? 'active' : '' }}">
+                              <a class="page-link" href="{{ $url }}{{ '&' . http_build_query(request()->except('page')) }}">{{ $page }}</a>
+                          </li>
                       @endforeach
 
                       @if ($attractions->hasMorePages())
-                          <li class="page-item"><a class="page-link" href="{{ $attractions->nextPageUrl() }}" rel="next">»</a></li>
+                          <li class="page-item"><a class="page-link" href="{{ $attractions->nextPageUrl() }}{{ '&' . http_build_query(request()->except('page')) }}" rel="next">»</a></li>
                       @else
                           <li class="page-item disabled"><span class="page-link">»</span></li>
                       @endif
                   </ul>
 
-                  <!-- <div class="col-lg-4 col-12">
-                    <div class="bg-white attr">
-                      <a href="singleatt.php">
-                      <div class="card">
-                        <img class="card-img-top" src="{{ asset('assets/img/att1.jpg') }}" alt="Card image cap">
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-lg-10">
-                                  <h5 class="search-title-card">Attraction</h5>
-                                </div>
-                                <div class="col-lg-2">
-                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
-                                </div>
-                              </div>
-                                <p class="card-text text-dark">Dargling, North East, India</p>
-                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
 
-                             </div>
-                      </div>
-                    </a>
-                    </div>
+                @else
+                <div _ngcontent-xtk-c5="" class="mt-5 mb-5 padding-container text-center">
+                  <img _ngcontent-xtk-c5="" alt="" src="{{ url('assets/images/no-result.png') }}">
+                  <div _ngcontent-xtk-c5="" class="py-4 ">
+                    <h4 _ngcontent-xtk-c5="" class="font-weight-bold text-center mb-2">Sorry! No results found :(</h4>
+                    <span _ngcontent-xtk-c5="">Please try to search for something else.</span>
                   </div>
+                  <!-- <div _ngcontent-xtk-c5="" class="load-more-button d-inline font-14">Back to Home</div> -->
+                </div>
+                @endif
 
-                  <div class="col-lg-4 col-12">
-
-                    <div class="bg-white attr">
-                      <a href="singleatt.php">
-                      <div class="card">
-                        <img class="card-img-top" src="{{ asset('assets/img/att5.jpg') }}" alt="Card image cap">
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-lg-10">
-                                  <h5 class="search-title-card">Attraction</h5>
-                                </div>
-                                <div class="col-lg-2">
-                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
-                                </div>
-                              </div>
-                                <p class="card-text text-dark">Dargling, North East, India</p>
-                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
-                             </div>
-                      </div>
-                      </a>
-                    </div>
-                  </div> -->
-
-              </div>
-
-              <!-- <div class="row">
-
-                <div class="col-lg-4 col-12">
-
-                    <div class="bg-white attr">
-                        <a href="singleatt.php">
-                      <div class="card">
-                        <img class="card-img-top" src="{{ asset('assets/img/tourist-places-in-shillong.jpg') }}" alt="Card image cap">
-
-
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-lg-10">
-                                  <h5 class="search-title-card">Attraction</h5>
-                                </div>
-                                <div class="col-lg-2">
-                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
-                                </div>
-                              </div>
-                                <p class="card-text text-dark">Dargling, North East, India</p>
-                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
-
-                             </div>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-4 col-12">
-
-                    <div class="bg-white attr">
-                      <a href="singleatt.php">
-                      <div class="card">
-                        <img class="card-img-top" src="{{ asset('assets/img/att6.jpg') }}" alt="Card image cap">
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-lg-10">
-                                  <h5 class="search-title-card">Attraction</h5>
-                                </div>
-                                <div class="col-lg-2">
-                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
-                                </div>
-                              </div>
-                                <p class="card-text text-dark">Dargling, North East, India</p>
-                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
-
-                             </div>
-                      </div>
-                    </a>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-4 col-12">
-
-                    <div class="bg-white attr">
-                        <a href="singleatt.php">
-                      <div class="card">
-                        <img class="card-img-top" src="{{ asset('assets/img/att2.jpg') }}" alt="Card image cap">
-
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-lg-10">
-                                  <h5 class="search-title-card">Attraction</h5>
-                                </div>
-                                <div class="col-lg-2">
-                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
-                                </div>
-                              </div>
-                                <p class="card-text text-dark">Dargling, North East, India</p>
-                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
-                             </div>
-                             </a>
-                      </div>
-                    </div>
-                  </div>
-
-              </div>
-              <div class="row">
-
-                <div class="col-lg-4 col-12">
-                    <a href="singleatt.php">
-                    <div id="attr02" class="bg-white attr ">
-
-                      <div class="card">
-                        <img class="card-img-top" src="{{ asset('assets/img/att3.jpg') }}" alt="Card image cap">
-
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-lg-10">
-                                  <h5 class="search-title-card">Attraction</h5>
-                                </div>
-                                <div class="col-lg-2">
-                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
-                                </div>
-                              </div>
-                                <p class="card-text text-dark">Dargling, North East, India</p>
-                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
-                             </div>
-                             </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-4 col-12">
-
-                    <div class="bg-white attr">
-                      <a href="singleatt.php">
-                      <div class="card">
-                        <img class="card-img-top" src="{{ asset('assets/img/att5.jpg') }}" alt="Card image cap">
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-lg-10">
-                                  <h5 class="search-title-card">Attraction</h5>
-                                </div>
-                                <div class="col-lg-2">
-                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
-                                </div>
-                              </div>
-                                <p class="card-text text-dark">Dargling, North East, India</p>
-                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
-                             </div>
-                      </div>
-                      </a>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-4 col-12">
-
-                    <div id="attr02" class="bg-white attr">
-                        <a href="singleatt.php">
-                      <div class="card">
-                        <img class="card-img-top" src="{{ asset('assets/img/att4.jpg') }}" alt="Card image cap">
-
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-lg-10">
-                                  <h5 class="search-title-card">Attraction</h5>
-                                </div>
-                                <div class="col-lg-2">
-                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
-                                </div>
-                              </div>
-                                <p class="card-text text-dark">Dargling, North East, India</p>
-                                <p class="card-text text-dark"><i class="bi bi-calendar3 aticon1" ></i> Open Date  <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
-                             </div>
-                             </a>
-                      </div>
-                    </div>
-                  </div>
-
-                    <ul class="pagination d-flex justify-content-center">
-                        <li class="page-item"><a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">«</span>
-                          </a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">»</span>
-                          </a></li>
-                      </ul>
-
-              </div> -->
+                  
+              <!-- </div>               -->
             </div>
 
 
