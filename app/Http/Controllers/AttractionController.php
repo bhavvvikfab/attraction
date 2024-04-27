@@ -36,11 +36,29 @@ class AttractionController extends Controller
         if ($request->has('keyword')) {
             $query->where('name', 'like', '%' . $request->input('keyword') . '%');
         }
+        $attractionsForCity = $query->get();
+        $citiesPage = [];
+        foreach ($attractionsForCity as $key => $value) {
+            $fields = json_decode($value->fields);
+            if (isset($fields->city)) {
+                $citiesPage[] = $fields->city;
+            }
+        }
+
+        if ($request->has('city')) {
+            $cities = explode(',', $request->input('city'));
+            $query->where(function($query) use ($cities) {
+                foreach ($cities as $city) {
+                    $query->orWhere('fields', 'like', '%' . $city . '%');
+                }
+            });
+        }
+        
 
         $attractions = $query->paginate(9);
         $keyword = $request->input('keyword');
 
-        return view('attraction.Viewallattraction', compact('attractions','countryCode','keyword'));
+        return view('attraction.Viewallattraction', compact('attractions','countryCode','keyword','citiesPage'));
     }
 
 
