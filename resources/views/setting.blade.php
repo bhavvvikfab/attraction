@@ -1,5 +1,15 @@
 @include('layouts.header');
 @include('layouts.sidebar');
+<style>
+  .loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+</style>
 
 <main id="main" class="main">
   <div class="pagetitle">
@@ -18,11 +28,6 @@
 
   <section class="section profile">
     <div class="row">
-      
-
-      
-                  
-
       <div class="col-xl-9">
                   @if(session('success'))
                   <div id="successAlert" class="alert alert-success">{{ session('success') }}</div>
@@ -38,16 +43,16 @@
             <ul class="nav nav-tabs nav-tabs-bordered">
 
               <li class="nav-item">
-                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#setting1">API</button>
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#setting1">API Credentials</button>
               </li>
 
               <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#price_markup">Price Markup</button>
               </li>
 
-              <!-- <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
-              </li> -->
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#letest-attrctions">Attraction</button>
+              </li>
 
               <!-- <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Setting 3</button>
@@ -166,58 +171,74 @@
 
               </div>
 
-            <div class="tab-pane fade pt-3" id="profile-change-password">
-                <!-- Change Password Form -->
-                <form id="change_password_form" method="post">
-                  @csrf
-                 
-
-                  <div class="row mb-3">
-                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="currentPassword" type="password" class="form-control" id="currentPassword">
-                      <p class="curr_pass_error"></p>
-                      @error('currentPassword')
-                      <div class="text-danger">{{ $message }}</div>
-                      @enderror
+              <div class="tab-pane fade pt-3" id="letest-attrctions"> 
+                <div class="loader" style="display: none;">Loading...</div>
+                    <div class="text-center mt-2 py-3"> 
+                      <h5 class="mb-4">Get And Store Attraction</h5>
+                      <button type="button" class="btn btn-primary" id="btn_AddUpdate_Attraction">Get And Store Attraction</button>
                     </div>
-                    
-                  </div>
-
-                  <div class="row mb-3">
-                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="newpassword" type="password" class="form-control" id="newPassword">
-                      <p class="new_pass_error"></p>
-                      @error('newpassword')
-                      <div class="text-danger">{{ $message }}</div>
-                      @enderror
+                    <div class="loader-wrapper d-none justify-content-center align-items-center" style="display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(255, 255, 255, 0.7);">
+                      <div class="mb-4 spinner-border text-primary" role="status">
+                      </div>
+                      <div class="fs-4 fw-bolder mt-5 position-absolute sr-only" style="">
+                        Loading...
+                      </div>
                     </div>
-                    
-                  </div>
+              </div>
 
-                  <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirm Password</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="confirmPassword" type="password" class="form-control" id="confirmPassword">
-                      <p class="confirm_pass_error"></p>
-                      @error('confirmPassword')
-                      <div class="text-danger">{{ $message }}</div>
-                      @enderror
+              <div class="tab-pane fade pt-3" id="profile-change-password">
+                  <!-- Change Password Form -->
+                  <form id="change_password_form" method="post">
+                    @csrf
+                  
+
+                    <div class="row mb-3">
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="currentPassword" type="password" class="form-control" id="currentPassword">
+                        <p class="curr_pass_error"></p>
+                        @error('currentPassword')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                      </div>
+                      
                     </div>
-                    
-                  </div>
-                  <div id="msg"></div>
 
-                  <div class="text-center">
-                    <button type="button" class="btn btn-primary" id="btn_chng_pass">Change Password</button>
-                  </div>
-                </form><!-- End Change Password Form -->
+                    <div class="row mb-3">
+                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        <p class="new_pass_error"></p>
+                        @error('newpassword')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                      </div>
+                      
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirm Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="confirmPassword" type="password" class="form-control" id="confirmPassword">
+                        <p class="confirm_pass_error"></p>
+                        @error('confirmPassword')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                      </div>
+                      
+                    </div>
+                    <div id="msg"></div>
+
+                    <div class="text-center">
+                      <button type="button" class="btn btn-primary" id="btn_chng_pass">Change Password</button>
+                    </div>
+                  </form><!-- End Change Password Form -->
+
+                </div>
 
               </div>
 
-            </div><!-- End Bordered Tabs -->
-
+              
           </div>
         </div>
 
@@ -228,3 +249,35 @@
 </main><!-- End #main -->
 
 @include('layouts.footer');
+
+<script>
+  // In your JavaScript file or script tag
+$(document).ready(function() {
+    $('#btn_AddUpdate_Attraction').click(function() {
+          // Show loader
+          $('.loader-wrapper').removeClass('d-none');
+          $('.loader-wrapper').addClass('d-flex');
+          
+          $.ajax({
+              url: "{{ url('api/getStoreAttractionApi') }}",
+              type: "GET",
+              data: {},
+              success: function(response) {
+                $('.loader-wrapper').removeClass('d-flex');
+                $('.loader-wrapper').addClass('d-none');
+                  
+                // Show success message or handle response
+                alert(response.message);
+              },
+              error: function(xhr, status, error) {
+                $('.loader-wrapper').removeClass('d-flex');
+                  $('.loader-wrapper').addClass('d-none');
+                  
+                  // Show error message
+                  alert('Error: ' + error);
+              }
+          });
+      });
+  });
+
+</script>
