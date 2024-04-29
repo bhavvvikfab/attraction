@@ -3,11 +3,51 @@
 
 namespace App\Helpers;
 
+use App\Models\Api_credential;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
 class HelperClass
 {
+    protected $api_credential;
+    protected $apiKey;
+
+    public function __construct()
+    {
+        $this->api_credential = new Api_credential();
+        $credential = $this->api_credential->first();
+
+        if ($credential) {
+            $this->apiKey = $credential->api_login_auth_key;
+        } else {
+            $this->apiKey = null;
+        }
+    }
+
+
     public static function greet($name)
     {
         return "Hello, $name!";
+    }
+
+    public function getToken() {
+        $credential = new Api_credential();
+        $credential = $credential->first();
+
+        if ($credential) {
+            $requestData = new Request;
+            $requestData->email = $credential->email;
+            $requestData->password = $credential->password;
+            $response = $this->globaltixlogin($requestData);
+            $result = json_decode($response);
+            $responseData = $result->data;
+            $token = $responseData->access_token;
+            $credential->api_login_auth_key = $token;
+            $credential->save();
+            return $credential->api_login_auth_key;
+        }
+
+        return null;
     }
 
     public function callExternalApi($endpoint, $method = 'POST', $data = [], $token = null) 
@@ -95,6 +135,18 @@ class HelperClass
         $response = $this->callExternalApi($url, 'GET', array(), $token);
 
         return json_decode($response);
+    }
+
+    function getCreditByReseller(){        
+        $url = 'credit/getCreditByReseller';
+        if($this->apiKey){
+            $response = $this->callExternalApi($url, 'GET', array(), $this->apiKey);
+            if(empty($response)){
+                $token = $this->getToken();
+                $response = $this->callExternalApi($url, 'GET', array(), $token);
+            }
+        }
+        return json_decode($response)->data;
     }
 
 }

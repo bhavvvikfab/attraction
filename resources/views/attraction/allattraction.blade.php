@@ -24,10 +24,9 @@
             
              <div class="card-header">
                <div class="row">
-                  <div class="col-lg-8">
+                  <div class="col-lg-7">
                       <h5 class="card-title text-start">Attraction</h5>
                   </div>
-                  
                 </div>
              </div>
 
@@ -54,20 +53,16 @@
                   </div>
                 </div> -->
                 
-              <table class="table table-borderless attraction-table" id="attractiontable">
-             
+              <table class="table table-borderless attraction-table" id="attractiontable">             
                 <thead>
                   <tr>
                     <th> Sr. No. </th>
-                    <th>
-                      Attraction Image
-                    </th>
+                    <th>Attraction Image</th>
                     <th>Atrraction Name</th>
                     <!-- <th data-type="date" data-format="DD/MM/YYYY">Opening Date</th> -->
                     <th>Original price</th>
                     <th>Display Price</th>
-                    <!-- <th>Duration</th> -->
- 
+                    <!-- <th>Duration</th> --> 
                     <th>Country</th>
                     <th>Markup</th>
                     <th>Action</th>
@@ -75,17 +70,18 @@
                 </thead>
                 <tbody>
                   <?php $i= 1; ?>
-             @foreach($attraction_data as $single_att)
-             <?php $ff = json_decode($single_att->fields); 
-            //  print_r($single_att->fields); die;
-             ?>
-
+                  @foreach($attraction_data as $single_att)
+                  <?php $ff = json_decode($single_att->fields); ?>
                   <tr>
-                    <td>{{$i++}}</td>
-                    
+                    <td>{{$i++}}</td>                    
                     <td>
                       <div class="attr-thumbnail">
-                      <img src="{{ asset('assets/img/' . (!empty($single_att->image) ? $single_att->image : 'default.jpg')) }}" height="100" width="100">
+                        @if($single_att->attraction_id)
+                          <img  height="100" width="100" src="{{ env('API_IMAGE_URL') }}{{ $single_att->image }}" alt="Card image cap">                          
+                          @else
+                          <img  height="100" width="100" src="{{ asset('assets/img/') }}/{{ $single_att->image }}" alt="Card image cap">
+                          @endif
+                        <!-- <img src="{{ asset('assets/img/' . (!empty($single_att->image) ? $single_att->image : 'default.jpg')) }}" height="100" width="100"> -->
                       </div>
                     </td>
                     <td>{{$single_att->name}}</td>
@@ -95,33 +91,27 @@
                     <!-- <td>{{$ff->duration}}</td> -->
                     <td>{{$single_att->country}}</td>
                     <td>
-                    <div class="input-group deposit d-grid">
-                         <input type="hidden" name="attraction_id" class="attraction_id" value="{{ $single_att->id}}">                      
-                        
-                        <select class="form-select attraction_mark_up_type w-100" id="attraction_mark_up_type"> 
-                            <option value="1" <?php if($single_att->markup_type==1){echo 'selected';} ?>>Amount</option>
-                            <option value="2" <?php if($single_att->markup_type==2){echo 'selected';} ?>>Percentage</option>
-                        </select>
-                        <input type="number" class="form-control attraction_mark_up w-100 mt-2" name="attraction_mark_up" id="attraction_mark_up" value="{{$single_att->markup_value}}" aria-describedby="inputGroupPrepend9">
-                        <p class="mark_up_error"></p>
-                    </div>
-
-
+                      <div class="input-group deposit d-grid">
+                          <input type="hidden" name="attraction_id" class="attraction_id" value="{{ $single_att->id}}">                      
+                          
+                          <select class="form-select attraction_mark_up_type w-100" id="attraction_mark_up_type"> 
+                              <option value="1" <?php if($single_att->markup_type==1){echo 'selected';} ?>>Amount</option>
+                              <option value="2" <?php if($single_att->markup_type==2){echo 'selected';} ?>>Percentage</option>
+                          </select>
+                          <input type="number" class="form-control attraction_mark_up w-100 mt-2" name="attraction_mark_up" id="attraction_mark_up" value="{{$single_att->markup_value}}" aria-describedby="inputGroupPrepend9">
+                          <p class="mark_up_error"></p>
+                      </div>
                     </td>
                     <td>
                       <div class="d-flex justify-content-around align-items-center">
                         <div class="viewattr p-1">
-                        <a href="{{ route(session('prefix', 'agent') . '.view_single_attraction' ,['id'=>$single_att->id]) }}">
+                          <a href="{{ route(session('prefix', 'agent') . '.view_single_attraction' ,['id'=>$single_att->id]) }}">
                             <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
                           </a>
                         </div>
                     </td>
                   </tr>
-
-                 @endforeach
-                  
-                 
-                  
+                  @endforeach
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->
