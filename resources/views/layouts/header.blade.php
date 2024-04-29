@@ -57,7 +57,6 @@
 <body>
 
 
-
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
@@ -89,7 +88,13 @@
           <div class="align-items-center border border-primary d-flex px-2 py-1 rounded-3">
               <i class="bi bi-wallet2 text-head me-2"></i>
               <span class="me-1">$</span>
-              <span class="fw-bold">{{ Auth::user()->credit_balance }}</span>
+              <span class="fw-bold">
+                @php
+                  $helper = new \App\Helpers\HelperClass;
+                  $creditData = $helper->getCreditByReseller();
+                @endphp
+                {{ number_format($creditData->balance ?? Auth::user()->credit_balance, 2) }}
+              </span>
           </div>
         </li>
 
