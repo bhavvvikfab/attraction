@@ -64,5 +64,9 @@ class Attraction extends Model
 
     }
 
+    public function attraction_ticket(){
+        return $this->hasOne(AttractionTicket::class,'attraction_id','id');
+    }
+
     
 }
