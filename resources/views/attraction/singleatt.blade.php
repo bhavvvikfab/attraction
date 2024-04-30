@@ -37,15 +37,21 @@
           <div class="product-detail-header container-fluid bg-white py-4 px-0">
           <div class="row w-100">
             <div class="product-image-container col-md-4 d-flex flex-column">
+              @if($attraction_single->attraction_id)
+              <div class="image-wrapper signlesttrimg mb-3" style="background:url('{{ env('API_IMAGE_URL') }}{{ $attraction_single->image }}') center/cover;">
+              </div>
+              @else
               <div class="image-wrapper signlesttrimg mb-3" style="background:url('{{ asset('assets/img/' . (!empty($attraction_single->image) ? $attraction_single->image : 'default.jpg')) }}') center/cover;">
               </div>
+              @endif
+             
               <div class="image-controls-wrapper d-flex justify-content-around align-items-center">
                 <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4 flex-lg-row flex-sm-column">
                   <span class="card-icons pr-1">
                     <i class="bi bi-camera-fill"></i>
                   </span>
                   <span class="card-icon-label">
-                    More Images
+                    More Images 
                   </span>
                 </div>
                 <a href="">
@@ -67,7 +73,7 @@
                     <div class="col-md-9">
                       <div class="attraction-note d-flex align-items-center mb-2 font-style-primary detail-standard text-detail">
                         <h6 class="mb-0">Attraction</h6>
-                        <span class="label-tag ms-2">2368</span>
+                        <span class="label-tag ms-2">{{isset($attraction_single->attraction_id) ? $attraction_single->attraction_id : 'NA';}}</span>
                       </div>
                       <h3 class="attraction-title">{{$attraction_single->name}}</h3>
                     </div>
@@ -84,13 +90,20 @@
                   <div class="row">
                     <div class="highlights font-style-primary col-12">
                       <div class="highlights-wrapper px-md-0 px-3 h-100">
-                        <h4 class="highlights-title">Details</h4>
+                        <h4 class="highlights-title">Highlights</h4>
                         <div class="highlights-text detail-standard ">
                           <div class="col-12">
-                            <ul class="details_point">
+                            <ul class="details_point"> 
+                              @if(isset($field_data->highlights) && !empty(json_decode($field_data->highlights)))
+                              @foreach(json_decode($field_data->highlights) as $single_highlight)
+                              <li>{{$single_highlight}}</li>
+                              @endforeach
+                              @else
+                              <li>Highlights are not available as of the moment. Please try again later.</li>
+                              @endif
+                              <!-- <li>all the generators on the Internet tend to repeat predefined chunks as necessary,</li>
                               <li>all the generators on the Internet tend to repeat predefined chunks as necessary,</li>
-                              <li>all the generators on the Internet tend to repeat predefined chunks as necessary,</li>
-                              <li>all the generators on the Internet tend to repeat predefined chunks as necessary,</li>
+                              <li>all the generators on the Internet tend to repeat predefined chunks as necessary,</li> -->
                             </ul>
                           </div>
                         </div>
@@ -136,9 +149,9 @@
               <li class="nav-item" role="presentation">
                 <button class="nav-link active bg-white" id="pills-ticket-tab" data-bs-toggle="pill" data-bs-target="#pills-ticket" type="button" role="tab" aria-controls="pills-ticket" aria-selected="true">Ticket</button>
               </li>
-              <li class="nav-item" role="presentation">
+              <!-- <li class="nav-item" role="presentation">
                 <button class="nav-link bg-white" id="pills-package-tab" data-bs-toggle="pill" data-bs-target="#pills-package" type="button" role="tab" aria-controls="pills-package" aria-selected="false">Packages/Tansportation</button>
-              </li>
+              </li> -->
               <li class="nav-item" role="presentation">
                 <button class="nav-link bg-white" id="pills-relatt-tab" data-bs-toggle="pill" data-bs-target="#pills-relatt" type="button" role="tab" aria-controls="pills-relatt" aria-selected="false">Related Attraction</button>
               </li>
@@ -179,6 +192,9 @@
     <div class="pb-1">
 
      <div>
+      
+      @if(!empty($all_data['attraction_option']['data']))
+      @foreach($all_data['attraction_option']['data'] as $single_data)
           <div class="mb-4 myticket">
             <div class="selectticket-card card text-dark mb-2">
               <div class="selectticket-infor col-md-12 px-2 py-1">
@@ -187,7 +203,8 @@
                     <div class="row w-100">
                       <div class="col-sm col">
                         <h5 class="ticket-card-header">
-                          Ticket testing replicate
+                          <!-- Ticket testing replicate -->
+                          {{$single_data['name'];}}
                         </h5>
                       </div>
                     </div>
@@ -195,7 +212,7 @@
                   <div class="col-lg-3 col-md-3 mb-md-2 mb-sm-0 pt-2 pl-0 pr-2 mx-md-0 favorite-id-container d-flex align-items-center justify-content-around">
                     <div class="option-id-wrapper mr-3">
                       <span class="ticket-card-header">
-                        Product Option ID : 7775
+                        Product Option ID : {{$single_data['id'];}}
                       </span>
                     </div>
                     <div class="favorite-wrapper">
@@ -233,12 +250,13 @@
                       </tr>
                     </thead>
                     <tbody >
+                      @foreach($single_data['ticketType'] as $single_ticket)
                       <tr>
 
                         <td width="15%">
                           <div class="name-info-wrapper">
                             <h5 class="variation-title font-style-primary">
-                              <span class="font-weight-bold">Adult</span>
+                              <span class="font-weight-bold">{{ $single_ticket['name'] ? $single_ticket['name'] : 'NA' }}</span>
                             </h5>
 
                           </div>
@@ -246,14 +264,14 @@
                         <td>
                           <div class="variation-price d-inline">
                             <span>
-                              11566
+                            {{ $single_ticket['id'] ? $single_ticket['id'] : 'NA' }}
                             </span>
                           </div>
                         </td>
                         <td>
                           <div class="variation-price d-inline">
                             <span>
-                              01E7K0100603A
+                            {{ $single_ticket['sku'] ? $single_ticket['sku'] : 'NA' }}
                             </span>
                           </div>
                         </td>
@@ -277,7 +295,7 @@
                           <div>
                             <h5 class="variation-title font-style-primary p-0">
                               <span class="font-weight-bold">
-                                SGD {{$attraction_single->display_final}}
+                                SGD {{ $single_ticket['agent_price'] ? $single_ticket['agent_price'] : 'NA' }}
                               </span>
                             </h5>
                           </div>
@@ -292,6 +310,7 @@
                       </td>
 
                       </tr>
+                      @endforeach
 
                     </tbody>
                   </table>
@@ -306,7 +325,7 @@
 
 
               <div class="selectticket-btn font-weight-bold collapse-button row m-0 font-style-primary">
-                <div aria-expanded="false" class="col-sm-3 col pr-1 d-flex align-items-center collapsed ticket-toggle" data-toggle="collapse" data-target="#collapseInfor-7775" aria-controls="#collapseInfor-7775">
+                <div aria-expanded="false" class="col-sm-3 col pr-1 d-flex align-items-center collapsed ticket-toggle" data-toggle="collapse" data-target="#collapseInfor-{{$single_data['id'];}}" aria-controls="#collapseInfor-{{$single_data['id'];}}">
                 <i   class="bi bi-chevron-down hide-icon"></i>
                   <i   class="bi bi-chevron-up show-icon" style="display:none;"></i> &nbsp;
                   <p   class="show-text">Show Ticket Information</p>
@@ -356,11 +375,11 @@
               </div>
 
 
-              <div class="selectticket-detail pb-4  collapse bg-white font-style-primary px-4" id="collapseInfor-7775">
+              <div class="selectticket-detail pb-4  collapse bg-white font-style-primary px-4" id="collapseInfor-{{$single_data['id'];}}">
                 <div class="row">
                   <div class="col-12">
                     <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Description / Important Notes</h5>
-                    <div class="mb-4 ml-3"><p>abc</p></div>
+                    <div class="mb-4 ml-3"><p>{{$single_data['description'];}}</p></div>
                     <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Validity</h5>
                     <p class="ml-3">Valid from 12 Sept 2022 to 31 Mar 2023</p>
                     <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Cancellation Policy</h5>
@@ -369,7 +388,7 @@
                               <strong>Non-refundable and No Cancellation</strong></li>
                           </ul>
                         <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Terms &amp; Conditions</h5>
-                        <div class="mb-4 ml-3"><p>def</p></div>
+                        <div class="mb-4 ml-3"><p>{{$single_data['termsAndConditions'];}}</p></div>
 
                   </div>
                 </div>
@@ -377,8 +396,12 @@
 
             </div>
            </div>
+           @endforeach
+           @else
+           <div class=""><h3>No Ticket Available</h3></div>
+           @endif
         <!---->
-          <div class="mb-4 myticket">
+          <!-- <div class="mb-4 myticket">
             <div class="selectticket-card card text-dark mb-2">
               <div class="selectticket-infor col-md-12 px-2 py-1">
                 <div class="row align-items-center h-100 p-2">
@@ -532,7 +555,8 @@
                         <span class="card-icon-label">
                           Instant
                         </span>
-                      </div><!---->
+                      </div>
+                      
                       <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4">
                         <span class="calendar card-icons pr-1">
                           <i class="bi bi-calendar3"></i>
@@ -579,9 +603,9 @@
               </div>
 
             </div>
-           </div>
+           </div> -->
         <!---->
-          <div class="mb-4 myticket">
+          <!-- <div class="mb-4 myticket">
             <div class="selectticket-card card text-dark mb-2">
               <div class="selectticket-infor col-md-12 px-2 py-1">
                 <div class="row align-items-center h-100 p-2">
@@ -731,7 +755,8 @@
                         <span class="card-icon-label">
                           Instant
                         </span>
-                      </div><!---->
+                      </div>
+                      
                       <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4">
                         <span class="calendar card-icons pr-1">
                           <i class="bi bi-calendar3"></i>
@@ -778,7 +803,7 @@
               </div>
 
             </div>
-           </div>
+           </div> -->
 
     </div>
   </div>
@@ -1506,9 +1531,16 @@
 <div class="col-lg-4">
 
 <div class="bg-white attr grow px-2">
-  <a href="singleattraction.php">
+  <a href="{{ route(session('prefix', 'agent') . '.view_single_attraction' ,['id'=>$single->id]) }}">
   <div class="card">
-    <img class="card-img-top" src="{{ asset('assets/img/' . (!empty($single->image) ? $single->image : 'default.jpg')) }}" alt="Card image cap">
+  @if($single->attraction_id)
+              
+              <img class="card-img-top" src="{{ env('API_IMAGE_URL') }}{{ $single->image }}" alt="Card image cap">
+              @else
+              
+              <img class="card-img-top" src="{{ asset('assets/img/' . (!empty($single->image) ? $single->image : 'default.jpg')) }}" alt="Card image cap">
+              @endif
+    
         <div class="card-body">
                               <div class="row">
                                 <div class="col-lg-10">
