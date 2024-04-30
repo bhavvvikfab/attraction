@@ -85,7 +85,7 @@ class AttractionController extends Controller
         $top_three_attractions = Attraction::latest()->take(3)->get();
 
         if(session('prefix')=='admin'){
-           return view('attraction.viewattraction',compact('attraction_single'));
+           return view('attraction.viewattraction',compact('attraction_single','all_data'));
         }else{
            return view('attraction.singleatt',compact('attraction_single','top_three_attractions','all_data'));
         }
