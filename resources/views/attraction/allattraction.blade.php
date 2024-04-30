@@ -60,8 +60,8 @@
                     <th>Attraction Image</th>
                     <th>Atrraction Name</th>
                     <!-- <th data-type="date" data-format="DD/MM/YYYY">Opening Date</th> -->
-                    <th>Original price</th>
-                    <th>Display Price</th>
+                    <!-- <th>Original price</th>
+                    <th>Display Price</th> -->
                     <!-- <th>Duration</th> --> 
                     <th>Country</th>
                     <th>Markup</th>
@@ -86,8 +86,8 @@
                     </td>
                     <td>{{$single_att->name}}</td>
                     <!-- <td>{{$ff->opening_date}}</td> -->
-                    <td>{{ $single_att->original_price}}</td>
-                    <td>{{$single_att->display_final}}</td>
+                    <!-- <td>{{ $single_att->original_price}}</td>
+                    <td>{{$single_att->display_final}}</td> -->
                     <!-- <td>{{$ff->duration}}</td> -->
                     <td>{{$single_att->country}}</td>
                     <td>
