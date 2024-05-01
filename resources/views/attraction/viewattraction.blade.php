@@ -48,7 +48,7 @@
                                         </label> <!-- <img src="assets/img/tourist-places-in-shillong.jpg"> -->
                                         <div class="attraction-thumbnail">
                                             @isset($all_data['attraction_single'])
-                                                <?php
+                                                <?php   
                                                 $attraction_single = $all_data['attraction_single'];
                                                 if ($attraction_single['image']) {
                                                     $attraction_image = $attraction_single['image'];
@@ -134,8 +134,8 @@
 
                                             <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i
                                                     class="bi bi-cart-check-fill" aria-hidden="true"></i>
-                                                {{-- <label class="form-label" for="inputNanme4"> <b class="m-1"> Bookings: </b> {{$field_data->booking}} --}}
-                                                </label>
+                                                {{-- <label class="form-label" for="inputNanme4"> <b class="m-1"> Bookings: </b> {{$field_data->booking}}
+                                                </label> --}}
                                             </div>
 
                                         </div>
