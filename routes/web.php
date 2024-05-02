@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StatementController;
 use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AgentController;
@@ -26,7 +27,9 @@ use Illuminate\Support\Facades\Auth;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function(){ return redirect('/agent'); });
+Route::get('/', function () {
+    return redirect('/agent');
+});
 
 // route's for ADMIN start
 Route::prefix('admin')->middleware([Auther::class])->group(function () {
@@ -40,8 +43,8 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::post('/change_password', [LoginController::class, 'change_password'])->name('admin.change_password');
     // Route::get('/setting', [LoginController::class, 'setting'])->name('admin.setting');
 
-     
-    Route::get('/', [LoginController::class,'deshborad_page'])->name('admin');
+
+    Route::get('/', [LoginController::class, 'deshborad_page'])->name('admin');
     Route::get('/all_attraction', [AttractionController::class, 'index'])->name('admin.all_attraction');
     Route::get('/view_attraction', [AttractionController::class, 'view_attraction'])->name('admin.view_attraction');
     Route::get('/add_attraction', [AttractionController::class, 'add_attraction'])->name('admin.add_attraction');
@@ -68,7 +71,7 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
 
 
     Route::get('/all_chat', [ChatController::class, 'index'])->name('admin.all_chat');
-    Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('admin.view_chat'); 
+    Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('admin.view_chat');
 
     Route::post('/update_credential', [Api_credentialController::class, 'index'])->name('admin.update_credential');
 
@@ -76,11 +79,23 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::get('/setting', [SettingController::class, 'setting'])->name('admin.setting');
     Route::post('/update_attraction_markup', [SettingController::class, 'update_attraction_markup'])->name('admin.update_attraction_markup');
 
+  //statement routes
+  Route::get('/statement', [StatementController::class, 'statement'])->name('admin.statement_view');
+  Route::post('/get_agent_statement', [StatementController::class, 'get_agent_statement'])->name('admin.get_agent_statement');
+  Route::get('/pdf_generate', [StatementController::class, 'generatePDF'])->name('admin.generatePDF');
+  //statement routes end
 });
 // route's for ADMIN end
 
 // route's for AGENT start
 Route::prefix('agent')->middleware([Auther::class])->group(function () {
+
+    //statement routes
+    Route::get('/statement', [StatementController::class, 'statement'])->name('agent.statement_view');
+    Route::post('/get_single_agent_statement', [StatementController::class, 'get_agent_statement'])->name('agent.get_agent_statement');
+    Route::get('/pdf_generate', [StatementController::class, 'generatePDF'])->name('agent.generatePDF');
+    //statement routes end
+
     Route::get('/logout', [LoginController::class, 'logout'])->name('agent.logout');
     Route::post('/loginporcess', [LoginController::class, 'login'])->defaults('prefix', 'agent');
     Route::post('/register', [LoginController::class, 'register'])->name('agent.register');
@@ -95,7 +110,7 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
 
     //     return view('index');
     // })->name('agent');
-    Route::get('/', [LoginController::class,'deshborad_page'])->name('agent');
+    Route::get('/', [LoginController::class, 'deshborad_page'])->name('agent');
 
     Route::get('/all_attraction', [AttractionController::class, 'index'])->name('agent.all_attraction');
     Route::get('/view_attraction', [AttractionController::class, 'view_attraction'])->name('agent.view_attraction');
@@ -111,9 +126,9 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/add_agent', [AttractionController::class, 'view_attraction'])->name('agent.add_agent');
 
     Route::get('/admin_invoice', [AttractionController::class, 'view_attraction'])->name('agent.admin_invoice');
-    
+
     Route::get('/all_chat', [AttractionController::class, 'view_attraction'])->name('agent.all_chat');
-    
+
 
 });
 // route's for AGENT end
