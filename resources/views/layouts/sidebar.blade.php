@@ -106,6 +106,16 @@
 
       <!-- End Invoice Nav-->
 
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.statement_view') }}">
+            <i class="bi bi-card-checklist"></i>
+            <span>Statement</span>
+          </a>
+        </li>
+  
+        <!-- End statement Nav-->
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.all_chat') }}">
           <i class="bi bi-chat-dots"></i>

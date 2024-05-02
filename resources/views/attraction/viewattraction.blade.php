@@ -206,7 +206,7 @@
                                                                                     <div class="col-sm col">
                                                                                         <h5 class="ticket-card-header"
                                                                                            >
-                                                                                          {{$ticket['name']}}
+                                                                                          {{$ticket['name'] ?? ''}}
                                                                                         </h5>
                                                                                     </div>
                                                                                 </div>
@@ -216,7 +216,7 @@
                                                                                 <div class="option-id-wrapper mr-3">
                                                                                     <span class="ticket-card-header">
                                                                                         Ticket ID :
-                                                                                       {{ $ticket['id']}}
+                                                                                       {{ $ticket['id'] ?? ''}}
                                                                                     </span>
                                                                                 </div>
                                                                                 <div class="favorite-wrapper">
@@ -307,9 +307,7 @@
                                                                                         <div
                                                                                             class="variation-price d-inline">
                                                                                             <span>
-                                                                                                @isset($myticket['originalMerchantPrice'])
-                                                                                                {{$ticket['currency']}}: {{$myticket['originalMerchantPrice'] ?: '0'}}
-                                                                                                @endisset
+                                                                                                {{$ticket['currency'] ?? ''}}: {{$myticket['originalMerchantPrice'] ?? '0'}}
                                                                                             </span>
                                                                                         </div>
                                                                                     </td>
@@ -317,13 +315,7 @@
                                                                                         <div
                                                                                             class="variation-price d-inline">
                                                                                             <span>
-                                                                                                @isset($myticket['minimumSellingPrice']) 
-                                                                                               @if($myticket['minimumSellingPrice']== null || 0)
-                                                                                               {{$ticket['currency']}}: 0
-                                                                                               @else
-                                                                                               {{$ticket['currency']}}:  {{ $myticket['minimumSellingPrice']}}
-                                                                                                @endif
-                                                                                                @endisset
+                                                                                               {{$ticket['currency'] ?? ''}}:  {{ $myticket['minimumSellingPrice'] ?? 0}}
 
                                                                                             </span>
 
