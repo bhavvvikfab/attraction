@@ -132,15 +132,35 @@
         </a>
       </li>
       <?php if(session('prefix')=='admin'){?>
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route(session('prefix') . '.setting') }}">
           <i class="bi bi-gear"></i>
           <span>Settings</span>
         </a>
-      </li>
+      </li> --}}
       <?php }?>
 
       <!-- End Report Nav-->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#setting" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-gear"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="setting" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <?php if(session('prefix')=='admin'){?>
+          <li>
+            <a href="{{ route(session('prefix') . '.setting') }}">
+              <i class="bi bi-circle"></i><span>Settings</span>
+            </a>
+          </li>
+          <?php }?>
+          <li>
+            <a href="{{ route(session('prefix', 'agent') . '.manage_credit') }}">
+              <i class="bi bi-circle"></i><span>Manage Credit</span>
+            </a>
+          </li>
+        </ul>
+      </li>
 
       <!-- <li class="nav-item">
             <a class="nav-link collapsed" href="feedback.php">

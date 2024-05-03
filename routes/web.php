@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ManageCreditController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\LoginController;
@@ -85,6 +86,11 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
   Route::post('/get_agent_statement', [StatementController::class, 'get_agent_statement'])->name('admin.get_agent_statement');
   Route::get('/pdf_generate', [StatementController::class, 'generatePDF'])->name('admin.generatePDF');
   //statement routes end
+
+//manage credit route
+  Route::get('/manage_credit', [ManageCreditController::class, 'manage_credit'])->name('admin.manage_credit');
+  Route::post('/get_transaction', [ManageCreditController::class, 'get_transaction'])->name('admin.get_transaction');
+ //manage credit route end
 });
 // route's for ADMIN end
 
@@ -96,6 +102,11 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::post('/get_single_agent_statement', [StatementController::class, 'get_agent_statement'])->name('agent.get_agent_statement');
     Route::get('/pdf_generate', [StatementController::class, 'generatePDF'])->name('agent.generatePDF');
     //statement routes end
+
+    //manage credit route
+    Route::get('/manage_credit', [ManageCreditController::class, 'manage_credit'])->name('agent.manage_credit');
+    Route::post('/get_transaction', [ManageCreditController::class, 'get_transaction'])->name('agent.get_transaction');
+    //manage credit route end
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('agent.logout');
     Route::post('/loginporcess', [LoginController::class, 'login'])->defaults('prefix', 'agent');

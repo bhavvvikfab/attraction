@@ -68,6 +68,7 @@
                                         <tr>
                                             <th>S.no</th>
                                             <th>Date</th>
+                                            <th>Status</th>
                                             <th>Transaction_id</th>
                                             <th>Type</th>
                                             <th>Amount</th>
@@ -138,7 +139,7 @@
                     format: 'DD/MM/YYYY'
                 },
                 minDate: '01/01/2010',
-                maxDate: moment(),
+                // maxDate: moment(),
                 autoUpdateInput: false,
                 applyButtonClasses: 'btn-primary date_apply_btn',
                 cancelButtonClasses: 'btn btn-secondary',
@@ -153,7 +154,7 @@
                 var start_date = picker.startDate.format('YYYY-MM-DD');
                 var end_date = picker.endDate.format('YYYY-MM-DD');
                 callAjax(start_date, end_date)
-             
+
             });
 
             $('#data_range').on('cancel.daterangepicker', function(ev, picker) {
@@ -205,6 +206,11 @@
                                             <tr>
                                                 <td>${i++}</td>
                                                 <td>${date}</td>
+                                                <td>
+                                                    ${element.status === 'completed' ? '<span class="badge bg-success">Success</span>' : ''}
+                                                    ${element.status === 'rejected' ? '<span class="badge bg-danger">Failed</span>' : ''}
+                                                    ${element.status !== 'completed' && element.status !== 'rejected' ? '<span class="badge bg-secondary">${element.status}</span>' : ''}
+                                                </td>
                                                 <td>${element.transaction_id}</td>
                                                 <td>${element.type}</td>
                                                 <td>${element.amount}</td>
@@ -264,6 +270,11 @@
                                             <tr>
                                                 <td>${i++}</td>
                                                 <td>${date}</td>
+                                                <td>
+                                                    ${element.status === 'completed' ? '<span class="badge bg-success">Success</span>' : ''}
+                                                    ${element.status === 'rejected' ? '<span class="badge bg-danger">Failed</span>' : ''}
+                                                    ${element.status !== 'completed' && element.status !== 'rejected' ? '<span class="badge bg-secondary">${element.status}</span>' : ''}
+                                                </td>
                                                 <td>${element.transaction_id}</td>
                                                 <td>${element.type}</td>
                                                 <td>${element.amount}</td>
