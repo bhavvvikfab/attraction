@@ -30,8 +30,8 @@
     
         $total_usage = ($total_usage_Amount / $total) * 100;
         $total_usage = min($total_usage, 100);
-
-        $credit_balance= Auth::user()->credit_balance;
+    
+        $credit_balance = Auth::user()->credit_balance;
         $total_credit = ($credit_balance / $total) * 100;
         $total_credit = min($total_credit, 100);
     }
@@ -49,7 +49,7 @@
                                 <div class="media d-flex">
                                     <div class="media-body text-left">
                                         <h4 class="text-primary fw-bold">{{ $total_topup_Amount ?? '0' }}.00</h4>
-                                        <small class="text-secondary fw-bold" >Total Top-up</small>
+                                        <small class="text-secondary fw-bold">Total Top-Up</small>
                                     </div>
                                     <div class="align-self-center">
                                         <i class="icon-bubbles warning font-large-2 float-right"></i>
@@ -73,7 +73,7 @@
                                 <div class="media d-flex">
                                     <div class="media-body text-left">
                                         <h4 class="text-danger fw-bold">{{ $total_usage_Amount ?? '0' }}.00</h4>
-                                        <small class="fw-bold text-secondary" >Total Usage</small>
+                                        <small class="fw-bold text-secondary">Total Usage</small>
                                     </div>
                                     <div class="align-self-center">
                                         <i class="icon-bubbles warning font-large-2 float-right"></i>
@@ -99,7 +99,7 @@
                                 <div class="media d-flex">
                                     <div class="media-body text-left">
                                         <h4 class="text-success fw-bold"><?php echo Auth::user()->credit_balance ?? '00'; ?></h4>
-                                        <small class="fw-bold text-secondary" >Credits Balance</small>
+                                        <small class="fw-bold text-secondary">Credits Balance</small>
                                     </div>
                                     <div class="align-self-center">
                                         <i class="icon-bubbles warning font-large-2 float-right"></i>
@@ -107,7 +107,7 @@
                                 </div>
                                 <div class="progress mt-1 mb-0" style="height: 7px;">
                                     <div class="progress-bar bg-success" role="progressbar"
-                                        style="width: <?php echo $total_credit; ?>%" aria-valuenow="<?php echo $total_credit;?>"
+                                        style="width: <?php echo $total_credit; ?>%" aria-valuenow="<?php echo $total_credit; ?>"
                                         aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
@@ -123,11 +123,12 @@
 
 
         <div class="container mt-3 shadow-lg overflow-auto p-3" style="min-height: 40vh;">
-            <table id="mytable" class="border">
+            <table id="mytable" class="">
                 <thead class="text-light" style="background-color: #185174;">
                     <tr>
                         <th>Updated Date & Time</th>
                         <th>Amount</th>
+                        <th>Payment Method</th>
                         <th>Payment Status</th>
                         <th>Transaction Ref No.</th>
                         <th>Remarks</th>
@@ -140,10 +141,17 @@
                                 <td>{{ $agent->created_at->format('d-m-Y') ?? 'N/A' }}</td>
                                 <td>{{ $agent->amount ?? 'N/A' }}</td>
                                 <td>
+                                    @if ($agent->type == 'credit')
+                                        <span class="btn  border border-success text-success btn-sm fw-bold p-0 px-1 ">Credited</span>
+                                        @elseif($agent->type == 'debit')
+                                        <span class="btn  border border-danger text-danger btn-sm fw-bold p-0 px-1">Debited</span>
+                                    @endif
+                                </td>
+                                <td>
                                     @if ($agent->status == 'completed')
-                                        <small class="bg-success text-light bf-bold rounded px-1">Completed</small>
+                                    <span class="btn btn-success btn-sm fw-bold p-0 px-1">Success</span>
                                     @elseif($agent->status == 'failed')
-                                        <span class="bg-danger text-light bf-bold rounded px-1">Failed</span>
+                                    <span class="btn btn-danger btn-sm fw-bold p-0 px-1">Failed</span>
                                     @endif
                                 </td>
                                 <td>
@@ -240,7 +248,7 @@
                 if (error) {
                     console.error('Error retrieving transaction:', error);
                 } else {
-                    const dateTimeString=transaction.created_at;
+                    const dateTimeString = transaction.created_at;
                     const formattedDateTime = new Date(dateTimeString).toLocaleString('en-IN', {
                         day: '2-digit',
                         month: '2-digit',
@@ -252,7 +260,7 @@
                     $('#remark_body').empty();
                     $('#remark_body').append(`
                     <div class="alert alert-secondary">
-                    <strong>${transaction.amount}</strong> Received on ${formattedDateTime} from this transaction ID. ${transaction.transaction_id}
+                    <strong>${transaction.amount}</strong> Received on ${formattedDateTime} on this transaction ID. <strong>${transaction.transaction_id}</strong>
                     </div> 
                         `)
                 }
@@ -284,5 +292,12 @@
         }
     });
 </script>
+<style>
+  .hover-none:hover {
+        color: inherit;
+        background-color: inherit;
+        border-color: inherit;
+    }
+</style>
 
 @include('layouts.footer');
