@@ -12,6 +12,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\Api_credentialController;
 use App\Http\Middleware\Auther;
 use Illuminate\Support\Facades\Auth;
@@ -130,8 +131,14 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/all_chat', [AttractionController::class, 'view_attraction'])->name('agent.all_chat');
 
 
+    
+    Route::post('/cart/add',[CartController::class,'store'])->name('agent.addCart');
+    
 });
 // route's for AGENT end
 
 Route::resource('products', ProductController::class);
+
+//Test Routes Cart / Order ETC
+Route::post('/cart/add',[CartController::class,'store']);
 

@@ -137,6 +137,7 @@ class HelperClass
         return json_decode($response);
     }
 
+    // Credit Reseller
     function getCreditByReseller(){        
         $url = 'credit/getCreditByReseller';
         if($this->apiKey){
@@ -145,8 +146,132 @@ class HelperClass
                 $token = $this->getToken();
                 $response = $this->callExternalApi($url, 'GET', array(), $token);
             }
+            return json_decode($response)->data;
         }
-        return json_decode($response)->data;
     }
 
+    function getTopUpHistory(){        
+        $url = 'topUp/getTopUpHistory';
+        if($this->apiKey){
+            $response = $this->callExternalApi($url, 'GET', array(), $this->apiKey);
+            if(empty($response)){
+                $token = $this->getToken();
+                $response = $this->callExternalApi($url, 'GET', array(), $token);
+            }
+            return json_decode($response)->data;
+        }
+    }
+
+
+
+    function getUnavailableDates($ticketTypeID, $dateFrom, $dateTo) {
+        $url = 'ticketType/getUnavailableDates?id='.$referenceNumber.'&dateFrom='.$dateFrom.'&dateTo='.$dateTo;
+        if($this->apiKey){
+            $response = $this->callExternalApi($url, 'GET', array(), $this->apiKey);
+            if(empty(json_decode($response)->data)){
+                $token = $this->getToken();
+                $response = $this->callExternalApi($url, 'GET', array(), $token);
+            }
+            return json_decode($response)->data;
+        }
+    }
+
+    function getAvailableDates($ticketTypeID, $dateFrom, $dateTo) {
+        $url = 'ticketType/getAvailableDates?ticketTypeID='.$referenceNumber.'&dateFrom='.$dateFrom.'&dateTo='.$dateTo;
+        if($this->apiKey){
+            $response = $this->callExternalApi($url, 'GET', array(), $this->apiKey);
+            if(empty(json_decode($response)->data)){
+                $token = $this->getToken();
+                $response = $this->callExternalApi($url, 'GET', array(), $token);
+            }
+            return json_decode($response)->data;
+        }
+    }
+
+    function checkEventAvailability1($ticketTypeID, $dateFrom, $dateTo) {
+        $url = 'ticketType/checkEventAvailability?ticketTypeID='.$referenceNumber.'&dateFrom='.$dateFrom.'&dateTo='.$dateTo;
+        if($this->apiKey){
+            $response = $this->callExternalApi($url, 'GET', array(), $this->apiKey);
+            if(empty(json_decode($response)->data)){
+                $token = $this->getToken();
+                $response = $this->callExternalApi($url, 'GET', array(), $token);
+            }
+            return json_decode($response)->data;
+        }
+    }
+    //Selected
+    function checkEventAvailability($ticketTypeID, $date) {
+        // Format OF date 2024-05-03
+        $url = 'ticketType/checkEventAvailability?id='.$referenceNumber.'&date='.$date;
+        if($this->apiKey){
+            $response = $this->callExternalApi($url, 'GET', array(), $this->apiKey);
+            if(empty(json_decode($response)->data)){
+                $token = $this->getToken();
+                $response = $this->callExternalApi($url, 'GET', array(), $token);
+            }
+            return json_decode($response)->data;
+        }
+    }
+
+    function reserveBooking($customerName, $email, $ticketTypes) {
+        $url = 'booking/reserve';
+        $fields = array(
+            "alternateEmail" => "",
+            "creditCardCurrencyId" => null,
+            "customerName" => $customerName,
+            "email" => $email,
+            "groupName" => "",
+            "groupBooking" => false,
+            "groupNoOfMember" => 1,
+            "mobileNumber" => "",
+            "mobilePrefix" => "",
+            "otherInfo" => array(
+                "partnerReference" => ""
+            ),
+            "passportNumber" => "",
+            "paymentMethod" => "CREDIT",
+            "ticketTypes" => $ticketTypes,
+            "remarks" => ""
+        );
+        if($this->apiKey){
+            $response = $this->callExternalApi($url, 'POST', json_encode($fields), $this->apiKey);
+        }else {
+            $token = $this->getToken();
+            $response = $this->callExternalApi($url, 'POST', json_encode($fields), $token);
+        }
+        
+        return $response;
+    }
+
+    function confirmBooking($referenceNumber, $remarks) {
+        $url = 'booking/confirm';
+        $fields = array(
+            "referenceNumber" => $referenceNumber,
+            "remarks" => $remarks
+        );
+        if($this->apiKey){
+            $response = $this->callExternalApi($url, 'POST', json_encode($fields), $this->apiKey);
+            if(empty(json_decode($response)->data)){
+                $token = $this->getToken();
+                $response = $this->callExternalApi($url, 'POST', json_encode($fields), $token);
+            }
+            return json_decode($response)->data;
+        }
+    }
+
+    // Here we get Full booking details with all the ticket details 
+    function getBookingDetails($referenceNumber) {
+        $url = 'booking/details?referenceNumber='.$referenceNumber;
+        if($this->apiKey){
+            $response = $this->callExternalApi($url, 'GET', array(), $this->apiKey);
+            if(empty(json_decode($response)->data)){
+                $token = $this->getToken();
+                $response = $this->callExternalApi($url, 'GET', array(), $token);
+            }
+            return json_decode($response)->data;
+        }
+    }
+
+    
+    
 }
