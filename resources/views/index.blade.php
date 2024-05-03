@@ -428,9 +428,9 @@
                       <td>{{$i++}}</td>
                       <!-- <th scope="row"><a href="#">#2457</a></th> -->
                       <td>{{$single_data->user->name ?? "" }}</td>
-                      <td>{{$single_data->attraction->name}}</td>
-                      <td>{{ $single_data->created_at->format('Y-m-d') }}</td>
-                      <td>{{$single_data->amount}}</td>
+                      <td>{{$single_data->attraction->name ?? 'NA'}}</td>
+                      <td>{{ $single_data->created_at->format('Y-m-d') ?? 'NA' }}</td>
+                      <td>{{$single_data->amount ?? 'NA'}}</td>
                      <td>
                         <button type="button" class="btn btn-success">Approve</button>
                     </td>
