@@ -92,8 +92,9 @@
                 @php
                   $helper = new \App\Helpers\HelperClass;
                   $creditData = $helper->getCreditByReseller();
+                  $balance = (Auth::user()->role == 1) ? $creditData->balance ?? 0 : Auth::user()->credit_balance;
                 @endphp
-                {{ number_format($creditData->balance ?? Auth::user()->credit_balance, 2) }}
+                {{ number_format($balance ?? 0, 2) }}
               </span>
           </div>
         </li>

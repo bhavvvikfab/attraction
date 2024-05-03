@@ -74,7 +74,7 @@
                   <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="">
-                      <input name="email" type="email" class="form-control w-50" id="email" value="{{ $credential_data->email ? $credential_data->email : '' }}">
+                      <input name="email" type="email" class="form-control w-50" id="email" value="{{ $credential_data->email ?? '' }}">
                       <p class="email_err"></p>
                       @error('email')
                       <div class="text-danger">{{ $message }}</div>
@@ -84,7 +84,7 @@
                   <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Password</label>
                     <div class="">
-                      <input name="password" type="text" class="form-control w-50" id="password" value="{{ $credential_data->password ? $credential_data->password : '' }}">
+                      <input name="password" type="text" class="form-control w-50" id="password" value="{{ $credential_data->password ?? '' }}">
                       <p class="password_err"></p>
                       @error('fullName')
                       <div class="text-danger">{{ $message }}</div>

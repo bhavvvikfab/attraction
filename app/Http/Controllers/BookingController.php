@@ -19,10 +19,45 @@ class BookingController extends Controller
             $booking_data=Booking::where('customer_id', Auth::user()->id)->with('user','attraction')->get();
 
         }
-        
-        // dd($data); 
-
 
         return view('booking.Allbooking',compact('booking_data'));
+    }
+
+    public function create(Request $request){
+        $customerName = Auth::user()->name;
+        $customerEmail = Auth::user()->email;
+        $customerID = Auth::user()->id;
+        $attractionID = $request->attraction_id;
+        $ticketFromCart = $request->ticket_from_cart;
+        $alternateEmail = $request->alternateEmail;
+        $reserveBooking = reserveBooking(Auth::user()->name,Auth::user()->email, $ticketFromCart);
+        $reserveBookingData = json_decode($reserveBooking);
+        if(isset($reserveBookingData->data)){
+            $bookinData = $reserveBookingData->data;
+            $booking = new Booking();
+            $booking->customer_id = $customerID;
+            $booking->attraction_id = $attractionID;
+            $booking->reference_no = $bookinData->referenceNumber;
+            $booking->booking_time = $bookinData->bookingTime;
+            $booking->confirm_time = null;
+            $booking->alternate_email = $alternateEmail;
+            $booking->local_amt = $bookinData->referenceNumber;
+            $booking->amount = $bookinData->amount;
+            $booking->status = 1;           
+        }
+
+        $responseData =[
+            'status' => false,
+            'message' => "Failed To booking your tickets"
+        ];
+        if($booking->save()){
+            $responseData =[
+                'status' => true,
+                'message' => "Successfully Booking"
+            ];
+            return response()->json($responseData, 200);
+        }else {
+            return response()->json($responseData, 401);
+        }        
     }
 }

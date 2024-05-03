@@ -14,6 +14,11 @@ class Booking extends Model
     protected $fillable = [
         'attraction_id',
         'customer_id',
+        'reference_no',
+        'booking_time',
+        'confirm_time',
+        'alternate_email',
+        'local_amt',
         'amount',
         'status',
         

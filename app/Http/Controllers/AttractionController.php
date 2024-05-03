@@ -41,7 +41,7 @@ class AttractionController extends Controller
         $citiesPage = [];
         foreach ($attractionsForCity as $key => $value) {
             $fields = json_decode($value->fields);
-            if (isset($fields->city)) {
+            if (isset($fields->city) && !in_array($fields->city,$citiesPage)) {
                 $citiesPage[] = $fields->city;
             }
         }
