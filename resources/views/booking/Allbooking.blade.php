@@ -81,10 +81,10 @@
                     <tr>
                       <td>{{$i++}}</td>
                       <!-- <td scope="row"><a href="#">#2457</a></td> -->
-                      <td>{{ $sinle_book->created_at->format('Y-m-d') }}</td>
-                      <td>{{$sinle_book->user->name}}</td>
-                      <td>{{$sinle_book->attraction->name}}</td>
-                      <td>{{$sinle_book->amount}}</td>
+                      <td>{{ $sinle_book->created_at->format('Y-m-d') ?? 'NA' }}</td>
+                      <td>{{$sinle_book->user->name ?? 'NA'}}</td>
+                      <td>{{$sinle_book->attraction->name ?? 'NA'}}</td>
+                      <td>{{$sinle_book->amount ?? 'NA'}}</td>
                       <!-- <td>
                       <div class="d-flex justify-content-around align-items-center">
                         <div class="viewbooking p-1">
