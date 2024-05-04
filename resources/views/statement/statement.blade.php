@@ -59,34 +59,38 @@
 
                         </div>
                         <div class="d-none" id="table">
-                            <div class=" p-3 col-lg-12 col-12-6 overflow-x-auto ">
+                            <div class="container p-3">
                                 <div class="row" id="agentinfo">
+                                    <!-- Content inside agentinfo -->
                                 </div>
-                                <table class="table table-borderless appuser-table " id="statement_table">
-
-                                    <thead>
-                                        <tr>
-                                            <th>S.no</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                            <th>Transaction_id</th>
-                                            <th>Type</th>
-                                            <th>Amount</th>
-                                            <th>Balance</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="statement_body">
-
-                                    </tbody>
-                                </table>
-
-                            </div>
-                            <div class="col-sm-12 col-lg-12 col-md-12 pdf_btn">
-                                <a href="{{ session('agent_statement_data') ? route(session('prefix', 'agent') . '.generatePDF') : '#' }}"
-                                    class="btn btn-primary btn-sm float-end mb-3 {{ session('agent_statement_data') ? '' : 'disabled' }}">Download
-                                    PDF <i class="bi bi-download"></i></a>
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-borderless appuser-table" id="statement_table">
+                                        <thead>
+                                            <tr>
+                                                <th>S.no</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                                <th>Transaction_id</th>
+                                                <th>Type</th>
+                                                <th>Amount</th>
+                                                {{-- <th>Balance</th> --}}
+                                            </tr>
+                                        </thead>
+                                        <tbody id="statement_body" class="">
+                                            <!-- Table body content -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                        
+                                <div class="col-sm-12 col-lg-12 col-md-12 pdf_btn mt-3">
+                                    <a href="{{ session('agent_statement_data') ? route(session('prefix', 'agent') . '.generatePDF') : '#' }}"
+                                        class="btn btn-primary btn-sm float-start float-lg-end  mb-3 {{ session('agent_statement_data') ? '' : 'disabled' }}">Download
+                                        PDF <i class="bi bi-download"></i></a>
+                                </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -207,14 +211,14 @@
                                                 <td>${i++}</td>
                                                 <td>${date}</td>
                                                 <td>
-                                                    ${element.status === 'completed' ? '<span class="badge bg-success">Success</span>' : ''}
-                                                    ${element.status === 'rejected' ? '<span class="badge bg-danger">Failed</span>' : ''}
-                                                    ${element.status !== 'completed' && element.status !== 'rejected' ? '<span class="badge bg-secondary">${element.status}</span>' : ''}
+                                                    ${element.status === 'completed' ? '<span>Success</span>' : ''}
+                                                    ${element.status === 'rejected' ? '<span>Failed</span>' : ''}
+                                                    ${element.status !== 'completed' && element.status !== 'rejected' ? '<span>${element.status}</span>' : ''}
                                                 </td>
                                                 <td>${element.transaction_id}</td>
                                                 <td>${element.type}</td>
                                                 <td>${element.amount}</td>
-                                                <td>${element.balance}</td>
+                                              
                                             </tr>
                                         `);
                                 });
@@ -271,14 +275,14 @@
                                                 <td>${i++}</td>
                                                 <td>${date}</td>
                                                 <td>
-                                                    ${element.status === 'completed' ? '<span class="badge bg-success">Success</span>' : ''}
-                                                    ${element.status === 'rejected' ? '<span class="badge bg-danger">Failed</span>' : ''}
-                                                    ${element.status !== 'completed' && element.status !== 'rejected' ? '<span class="badge bg-secondary">${element.status}</span>' : ''}
+                                                    ${element.status === 'completed' ? '<span>Success</span>' : ''}
+                                                    ${element.status === 'rejected' ? '<span>Failed</span>' : ''}
+                                                    ${element.status !== 'completed' && element.status !== 'rejected' ? '<span">${element.status}</span>' : ''}
                                                 </td>
                                                 <td>${element.transaction_id}</td>
                                                 <td>${element.type}</td>
                                                 <td>${element.amount}</td>
-                                                <td>${element.balance}</td>
+                                               
                                             </tr>
                                         `);
                                 });

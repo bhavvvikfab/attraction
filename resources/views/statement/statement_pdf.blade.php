@@ -13,7 +13,7 @@
         text-align: center;
         border-bottom: 1px solid black;
         margin: 0;
-        padding: 10px 0;
+        padding: 5px 0;
     }
 
     .w-full {
@@ -25,7 +25,7 @@
     }
 
     .margin-top {
-        margin-top: 1.25rem;
+        margin-top: 10px;
     }
 
     .footer {
@@ -70,12 +70,12 @@
     <table class="w-full">
         <tr>
             <td>
-                <h2>Agent Statement</h2>
+                <h2>Statement</h2>
             </td>
         </tr>
     </table>
     <div>
-        <table class="w-full">
+        <table class="w-full margin-top">
             <tr>
                 <td class="w-half">
                     <div>Name : {{ $agent->name ?? 'N/A' }} </div>
@@ -89,7 +89,7 @@
         </table>
     </div>
 
-    <div class="margin-top">
+    <div class="margin-top" >
         <table class="products">
             <tr>
                 <th>S.no</th>
@@ -97,23 +97,23 @@
                 <th>Transaction_id</th>
                 <th>Type</th>
                 <th>Amount</th>
-                <th>Balance</th>
+                {{-- <th>Balance</th> --}}
             </tr>
             @if ($transactions->isEmpty())
                 <tr>
-                    <td colspan="6" >No transactions found!</td>
+                    <td colspan="6">No transactions found!</td>
                 </tr>
             @else
-                <tr class="items">
-                    @foreach ($transactions as $transaction)
+                @foreach ($transactions as $transaction)
+                    <tr class="items">
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ date('Y-m-d', strtotime($transaction['created_at'])) }}</td>
                         <td>{{ $transaction['transaction_id'] }}</td>
                         <td>{{ $transaction['type'] }}</td>
                         <td>{{ $transaction['amount'] }}</td>
-                        <td>{{ $transaction['balance'] }}</td>
-                    @endforeach
-                </tr>
+                        {{-- <td>{{ $transaction['balance'] }}</td> --}}
+                    </tr>
+                @endforeach
             @endif
         </table>
     </div>
