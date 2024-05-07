@@ -38,7 +38,7 @@
                     <div class="card-body">
 
                         <div class="table-responsive">
-                            <form class="m-3">
+                            <form class="m-3 ">
                                 <div class="row">
 
                                     <div class="col-lg-4 col-sm-12">
@@ -191,46 +191,35 @@
 
                                     @foreach ($att_datas as $key => $ticket)
                                         <div class="">
-                                            <div class="pt-4">
-                                                <div id="">
+                                            <div class="pt-4 ">
+                                                <div id="" >
                                                     <div class="pb-1">
 
                                                         <div>
                                                             <div class="mb-4 myticket">
                                                                 <div class=" card text-dark mb-2">
-                                                                    <div class="selectticket-infor col-md-12 px-2 py-1">
+                                                                    <div class="selectticket-infor col-md-12  py-1">
                                                                         <div class="row align-items-center h-100 p-2">
-                                                                            <div
-                                                                                class="col-lg col-md d-flex align-items-center justify-content-center">
+                                                                            <div class="col-lg col-md d-flex align-items-center justify-content-center">
                                                                                 <div class="row w-100">
                                                                                     <div class="col-sm col">
-                                                                                        <h5 class="ticket-card-header"
-                                                                                           >
-                                                                                          {{$ticket['name'] ?? ''}}
-                                                                                        </h5>
+                                                                                        <h5 class="ticket-card-header">{{$ticket['name'] ?? ''}}</h5>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div
-                                                                                class="col-lg-3 col-md-3 mb-md-2 mb-sm-0 pt-2 pl-0 pr-2 mx-md-0 favorite-id-container d-flex align-items-center justify-content-around">
-                                                                                <div class="option-id-wrapper mr-3">
-                                                                                    <span class="ticket-card-header">
-                                                                                        Ticket ID :
-                                                                                       {{ $ticket['id'] ?? ''}}
-                                                                                    </span>
+                                                                            <div class="col-lg-3 col-md-3 mb-2 favorite-id-container d-flex align-items-center justify-content-end justify-content-md-start justify-content-lg-between">
+                                                                                <div class="option-id-wrapper ">
+                                                                                    <span class="ticket-card-header ml-5">Ticket ID: {{ $ticket['id'] ?? ''}}</span>
                                                                                 </div>
-                                                                                <div class="favorite-wrapper">
-                                                                                    <span
-                                                                                        class="favorite-icon pr-2 active-favorite search-fav-icon">
-                                                                                        <i class="bi bi-star-fill"
-                                                                                            style="font-size: 22px; color:gold;"></i>
-
+                                                                                <div class="favorite-wrapper mx-lg-5 mx-3">
+                                                                                    <span class="favorite-icon pr-2 active-favorite search-fav-icon">
+                                                                                        <i class="bi bi-star-fill" style="font-size: 22px; color:gold;"></i>
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
-
                                                                         </div>
                                                                     </div>
+                                                                    
 
                                                                     <div
                                                                         class="selectticket-quantity table-responsive border-top bg-white">
@@ -324,7 +313,7 @@
 
                                                                                     <td>
                                                                                         <div>
-                                                                                            <h5
+                                                                                            <h6
                                                                                                 class="variation-title font-style-primary p-0">
                                                                                                 @isset($myticket['nettPrice'])
                                                                                                     <span
@@ -333,7 +322,7 @@
                                                                                                     </span>
                                                                                                 @endisset
 
-                                                                                            </h5>
+                                                                                            </h6>
                                                                                         </div>
                                                                                     </td>
                                                                                     <td class="fw-bold" >{{$myticket['agent_price']}}</td>
@@ -366,44 +355,45 @@
                                                                         <div
                                                                             class="col-md-9 col-sm-12 col py-2 text-md-right text-sm-center row justify-content-end none">
                                                                             <div class="row w-100">
-                                                                                <div
-                                                                                    class="col-md d-flex align-items-center justify-content-md-end mb-md-0 mb-3">
-                                                                                    <div
-                                                                                        class="icon-wrapper d-flex justify-content-between align-items-center pr-4">
-
-                                                                                        @isset($ticket['redeemStart'])
-                                                                                        <i class="bi bi-calendar3"></i>
-                                                                                            <span class="calendar card-icon-label">
-                                                                                                Valid from {{ date('Y-m-d', strtotime($ticket['redeemStart'])) }} to {{ date('Y-m-d', strtotime($ticket['redeemEnd'])) }}
-                                                                                          
-                                                                                            </span>
-                                                                                        @endisset
-
+                                                                                <div class="row">
+                                                                                    <div class="col-md d-flex align-items-center justify-content-md-end mb-md-0 mb-3">
+                                                                                        <div class="icon-wrapper d-flex flex-wrap justify-content-between align-items-center pr-4">
+                                                                                            @isset($ticket['redeemStart'])
+                                                                                            <div class="col-12 col-md-auto mb-2 mb-md-0"> <!-- Adjust the classes as needed -->
+                                                                                                {{-- <div class="d-flex align-items-center"> --}}
+                                                                                                    <i class="bi bi-calendar3"></i>
+                                                                                                    <span class="calendar card-icon-label">
+                                                                                                        Valid from {{ date('Y-m-d', strtotime($ticket['redeemStart'])) }} to {{ date('Y-m-d', strtotime($ticket['redeemEnd'])) }}
+                                                                                                    </span>
+                                                                                                {{-- </div> --}}
+                                                                                            </div>
+                                                                                            @endisset
+                                                                                
+                                                                                            <div class="col-12 col-md-auto mb-2 mb-md-0"> <!-- Adjust the classes as needed -->
+                                                                                                <div class="d-flex align-items-center">
+                                                                                                    <span class="lightning card-icons pr-1">
+                                                                                                        <i class="bi bi-lightning-fill"></i>
+                                                                                                    </span>
+                                                                                                    <span class="card-icon-label">
+                                                                                                        Instant
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                
+                                                                                            <div class="col-12 col-md-auto mb-2 mb-md-0"> <!-- Adjust the classes as needed -->
+                                                                                                <div class="d-flex align-items-center">
+                                                                                                    <span class="calendar card-icons pr-1">
+                                                                                                        <i class="bi bi-calendar3"></i>
+                                                                                                    </span>
+                                                                                                    <span class="card-icon-label">
+                                                                                                        Dated
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
-
-                                                                                    <div
-                                                                                        class="icon-wrapper d-flex justify-content-between align-items-center px-lg-4">
-                                                                                        <span
-                                                                                            class="lightning card-icons pr-1">
-                                                                                            <i
-                                                                                                class="bi bi-lightning-fill"></i>
-                                                                                        </span>
-                                                                                        <span class="card-icon-label">
-                                                                                            Instant
-                                                                                        </span>
-                                                                                    </div><!---->
-                                                                                    <div
-                                                                                        class="icon-wrapper d-flex justify-content-between align-items-center pr-4">
-                                                                                        <span
-                                                                                            class="calendar card-icons pr-1">
-                                                                                            <i class="bi bi-calendar3"></i>
-                                                                                        </span>
-                                                                                        <span class="card-icon-label">
-                                                                                            Dated
-                                                                                        </span>
-                                                                                    </div>
-
                                                                                 </div>
+                                                                                
 
                                                                             </div>
                                                                         </div>

@@ -123,10 +123,10 @@
 
 
         <div class="container mt-3 shadow-lg overflow-auto p-3" style="min-height: 40vh;">
-            <table id="mytable" class="">
-                <thead class="text-light" style="background-color: #185174;">
+             <table id="mytable" class="table table-borderless appuser-table ">
+                <thead class="text-light">
                     <tr>
-                        <th>Updated Date & Time</th>
+                        <th>Updated Date</th>
                         <th>Amount</th>
                         <th>Payment Method</th>
                         <th>Payment Status</th>
@@ -149,9 +149,9 @@
                                 </td>
                                 <td>
                                     @if ($agent->status == 'completed')
-                                    <span class="btn btn-success btn-sm fw-bold p-0 px-1">Success</span>
+                                    <span class="badge bg-success  text-light">Success</span>
                                     @elseif($agent->status == 'failed')
-                                    <span class="btn btn-danger btn-sm fw-bold p-0 px-1">Failed</span>
+                                    <span class="badge bg-danger text-light">Failed</span>
                                     @endif
                                 </td>
                                 <td>
@@ -193,9 +193,6 @@
                 </div>
                 <div class="modal-body" id='transaction_details'>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                </div>
             </div>
         </div>
     </div>
@@ -219,6 +216,7 @@
     {{-- remark modal end --}}
 
 </main>
+
 <!-- End #main -->
 <script>
     $(document).ready(function() {
@@ -259,9 +257,9 @@
                     });
                     $('#remark_body').empty();
                     $('#remark_body').append(`
-                    <div class="alert alert-secondary">
-                    <strong>${transaction.amount}</strong> Received on ${formattedDateTime} on this transaction ID. <strong>${transaction.transaction_id}</strong>
-                    </div> 
+                    <div class="alert alert-secondary m-0">
+                        <strong>${transaction.amount}</strong> ${transaction.type === 'debit' ? 'debited from' : 'credited in'} your wallet on ${formattedDateTime} with transaction ID <strong>${transaction.transaction_id}</strong>.
+                    </div>
                         `)
                 }
             });
@@ -292,12 +290,6 @@
         }
     });
 </script>
-<style>
-  .hover-none:hover {
-        color: inherit;
-        background-color: inherit;
-        border-color: inherit;
-    }
-</style>
+
 
 @include('layouts.footer');
