@@ -94,7 +94,7 @@ class HelperClass
         ];
 
         $response = $this->callExternalApi('auth/login', 'POST', $data, null);
-
+        // dd($request);
         return $response;
     }
 
@@ -146,7 +146,7 @@ class HelperClass
                 $token = $this->getToken();
                 $response = $this->callExternalApi($url, 'GET', array(), $token);
             }
-            return json_decode($response)->data;
+            return json_decode($response)->data ?? null;
         }
     }
 
