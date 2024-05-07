@@ -169,7 +169,7 @@
                   <div class="row mb-3">
                     <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="country" type="text" class="form-control" id="Country" value="{{$userdata->country}}">
+                      <input name="country" type="text" class="form-control" id="country" value="{{$userdata->country}}">
                     </div>
                   </div>
 

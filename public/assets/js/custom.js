@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $('#country').countrySelect({
-      defaultCountry: "in",
+      defaultCountry: "my",
       displayCountryName: true
   }); 
 

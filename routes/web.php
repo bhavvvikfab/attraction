@@ -45,7 +45,7 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::post('/change_password', [LoginController::class, 'change_password'])->name('admin.change_password');
     // Route::get('/setting', [LoginController::class, 'setting'])->name('admin.setting');
 
-
+     
     Route::get('/', [LoginController::class, 'deshborad_page'])->name('admin');
     Route::get('/all_attraction', [AttractionController::class, 'index'])->name('admin.all_attraction');
     Route::get('/view_attraction', [AttractionController::class, 'view_attraction'])->name('admin.view_attraction');
@@ -73,7 +73,7 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
 
 
     Route::get('/all_chat', [ChatController::class, 'index'])->name('admin.all_chat');
-    Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('admin.view_chat');
+    Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('admin.view_chat'); 
 
     Route::post('/update_credential', [Api_credentialController::class, 'index'])->name('admin.update_credential');
 
@@ -138,18 +138,15 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/add_agent', [AttractionController::class, 'view_attraction'])->name('agent.add_agent');
 
     Route::get('/admin_invoice', [AttractionController::class, 'view_attraction'])->name('agent.admin_invoice');
-
+    
     Route::get('/all_chat', [AttractionController::class, 'view_attraction'])->name('agent.all_chat');
-
-
+    Route::post('/view_single_attraction/addcart_attraction', [AttractionController::class, 'addcart_attraction'])->name('agent.addcart_attraction');
     
     Route::post('/cart/add',[CartController::class,'store'])->name('agent.addCart');
-    
+    Route::get('/cartlist',[CartController::class,'index'])->name('agent.cartlist');
+
 });
 // route's for AGENT end
 
 Route::resource('products', ProductController::class);
-
-//Test Routes Cart / Order ETC
-Route::post('/cart/add',[CartController::class,'store']);
 

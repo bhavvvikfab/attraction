@@ -165,7 +165,7 @@ class HelperClass
 
 
     function getUnavailableDates($ticketTypeID, $dateFrom, $dateTo) {
-        $url = 'ticketType/getUnavailableDates?id='.$referenceNumber.'&dateFrom='.$dateFrom.'&dateTo='.$dateTo;
+        $url = 'ticketType/getUnavailableDates?id='.$ticketTypeID.'&dateFrom='.$dateFrom.'&dateTo='.$dateTo;
         if($this->apiKey){
             $response = $this->callExternalApi($url, 'GET', array(), $this->apiKey);
             if(empty(json_decode($response)->data)){
@@ -177,7 +177,7 @@ class HelperClass
     }
 
     function getAvailableDates($ticketTypeID, $dateFrom, $dateTo) {
-        $url = 'ticketType/getAvailableDates?ticketTypeID='.$referenceNumber.'&dateFrom='.$dateFrom.'&dateTo='.$dateTo;
+        $url = 'ticketType/getAvailableDates?ticketTypeID='.$ticketTypeID.'&dateFrom='.$dateFrom.'&dateTo='.$dateTo;
         if($this->apiKey){
             $response = $this->callExternalApi($url, 'GET', array(), $this->apiKey);
             if(empty(json_decode($response)->data)){
