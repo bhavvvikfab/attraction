@@ -46,15 +46,19 @@
               @endif
              
               <div class="image-controls-wrapper d-flex justify-content-around align-items-center">
-                <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4 flex-lg-row flex-sm-column">
+                <!-- <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4 flex-lg-row flex-sm-column">
                   <span class="card-icons pr-1">
                     <i class="bi bi-camera-fill"></i>
                   </span>
                   <span class="card-icon-label">
                     More Images 
                   </span>
-                </div>
-                <a href="">
+                </div> -->
+                @if($attraction_single->attraction_id)
+                <a href="{{ env('API_IMAGE_URL') }}{{ $attraction_single->image }}" download>
+                @else
+                <a href="{{ asset('assets/img/' . (!empty($attraction_single->image) ? $attraction_single->image : 'default.jpg')) }}" download>
+                @endif
                     <div class="icon-wrapper d-flex justify-content-between align-items-center flex-lg-row flex-sm-column">
                   <span class="card-icons pr-1">
                     <i class="bi bi-download"></i>
@@ -79,8 +83,8 @@
                     </div>
                     <div class="col-md-3 pl-0 justify-content-end d-flex align-items-end">
 
-                      <button class="btn btnmoreinfo btn-prime">
-                        <a href="#">More Information</a>
+                      <button class="btn btnmoreinfo btn-prime" id="moreinfo_btn">
+                        <a href="#pills-info-tab">More Information</a>
                       </button>
                     </div>
                   </div>
@@ -123,12 +127,12 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-lg-5 pe-0">
+                          <!-- <div class="col-lg-5 pe-0">
                             <div class="related-attr-wrapper text-end">
                               <h6 class="mb-0">
                               <a href="">See other related attractions > </a> </h6>
                             </div>
-                          </div>
+                          </div> -->
                         </div>
                       </div>
                     </div>
@@ -194,8 +198,9 @@
      <div>
       
       @if(!empty($all_data['attraction_option']['data']))
-      @foreach($all_data['attraction_option']['data'] as $single_data)
+      @foreach($all_data['attraction_option']['data'] as $key=>$single_data)
           <div class="mb-4 myticket">
+          <input type="hidden" name="attraction_ID" class="attraction_ID"value="{{$attraction_single->id}}">
             <div class="selectticket-card card text-dark mb-2">
               <div class="selectticket-infor col-md-12 px-2 py-1">
                 <div class="row align-items-center h-100 p-2">
@@ -213,6 +218,9 @@
                     <div class="option-id-wrapper mr-3">
                       <span class="ticket-card-header">
                         Product Option ID : {{$single_data['id'];}}
+                        <input type="hidden" name="option_ID[]" class="option_ID" value=" {{$single_data['id'];}}" >
+                        <input type="hidden" name="ticketValidity[]" class="ticketValidity" value=" {{$single_data['ticketValidity'];}}" >
+                        <input type="hidden" name="duration[]" class="duration" value=" {{$single_data['definedDuration'];}}" >
                       </span>
                     </div>
                     <div class="favorite-wrapper">
@@ -265,6 +273,7 @@
                           <div class="variation-price d-inline">
                             <span>
                             {{ $single_ticket['id'] ? $single_ticket['id'] : 'NA' }}
+                            <input type="hidden" name="ticket_ID[]" class="ticket_ID" value=" {{$single_ticket['id'];}}" >
                             </span>
                           </div>
                         </td>
@@ -296,6 +305,7 @@
                             <h5 class="variation-title font-style-primary p-0">
                               <span class="font-weight-bold">
                                 SGD {{ $single_ticket['agent_price'] ? $single_ticket['agent_price'] : 'NA' }}
+                                <input type="hidden" name="agent_price[]" class="agent_price" value="{{ $single_ticket['agent_price'] ? $single_ticket['agent_price'] : 'NA' }}">
                               </span>
                             </h5>
                           </div>
@@ -303,9 +313,9 @@
 
                         <td class="td-text-cart">
                         <div class="qty-container">
-                          <button class="qty-btn-minus btn-light" type="button"><i class="bi bi-dash-lg"></i></button>
+                          <button class="qty-btn-minus btn-light" data-id="option{{$key}}" type="button"><i class="bi bi-dash-lg"></i></button>
                           <input type="text" name="qty" value="0" class="input-qty"/>
-                          <button class="qty-btn-plus btn-light" type="button"><i class="bi bi-plus-lg"></i></button>
+                          <button class="qty-btn-plus btn-light" data-id="option{{$key}}" type="button"><i class="bi bi-plus-lg"></i></button>
                         </div>
                       </td>
 
@@ -363,12 +373,12 @@
 
                     </div>
                    <div class="add-cart-btn col-12 col-lg-2 p-0 text-right">
-                      <a href="cart.php" role="button">
-                          <button class="btn btn-success btn-add" type="button">
+                      <!-- <a href="cart.php" role="button"> -->
+                          <button class="btn btn-success btn-add disabled" id="option{{$key}}" type="button">
                             <span class="font-14"><i class="mdi mdi-cart-outline"></i></span>
                             <span class="font-14">&nbsp;Add to Cart</span>
                           </button>
-                        </a>
+                        <!-- </a> -->
                     </div>
                   </div>
                 </div>
@@ -384,8 +394,18 @@
                     <p class="ml-3">Valid from 12 Sept 2022 to 31 Mar 2023</p>
                     <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Cancellation Policy</h5>
                         <ul>
+                          @if($single_data['cancellationNotes'])
+                          @foreach($single_data['cancellationNotes'] as $single_cancelnotes)
                             <li>
-                              <strong>Non-refundable and No Cancellation</strong></li>
+                              <strong>{{$single_cancelnotes}}</strong>
+                            </li>
+                            @endforeach
+
+                            @else
+                            <li>
+                              <strong>Non-refundable and No Cancellation</strong>
+                            </li>
+                            @endif
                           </ul>
                         <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Terms &amp; Conditions</h5>
                         <div class="mb-4 ml-3"><p>{{$single_data['termsAndConditions'];}}</p></div>
@@ -1726,6 +1746,99 @@ $(document).ready(function(){
     $(this).find('.hide-icon').toggle();
 
   });
+});
+$(document).ready(function(){
+    // Increment quantity
+    $(document).on('click', '.qty-btn-plus', function(){
+      var opbtn= $(this).attr('data-id');
+        var input = $(this).closest('.qty-container').find('.input-qty');
+        var value = parseInt(input.val());
+        input.val(value + 1);
+        updateAddBtn(input,opbtn);
+    });
+
+    // Decrement quantity
+    $(document).on('click', '.qty-btn-minus', function(){
+      var opbtn= $(this).attr('data-id');
+        var input = $(this).closest('.qty-container').find('.input-qty');
+        var value = parseInt(input.val());
+        if(value > 0) {
+            input.val(value - 1);
+            updateAddBtn(input,opbtn);
+        }
+    });
+});
+// Function to update add button based on quantity
+function updateAddBtn(input,opbtn) {
+        var quantity = parseInt(input.val());
+        var addBtn = $('#'+opbtn);
+        if (quantity > 0) {
+            addBtn.removeClass('disabled');
+        } else {
+            addBtn.addClass('disabled');
+        }
+    }
+
+$(document).on('click','.btn-add',function(){
+    // alert('jj');
+    var myTicketDiv = $(this).closest('.myticket');
+    var attraction_ID = myTicketDiv.find('.attraction_ID').val();
+    // var ticket_ID = myTicketDiv.find('.ticket_ID').val();
+    
+    var option_ID = myTicketDiv.find('.option_ID').val();
+    var ticketValidity = myTicketDiv.find('.ticketValidity').val();
+    var duration = myTicketDiv.find('.duration').val();
+    
+    ticket_ID=[];
+    myTicketDiv.find('.ticket_ID').each(function(){
+      ticket_ID.push($(this).val()); // Push each value into the optionIds array
+    });
+    agent_price=[];
+    myTicketDiv.find('.agent_price').each(function(){
+      agent_price.push($(this).val()); // Push each value into the optionIds array
+    });
+    quantity=[];
+    myTicketDiv.find('.input-qty').each(function(){
+      quantity.push($(this).val()); // Push each value into the optionIds array
+    });
+    
+
+    // Now you can use optionId and netId as needed
+    console.log("attraction_ID:", attraction_ID);
+    console.log("ticket_ID:", ticket_ID);
+    console.log("option_ID:", option_ID);
+    console.log("agent_price:", agent_price);
+    console.log("input-qty:", quantity);
+
+    $.ajax({
+           type: 'POST',
+           url: 'addcart_attraction',
+           data: { attraction_ID:attraction_ID,ticket_ID:ticket_ID,option_ID:option_ID,agent_price:agent_price,quantity:quantity,ticketValidity:ticketValidity,duration:duration },
+          //  contentType: false,
+          //   processData: false,
+           success: function (data) {
+  
+            console.log(data);
+            if(data.status){
+              showMessage('message', data.message, true)
+              
+                // setTimeout(function(){
+              
+                // window.location.reload();
+             
+                //   },2000);
+            }
+           }
+  
+  
+         });
+
+  });
+
+  $(document).ready(function(){
+    $('#moreinfo_btn').click(function(){
+        $('#pills-info-tab').click(); // Trigger click event on element with ID 'set2'
+    });
 });
 </script>
     </main><!-- End #main -->

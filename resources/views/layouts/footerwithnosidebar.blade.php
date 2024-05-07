@@ -25,9 +25,10 @@
 
   <!-- Template Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
+  <script src="{{ asset('assets/js/custom.js') }}"></script>
   <script>
     $('#country').countrySelect({
-        defaultCountry: "{{ $countryCode ?? 'in' }}", 
+        defaultCountry: "{{ $countryCode ?? 'my' }}", 
     }); 
     $('#searchBar').submit(function(event) {
         // Prevent default form submission
