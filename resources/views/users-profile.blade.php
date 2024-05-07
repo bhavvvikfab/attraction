@@ -119,7 +119,7 @@
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                 <!-- Profile Edit Form -->
-                <form action="{{ route(session('prefix', 'agent') . '.update_profile') }}" method="post" enctype="multipart/form-data"> 
+                <form id="profile_update_form" action="{{ route(session('prefix', 'agent') . '.update_profile') }}" method="post" enctype="multipart/form-data"> 
                   @csrf
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
@@ -338,3 +338,11 @@
 </main><!-- End #main -->
 
 @include('layouts.footer');
+
+<script>
+$(document).on('submit','#profile_update_form',function(){
+  var countryData = $("#country").countrySelect("getSelectedCountryData");
+  $(this).append("<input type='hidden' name='country' value='"+countryData.iso2+"'>");
+})
+
+</script>

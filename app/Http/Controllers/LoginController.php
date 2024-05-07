@@ -231,7 +231,7 @@ class LoginController extends Controller
 
         
 
-
+        // dd($request->all());
         $user = User::find(Auth::user()->id);
         $user->name = $request['fullName'];
         $user->email = $request['email'];

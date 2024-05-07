@@ -15,7 +15,7 @@ class AgentController extends Controller
 {
     //
     public function index(){
-        $agent_data = User::where('role', 2)->get();
+        $agent_data = User::where('role', 2)->orderByDesc('id')->get();
         
         return view('agent.allagent',compact('agent_data'));
     }
@@ -127,7 +127,7 @@ class AgentController extends Controller
             $user->address = $request->address;
             $user->phone = $request->phone_number;
             $user->country = $request->countryCode;
-            $user->status = isset($request->status)? $request->status:0;
+            // $user->status = isset($request->status)? $request->status:0;
             $user->role = 2;
             $user->profile = $imageName;
             $user->credit_balance = isset($request->credit_balance)? $request->credit_balance:0.00;
