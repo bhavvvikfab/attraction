@@ -78,6 +78,72 @@
         }
 
     });
+
+//     $(document).ready(function() {
+//     $('#country').change(function() {
+//         var country = $(this).val();
+        
+//         var countryData = $("#country").countrySelect("getSelectedCountryData");
+//           //  fd.append("countryCode", countryData.iso2);
+//            var countryCode =countryData.iso2;
+           
+//         if(country) {
+//             $.ajax({
+//                 url: '/view_attraction/getAttractions_autosearch',
+//                 type: 'POST',
+//                 data: {countryCode: countryCode},
+//                 dataType: 'json',
+//                 success:function(data) {
+//                     $('#attractionList').html(data);
+//                 }
+//             });
+//         }
+//     });
+// });
+
+$(document).ready(function() {
+  $('#suggestion-dropdown').empty().hide();
+        $('.search-text').on('keyup', function() {
+            var keyword = $(this).val();
+            // var countryId = $('#country').val();
+            var countryData = $("#country").countrySelect("getSelectedCountryData");
+          //  fd.append("countryCode", countryData.iso2);
+           var countryCode =countryData.iso2;
+// alert(countryCode);
+            // Send AJAX request to fetch attraction suggestions
+            
+            var url = "{{ route(session('prefix', 'agent') . '.getAttractions_autosearch') }}";
+            if (keyword !== '') {
+            // alert(url);
+            $.ajax({
+                url: url,
+                method: 'GET',
+                data: {
+                    keyword: keyword,
+                    countryCode: countryCode
+                },
+                success: function(response) {
+                    // Update suggestion dropdown with fetched attraction names
+                    var suggestionsHtml = '';
+                    response.forEach(function(attraction) {
+                        suggestionsHtml += '<div class="suggestion" style="cursor: pointer; padding:10px;">' + attraction.name + '</div>';
+                    });
+                    $('#suggestion-dropdown').html(suggestionsHtml).show();
+                }
+            });
+          }else{
+            $('#suggestion-dropdown').empty().hide();
+          }
+        });
+    });
+     // Handle click on suggestion
+     $(document).on('click', '.suggestion', function() {
+        var suggestionText = $(this).text();
+        $('.search-text').val(suggestionText);
+        $('#suggestion-dropdown').empty(); // Clear suggestion dropdown after selection
+    });
+
+    
   </script>
 
 </body>

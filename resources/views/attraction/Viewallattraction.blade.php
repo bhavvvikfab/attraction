@@ -9,6 +9,9 @@
         display: none;
       }
 }
+.suggestion:hover{
+  background-color:#c1c1c1;
+}
 
   </style>
 
@@ -58,10 +61,11 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="col-lg-6 col-md-6 col-sm-12" style="position:relative">
                         <div class="input-group-append flex-grow-1 mb-2">
                           <!-- <label for="Search-attraction" class="mb-2 text-white">Search Attraction</label> -->
                           <input _ aria-label="Text input with dropdown button" class="form-control search-text font-size-md search-text-form" name="keyword" placeholder="Search attraction" value="{{ $keyword ?? '' }}" type="search">
+                          <div id="suggestion-dropdown" class="bg-body-secondary position-absolute z-1" style="max-height:25vh; overflow:scroll; width:93%"></div>
                         </div>
                       </div>
                     </div>

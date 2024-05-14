@@ -60,4 +60,16 @@ class BookingController extends Controller
             return response()->json($responseData, 401);
         }        
     }
+    
+    public function view_booking($id){
+
+        $booking_data=Booking::with('user','attraction','attraction.attraction_ticket')->find($id);
+        // dd($booking_data);
+
+        return view('booking.viewbookingdetail',compact('booking_data'));
+
+    }
+
+
+
 }

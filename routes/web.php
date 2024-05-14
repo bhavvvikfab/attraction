@@ -53,6 +53,7 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::get('/view_single_attraction/{id}', [AttractionController::class, 'view_single_attraction'])->name('admin.view_single_attraction');
 
     Route::get('/all_booking', [BookingController::class, 'index'])->name('admin.all_booking');
+    Route::get('/view_booking/{id}', [BookingController::class, 'view_booking'])->name('admin.view_booking');
 
     Route::get('/all_agent', [AgentController::class, 'index'])->name('admin.all_agent');
     Route::get('/add_agent', [AgentController::class, 'add_agent'])->name('admin.add_agent');
@@ -133,6 +134,7 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::post('/request-topup', [TopupController::class, 'requestTopUp']);
 
     Route::get('/all_booking', [BookingController::class, 'index'])->name('agent.all_booking');
+    Route::get('/view_booking/{id}', [BookingController::class, 'view_booking'])->name('agent.view_booking');
 
     Route::get('/all_agent', [AttractionController::class, 'view_attraction'])->name('agent.all_agent');
     Route::get('/add_agent', [AttractionController::class, 'view_attraction'])->name('agent.add_agent');
@@ -144,6 +146,8 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     
     Route::post('/cart/add',[CartController::class,'store'])->name('agent.addCart');
     Route::get('/cartlist',[CartController::class,'index'])->name('agent.cartlist');
+    
+    Route::get('/getAttractions_autosearch', [AttractionController::class, 'getAttractions_autosearch'])->name('agent.getAttractions_autosearch');
 
 });
 // route's for AGENT end

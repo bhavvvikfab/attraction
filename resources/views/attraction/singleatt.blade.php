@@ -9,7 +9,48 @@
       }
 }
 
+/* Hide certain columns on mobile screens */
+/* @media screen and (max-width: 768px) {
+    
+    .sku,
+    .minimum-selling-price {
+        display: none;
+    }
+} */
 
+/* Prevent horizontal scrolling on mobile screens */
+/* @media screen and (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+    .select-ticket-table-wrapper {
+        overflow-x: auto;
+    }
+} */
+
+  @media only screen and (max-width: 765px) {
+          table.select-ticket-table.table.font-weight-normal tr th {
+            display: none;
+          }
+
+          .d-flex-sm-column {
+              flex-direction: column;
+          }
+
+          table.select-ticket-table.table.font-weight-normal tr td {
+            display: block;
+            width: 100% !important;
+          }
+
+          table.select-ticket-table.table.font-weight-normal tr td::before {
+            content: attr(data-cell) " ";
+            font-weight: 800;
+            text-transform: capitalize;
+          }
+          .x1,.x2{
+            display:none !important;
+          }
+        }
 
 </style>
   <main id="main1" class="main">
@@ -170,9 +211,9 @@
 
                 <div class="pt-lg-4 pt-3 px-lg-4 px-3">
 
-                    <div class="availability-button-container mb-4">
+                    <!-- <div class="availability-button-container mb-4">
                       <div class="check-avail-date">
-                        <!-- <input class="check-avail-input" name="dp" placeholder="yyyy-mm-dd" > -->
+                        
                         <button class="btn btn-blue" type="button">
                           <span>
                             Check Availability
@@ -184,7 +225,7 @@
                           Clear All
                         </button>
                       </div>
-                    </div>
+                    </div> -->
 
                     <div>
                       <h4 class="font-weight-bold mb-2">Select Ticket Type Option</h4>
@@ -236,6 +277,7 @@
 
               <div class="selectticket-quantity table-responsive border-top bg-white">
                 <div>
+                <div class="select-ticket-table-wrapper">
                   <table class="select-ticket-table table font-weight-normal m-10">
                     <thead>
                       <tr>
@@ -243,13 +285,13 @@
                         <th scope="col">
                           <span >Ticket Type ID:</span>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="sku">
                           <span >SKU:</span>
                         </th>
                         <th scope="col">
                           <span >Original Merchant Price:</span>
                         </th>
-                        <th scope="col"><span >Minimum Selling Price:</span></th>
+                        <th scope="col" class="minimum-selling-price"><span >Minimum Selling Price:</span></th>
 
                         <th scope="col">
                           <span >Nett Price:</span>
@@ -269,7 +311,7 @@
 
                           </div>
                         </td>
-                        <td>
+                        <td data-cell="Ticket Type ID:">
                           <div class="variation-price d-inline">
                             <span>
                             {{ $single_ticket['id'] ? $single_ticket['id'] : 'NA' }}
@@ -277,22 +319,22 @@
                             </span>
                           </div>
                         </td>
-                        <td>
+                        <td class="sku" data-cell="SKU:">
                           <div class="variation-price d-inline">
                             <span>
                             {{ $single_ticket['sku'] ? $single_ticket['sku'] : 'NA' }}
                             </span>
                           </div>
                         </td>
-                        <td>
+                        <td data-cell="Original Merchant Price:">
                           <div class="variation-price d-inline">
                             <span >
                               SGD 13
                             </span>
                           </div>
                         </td>
-                        <td >
-                          <div class="variation-price d-inline">
+                        <td class="minimum-selling-price" data-cell="Minimum Selling Price:">
+                          <div class="variation-price d-inline ">
                             <span >
                               SGD 12.00
                             </span>
@@ -300,7 +342,7 @@
                           </div>
                         </td>
 
-                        <td>
+                        <td data-cell="Nett Price:">
                           <div>
                             <h5 class="variation-title font-style-primary p-0">
                               <span class="font-weight-bold">
@@ -324,7 +366,7 @@
 
                     </tbody>
                   </table>
-
+                  </div>
 
 
 
@@ -335,7 +377,7 @@
 
 
               <div class="selectticket-btn font-weight-bold collapse-button row m-0 font-style-primary">
-                <div aria-expanded="false" class="col-sm-3 col pr-1 d-flex align-items-center collapsed ticket-toggle" data-toggle="collapse" data-target="#collapseInfor-{{$single_data['id'];}}" aria-controls="#collapseInfor-{{$single_data['id'];}}">
+                <div aria-expanded="false" class="col-sm-3 col pr-1 d-flex align-items-center collapsed ticket-toggle x1" data-toggle="collapse" data-target="#collapseInfor-{{$single_data['id'];}}" aria-controls="#collapseInfor-{{$single_data['id'];}}">
                 <i   class="bi bi-chevron-down hide-icon"></i>
                   <i   class="bi bi-chevron-up show-icon" style="display:none;"></i> &nbsp;
                   <p   class="show-text">Show Ticket Information</p>
@@ -344,7 +386,7 @@
 
                 <div class="col-md-9 col-sm-12 col py-2 text-md-right text-sm-center row justify-content-end none">
                   <div class="row w-100">
-                    <div class="col-md d-flex align-items-center justify-content-md-end mb-md-0 mb-3">
+                    <div class="col-md d-flex align-items-center justify-content-md-end mb-md-0 mb-3 x2">
                       <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4">
                         <span class="calendar card-icons pr-1">
                           <i class="bi bi-calendar3"></i>
@@ -421,409 +463,12 @@
            <div class=""><h3>No Ticket Available</h3></div>
            @endif
         <!---->
-          <!-- <div class="mb-4 myticket">
-            <div class="selectticket-card card text-dark mb-2">
-              <div class="selectticket-infor col-md-12 px-2 py-1">
-                <div class="row align-items-center h-100 p-2">
-                  <div class="col-lg col-md d-flex align-items-center justify-content-center">
-                    <div class="row w-100">
-                      <div class="col-sm col">
-                        <h5 class="font-weight-bold mb-0 text-break text-white font-style-primary">
-                          Ticket testing replicate
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 mb-md-2 mb-sm-0 pt-2 pl-0 pr-2 mx-md-0 favorite-id-container d-flex align-items-center justify-content-around">
-                    <div class="option-id-wrapper mr-3">
-                      <span class="ticket-card-header">
-                        Product Option ID : 7775
-                      </span>
-                    </div>
-                    <div class="favorite-wrapper">
-                      <span class="favorite-icon pr-2 active-favorite search-fav-icon" >
-                        <i class="bi bi-star-fill" style="font-size: 22px; color:gold;"></i>
+          <!-- mobview startcode  -->
+          
 
-                      </span>
-                    </div>
-                  </div>
-
-
-                </div>
-              </div>
-
-              <div class="selectticket-quantity table-responsive border-top bg-white">
-                <div>
-                  <table class="select-ticket-table table font-weight-normal m-10">
-                    <thead>
-                      <tr>
-                        <th scope="col"></th>
-                        <th scope="col">
-                          <span>Ticket Type ID:</span>
-                        </th>
-                        <th scope="col">
-                          <span>SKU:</span>
-                        </th>
-                        <th scope="col">
-                          <span>Original Merchant Price:</span>
-                        </th>
-                        <th scope="col"><span>Minimum Selling Price:</span></th>
-
-                        <th scope="col">
-                          <span>Nett Price:</span>
-                        </th>
-                        <th scope="col"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-
-                        <td width="20%">
-                          <div class="name-info-wrapper">
-                            <h5 class="variation-title font-style-primary">
-                              <span class="font-weight-bold">Adult</span>
-                            </h5>
-
-                          </div>
-                        </td>
-                        <td>
-                          <div class="variation-price d-inline">
-                            <span>
-                              11566
-                            </span>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="variation-price d-inline">
-                            <span>
-                              01E7K0100603A
-                            </span>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="variation-price d-inline">
-                            <span>
-                              SGD 13
-                            </span>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="variation-price d-inline">
-                            <span>
-                              SGD 12.00
-                            </span>
-
-                          </div>
-                        </td>
-
-                        <td>
-                          <div>
-                            <h5 class="variation-title font-style-primary p-0">
-                              <span class="font-weight-bold">
-                                SGD {{$attraction_single->display_final}}
-                              </span>
-                            </h5>
-                          </div>
-                        </td>
-
-                        <td class="td-text-cart">
-                        <div class="qty-container">
-                          <button class="qty-btn-minus btn-light" type="button"><i class="bi bi-dash-lg"></i></button>
-                          <input type="text" name="qty" value="0" class="input-qty"/>
-                          <button class="qty-btn-plus btn-light" type="button"><i class="bi bi-plus-lg"></i></button>
-                        </div>
-                      </td>
-
-                      </tr>
-
-                    </tbody>
-                  </table>
-
-
-
-
-
-                </div>
-              </div>
-
-
-
-              <div class="selectticket-btn font-weight-bold collapse-button row m-0 font-style-primary">
-                <div aria-expanded="false" class="col-sm-3 col pr-1 d-flex align-items-center collapsed ticket-toggle" data-toggle="collapse" data-target="#collapseInfor-7776" aria-controls="#collapseInfor-7775">
-                <i   class="bi bi-chevron-down hide-icon"></i>
-                  <i   class="bi bi-chevron-up show-icon" style="display:none;"></i> &nbsp;
-                  <p   class="show-text">Show Ticket Information</p>
-                  <p   class="hide-text" style="display:none;">Hide Ticket Information</p>
-                </div>
-
-                <div class="col-md-9 col-sm-12 col py-2 text-md-right text-sm-center row justify-content-end none">
-                  <div class="row w-100">
-                    <div class="col-md d-flex align-items-center justify-content-md-end mb-md-0 mb-3">
-                      <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4">
-                        <span class="calendar card-icons pr-1">
-                          <i class="bi bi-calendar3"></i>
-                        </span>
-                        <span class="card-icon-label">
-                          Valid from 12 Sept 2022 to 31 Mar 2023
-                        </span>
-                      </div>
-
-                      <div class="icon-wrapper d-flex justify-content-between align-items-center px-lg-4">
-                        <span class="lightning card-icons pr-1">
-                          <i class="bi bi-lightning-fill"></i>
-                        </span>
-                        <span class="card-icon-label">
-                          Instant
-                        </span>
-                      </div>
-                      
-                      <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4">
-                        <span class="calendar card-icons pr-1">
-                          <i class="bi bi-calendar3"></i>
-                        </span>
-                        <span class="card-icon-label">
-                           Dated
-                        </span>
-                      </div>
-
-                    </div>
-
-                    <div class="add-cart-btn col-12 col-lg-2 p-0 text-right">
-                       <a href="cart.php" role="button">
-                          <button class="btn btn-success btn-add" type="button">
-                            <span class="font-14"><i class="mdi mdi-cart-outline"></i></span>
-                            <span class="font-14">&nbsp;Add to Cart</span>
-                          </button>
-                        </a>
-
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="selectticket-detail pb-4  collapse bg-white font-style-primary px-4" id="collapseInfor-7776">
-                <div class="row">
-                  <div class="col-12">
-                    <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Description / Important Notes</h5>
-                    <div class="mb-4 ml-3"><p>abc</p></div>
-                    <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Validity</h5>
-                    <p class="ml-3">Valid from 12 Sept 2022 to 31 Mar 2023</p>
-                    <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Cancellation Policy</h5>
-                        <ul>
-                            <li>
-                              <strong>Non-refundable and No Cancellation</strong></li>
-                          </ul>
-                        <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Terms &amp; Conditions</h5>
-                        <div class="mb-4 ml-3"><p>def</p></div>
-
-                  </div>
-                </div>
-              </div>
-
-            </div>
-           </div> -->
+          <!-- mobview endcode  -->
         <!---->
-          <!-- <div class="mb-4 myticket">
-            <div class="selectticket-card card text-dark mb-2">
-              <div class="selectticket-infor col-md-12 px-2 py-1">
-                <div class="row align-items-center h-100 p-2">
-                  <div class="col-lg col-md d-flex align-items-center justify-content-center">
-                    <div class="row w-100">
-                      <div class="col-sm col">
-                        <h5 class="ticket-card-header">
-                          Ticket testing replicate
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 mb-md-2 mb-sm-0 pt-2 pl-0 pr-2 mx-md-0 favorite-id-container d-flex align-items-center justify-content-around">
-                    <div class="option-id-wrapper mr-3">
-                      <span class="ticket-card-header">
-                        Product Option ID : 7775
-                      </span>
-                    </div>
-                    <div class="favorite-wrapper">
-                      <span class="favorite-icon pr-2 active-favorite search-fav-icon" >
-                        <i class="bi bi-star-fill" style="font-size: 22px; color:gold;"></i>
-
-                      </span>
-                    </div>
-                  </div>
-
-
-                </div>
-              </div>
-
-              <div class="selectticket-quantity table-responsive border-top bg-white">
-                <div>
-                  <table class="select-ticket-table table font-weight-normal m-10">
-                    <thead>
-                      <tr>
-                        <th scope="col"></th>
-                        <th scope="col">
-                          <span>Ticket Type ID:</span>
-                        </th>
-                        <th scope="col">
-                          <span>SKU:</span>
-                        </th>
-                        <th scope="col">
-                          <span>Original Merchant Price:</span>
-                        </th>
-                        <th scope="col"><span>Minimum Selling Price:</span></th>
-
-                        <th scope="col">
-                          <span>Nett Price:</span>
-                        </th>
-                        <th scope="col"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-
-                        <td width="20%">
-                          <div class="name-info-wrapper">
-                            <h5 class="variation-title font-style-primary">
-                              <span class="font-weight-bold">Adult</span>
-                            </h5>
-
-                          </div>
-                        </td>
-                        <td>
-                          <div class="variation-price d-inline">
-                            <span>
-                              11566
-                            </span>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="variation-price d-inline">
-                            <span>
-                              01E7K0100603A
-                            </span>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="variation-price d-inline">
-                            <span>
-                              SGD 13
-                            </span>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="variation-price d-inline">
-                            <span>
-                              SGD 12.00
-                            </span>
-
-                          </div>
-                        </td>
-
-                        <td>
-                          <div>
-                            <h5 class="variation-title font-style-primary p-0">
-                              <span class="font-weight-bold">
-                                SGD {{$attraction_single->display_final}}
-                              </span>
-                            </h5>
-                          </div>
-                        </td>
-
-                        <td class="td-text-cart">
-                        <div class="qty-container">
-                          <button class="qty-btn-minus btn-light" type="button"><i class="bi bi-dash-lg"></i></button>
-                          <input type="text" name="qty" value="0" class="input-qty"/>
-                          <button class="qty-btn-plus btn-light" type="button"><i class="bi bi-plus-lg"></i></button>
-                        </div>
-                      </td>
-
-                      </tr>
-
-                    </tbody>
-                  </table>
-
-                </div>
-              </div>
-
-
-
-              <div class="selectticket-btn font-weight-bold collapse-button row m-0 font-style-primary">
-                <div aria-expanded="false" class="col-sm-3 col pr-1 d-flex align-items-center collapsed ticket-toggle" data-toggle="collapse" data-target="#collapseInfor-7777" aria-controls="#collapseInfor-7775">
-                <i   class="bi bi-chevron-down hide-icon"></i>
-                  <i   class="bi bi-chevron-up show-icon" style="display:none;"></i> &nbsp;
-                  <p   class="show-text">Show Ticket Information</p>
-                  <p   class="hide-text" style="display:none;">Hide Ticket Information</p>
-                </div>
-
-                <div class="col-md-9 col-sm-12 col py-2 text-md-right text-sm-center row justify-content-end none">
-                  <div class="row w-100">
-                    <div class="col-md d-flex align-items-center justify-content-md-end mb-md-0 mb-3">
-                      <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4">
-                        <span class="calendar card-icons pr-1">
-                          <i class="bi bi-calendar3"></i>
-                        </span>
-                        <span class="card-icon-label">
-                          Valid from 12 Sept 2022 to 31 Mar 2023
-                        </span>
-                      </div>
-
-                      <div class="icon-wrapper d-flex justify-content-between align-items-center px-lg-4">
-                        <span class="lightning card-icons pr-1">
-                          <i class="bi bi-lightning-fill"></i>
-                        </span>
-                        <span class="card-icon-label">
-                          Instant
-                        </span>
-                      </div>
-                      
-                      <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4">
-                        <span class="calendar card-icons pr-1">
-                          <i class="bi bi-calendar3"></i>
-                        </span>
-                        <span class="card-icon-label">
-                           Dated
-                        </span>
-                      </div>
-
-                    </div>
-
-                    <div class="add-cart-btn col-12 col-lg-2 p-0 text-right">
-                        <a href="cart.php" role="button">
-                          <button class="btn btn-success btn-add" type="button">
-                            <span class="font-14"><i class="mdi mdi-cart-outline"></i></span>
-                            <span class="font-14">&nbsp;Add to Cart</span>
-                          </button>
-                        </a>
-
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="selectticket-detail pb-4  collapse bg-white font-style-primary px-4" id="collapseInfor-7777">
-                <div class="row">
-                  <div class="col-12">
-                    <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Description / Important Notes</h5>
-                    <div class="mb-4 ml-3"><p>abc</p></div>
-                    <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Validity</h5>
-                    <p class="ml-3"> Valid for 30 days</p>
-                    <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Cancellation Policy</h5>
-                        <ul>
-                            <li>
-                              <strong>Non-refundable and No Cancellation</strong></li>
-                          </ul>
-                        <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Terms &amp; Conditions</h5>
-                        <div class="mb-4 ml-3"><p>def</p></div>
-
-                  </div>
-                </div>
-              </div>
-
-            </div>
-           </div> -->
+        
 
     </div>
   </div>
