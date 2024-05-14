@@ -20,9 +20,9 @@ class CartController extends Controller
         $cart_info=json_decode($carts->more_info);
         // $cart_info=json_decode($carts->more_info,true);
         // $attractionids = array_column($cart_info ?? [], 'attraction_id');
-        dd($cart_info);
+        // dd($cart_info);
 
-        $all=Attraction::with('attraction_ticket')->whereIn('id',$attractionids)->get();
+        // $all=Attraction::with('attraction_ticket')->whereIn('id',$attractionids)->get();
 // dd($all);
         return view('cart.cart', compact('cart_info'));
     }

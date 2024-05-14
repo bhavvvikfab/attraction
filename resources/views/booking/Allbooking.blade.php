@@ -85,23 +85,23 @@
                       <td>{{$sinle_book->user->name ?? 'NA'}}</td>
                       <td>{{$sinle_book->attraction->name ?? 'NA'}}</td>
                       <td>{{$sinle_book->amount ?? 'NA'}}</td>
-                      <!-- <td>
+                      <td>
                       <div class="d-flex justify-content-around align-items-center">
                         <div class="viewbooking p-1">
-                          <a href="viewbookingdetail.php">
+                          <a href="{{ route(session('prefix', 'agent') . '.view_booking' ,['id'=>$sinle_book->id]) }}">
                             <button type="button" class="btn btn-primary"><i class='ri-eye-line'></i></button>
                           </a>
                         </div>
                         
-                        <div class="deletbooking p-1">
+                        <!-- <div class="deletbooking p-1">
                           <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                        </div>
+                        </div> -->
                       </div>
-                    </td> -->
-                    <td>
-                        <button type="button" class="btn btn-success">Approve</button>
-                        <!--<span class="badge text-success">Approved</span>-->
                     </td>
+                    <!-- <td>
+                        <button type="button" class="btn btn-success">Approve</button>
+                        
+                    </td> -->
                     </tr>
                     
                     <?php } ?>

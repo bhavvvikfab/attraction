@@ -136,7 +136,7 @@ class AttractionController extends Controller
     }
     $ticket_ID=$request->ticket_ID;
     $option_ID=(int)$request->option_ID;
-
+// dd($option_ID);
     $attrwith_ticketinfo=$attraction_single2=Attraction::with('attraction_ticket')->find($attraction_ID);
     if($attrwith_ticketinfo){
         $attraction_option=json_decode($attraction_single2['attraction_ticket']['display_final_netprice'],true);
@@ -144,8 +144,9 @@ class AttractionController extends Controller
         $desiredItem = array_filter($attraction_option['data'], function ($item) use ($option_ID) {
             return (int)$item['id'] === $option_ID;
         });
-        // dd($desiredItem);
+       
         $resetdesiredItem=reset($desiredItem);
+        // dd($resetdesiredItem);
         $optionDetailsArray=array(
             "option_name"=> $resetdesiredItem['name'] ?? 'NA',
             "description"=> $resetdesiredItem['description'] ?? 'NA',
@@ -177,6 +178,20 @@ class AttractionController extends Controller
     // Loop through ticket_ID and agent_price once
     foreach ($inputArray["ticket_ID"] as $j => $ticket_id) {
         // Check if quantity is greater than 0
+       
+        // $attraction_option=json_decode($attraction_single2['attraction_ticket']['display_final_netprice'],true);
+        // $desiredItem = array_filter($attraction_option['data'], function ($item) use ($option_ID) {
+        //     return (int)$item['id'] === $option_ID;
+        // });
+       
+        // $resetdesiredItem=reset($desiredItem);
+       
+        // dd($resetdesiredItem['ticketType']);
+        // $desiredataforticket=array_filter($resetdesiredItem['ticketType'], function($item2) use ($ticket_id){
+        //     return (int)$item2['id'] === $ticket_id;
+        // });
+        // $arrtt= reset($desiredataforticket);
+        // dd ($arrtt);
         if ($inputArray["quantity"][$j] > 0) {
 
             $ticket_data[] = [
@@ -268,6 +283,20 @@ class AttractionController extends Controller
 
 
 
+    }
+
+    public function getAttractions_autosearch(Request $request){
+         // Fetch attraction suggestions based on keyword and country ID
+         $keyword = $request->input('keyword');
+         $countryCode = $request->input('countryCode');
+ 
+         // Example query to fetch attraction suggestions (replace with your logic)
+         $attractions = Attraction::where('country', $countryCode)
+                                   ->where('name', 'like', '%'.$keyword.'%')
+                                   ->limit(10) // Limit to 10 suggestions
+                                   ->get();
+ 
+         return response()->json($attractions);
     }
 
 
