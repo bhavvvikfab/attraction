@@ -57,8 +57,8 @@
                 <thead>
                   <tr>
                     <th> Sr. No. </th>
-                    <th>Attraction Image</th>
-                    <th>Atrraction Name</th>
+                    <th>Image</th>
+                    <th>Name</th>
                     <!-- <th data-type="date" data-format="DD/MM/YYYY">Opening Date</th> -->
                     <!-- <th>Original price</th>
                     <th>Display Price</th> -->
@@ -69,6 +69,7 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @if(isset($attraction_data) && !empty($attraction_data))
                   <?php $i= 1; ?>
                   @foreach($attraction_data as $single_att)
                   <?php $ff = json_decode($single_att->fields); ?>
@@ -112,6 +113,7 @@
                     </td>
                   </tr>
                   @endforeach
+                  @endif
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->
@@ -128,6 +130,23 @@
   @include('layouts.footer');
   <script>
 $(document).ready(function() {
-    $('#attractiontable').DataTable();
+    // $('#attractiontable').DataTable();
+    $('#attractiontable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '{{ route('attractions.getAttractions') }}',
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'image', name: 'image' ,orderable: false, searchable: false,createdCell: function(td, cellData, rowData, row, col) {
+                            $(td).addClass('text-center');
+                        }
+            },
+            { data: 'name', name: 'name' },
+            { data: 'country', name: 'country' },
+            { data: 'markup', name: 'markup', orderable: false, searchable: false },
+            { data: 'action', name: 'action', orderable: false, searchable: false },
+        ]
+    });
+    
 });
 </script>
