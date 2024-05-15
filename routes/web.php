@@ -48,6 +48,7 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
      
     Route::get('/', [LoginController::class, 'deshborad_page'])->name('admin');
     Route::get('/all_attraction', [AttractionController::class, 'index'])->name('admin.all_attraction');
+    Route::get('all_attraction/getAttractions', [AttractionController::class, 'getAttractions'])->name('attractions.getAttractions');
     Route::get('/view_attraction', [AttractionController::class, 'view_attraction'])->name('admin.view_attraction');
     Route::get('/add_attraction', [AttractionController::class, 'add_attraction'])->name('admin.add_attraction');
     Route::get('/view_single_attraction/{id}', [AttractionController::class, 'view_single_attraction'])->name('admin.view_single_attraction');

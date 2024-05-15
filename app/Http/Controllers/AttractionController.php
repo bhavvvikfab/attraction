@@ -7,18 +7,54 @@ use App\Models\Attraction;
 use App\Models\AttractionTicket;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class AttractionController extends Controller
 {  
     public function index(){
 
-        $attraction_data= Attraction::all();
-        // echo"<pre>";
-        // print_r($attraction_data); die;
-        // dd($attraction_data);
-        // dd($attraction_data[0]->display_final);
+        // $attraction_data= Attraction::all();
+        $attraction_data = array();
         return view('attraction.allattraction',compact('attraction_data'));
     }
+
+    public function getAttractions(Request $request)
+    {
+        if ($request->ajax()) {
+            $attraction_data = Attraction::all();
+            return DataTables::of($attraction_data)
+                ->addColumn('image', function($row){
+                    $img = asset('assets/img/').'/'.$row->image;
+                    if($row->attraction_id){
+                        $img = env('API_IMAGE_URL').''.$row->image;
+                    }
+                    return '<img  height="100" width="100" src="'.$img.'" alt="Card image cap">';
+                })
+                ->addColumn('markup', function($row){
+                    $Amount = ($row->markup_type==1)? "selected" : "";
+                    $Percentage = ($row->markup_type==2)? "selected" : "";
+                    return '<div class="input-group deposit d-grid">
+                          <input type="hidden" name="attraction_id" class="attraction_id" value="'.$row->id.'">                      
+                          
+                          <select class="form-select attraction_mark_up_type w-100" id="attraction_mark_up_type"> 
+                              <option value="1" '.$Amount.'>Amount</option>
+                              <option value="2" '.$Percentage.'>Percentage</option>
+                          </select>
+                          <input type="number" class="form-control attraction_mark_up w-100 mt-2" name="attraction_mark_up" id="attraction_mark_up" value="'.$row->markup_value.'" aria-describedby="inputGroupPrepend9">
+                          <p class="mark_up_error"></p>
+                      </div>';
+                })
+                ->addColumn('action', function($row){
+                    $href = route(session('prefix', 'agent') .'.view_single_attraction', ['id' => $row->id]);
+                    return '<a href="' . $href . '">
+                                <button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>
+                            </a>';
+                })
+                ->rawColumns(['image','markup', 'action'])
+                ->make(true);
+        }
+    }
+    
 
     public function view_attraction(Request $request)
     {
