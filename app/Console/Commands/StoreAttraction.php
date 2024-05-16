@@ -183,7 +183,7 @@ class StoreAttraction extends Command
                             
                         }
                     }
-                    sleep(15);
+                    sleep(20);
                 }                              
             }
         }        

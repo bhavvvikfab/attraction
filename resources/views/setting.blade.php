@@ -177,7 +177,7 @@
                       <h5 class="mb-4">Get And Store Attraction</h5>
                       <button type="button" class="btn btn-primary" id="btn_AddUpdate_Attraction">Get And Store Attraction</button>
                     </div>
-                    <div class="loader-wrapper d-none justify-content-center align-items-center" style="display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(255, 255, 255, 0.7);">
+                    <div class="loader-wrapper d-none justify-content-center align-items-center" style="display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(255, 255, 255, 0.7);z-index: 9999;">
                       <div class="mb-4 spinner-border text-primary" role="status">
                       </div>
                       <div class="fs-4 fw-bolder mt-5 position-absolute sr-only" style="">
