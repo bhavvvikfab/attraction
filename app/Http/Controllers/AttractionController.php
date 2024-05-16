@@ -215,25 +215,31 @@ class AttractionController extends Controller
     foreach ($inputArray["ticket_ID"] as $j => $ticket_id) {
         // Check if quantity is greater than 0
        
-        // $attraction_option=json_decode($attraction_single2['attraction_ticket']['display_final_netprice'],true);
-        // $desiredItem = array_filter($attraction_option['data'], function ($item) use ($option_ID) {
-        //     return (int)$item['id'] === $option_ID;
-        // });
+        $attraction_option=json_decode($attraction_single2['attraction_ticket']['display_final_netprice'],true);
+        $desiredItem = array_filter($attraction_option['data'], function ($item) use ($option_ID) {
+            return (int)$item['id'] === $option_ID;
+        });
        
-        // $resetdesiredItem=reset($desiredItem);
+        $resetdesiredItem=reset($desiredItem);
        
         // dd($resetdesiredItem['ticketType']);
-        // $desiredataforticket=array_filter($resetdesiredItem['ticketType'], function($item2) use ($ticket_id){
-        //     return (int)$item2['id'] === $ticket_id;
-        // });
-        // $arrtt= reset($desiredataforticket);
+        $desiredataforticket=array_filter($resetdesiredItem['ticketType'], function($item2) use ($ticket_id){
+            return (int)$item2['id'] == $ticket_id;
+        });
+        $arrtt= reset($desiredataforticket);
         // dd ($arrtt);
+        $ticketdetails_array=array(
+            "ticket_name"=> $arrtt['name'] ?? 'NA',
+            "sku"=> $arrtt['sku'] ?? 'NA',
+
+        );
         if ($inputArray["quantity"][$j] > 0) {
 
             $ticket_data[] = [
                 "ticket_id" => $ticket_id,
                 "count" => $inputArray["quantity"][$j],  
-                "agent_price" => $inputArray["agent_price"][$j]
+                "agent_price" => $inputArray["agent_price"][$j],
+                "ticketdetails_array" => $ticketdetails_array
             ];
         }
     }
@@ -266,6 +272,28 @@ class AttractionController extends Controller
             }
         }
     
+        // if ($attractionIndex != -1) {
+        //     // Attraction exists, check if the option exists
+        //     $optionIndex = -1;
+        //     foreach ($cartData[$attractionIndex]['options'] as $i => $option) {
+        //         if ($option['option_id'] == $inputArray['option_ID']) {
+        //             $optionIndex = $i;
+        //             break;
+        //         }
+        //     }
+        //     if ($optionIndex != -1) {
+        //         // Option exists, append ticket data
+        //         $cartData[$attractionIndex]['options'][$optionIndex]['tickets'] = array_merge($cartData[$attractionIndex]['options'][$optionIndex]['tickets'], $ticket_data);
+        //     } else {
+        //         // Option does not exist, add new option
+        //         $cartData[$attractionIndex]['options'][] = $newOption;
+        //     }
+        // } else {
+        //     // Attraction does not exist, add new entry
+        //     $cartData[] = $formatted_data[0];
+        // }
+ 
+        //SPECIAL TICKET DATA 
         if ($attractionIndex != -1) {
             // Attraction exists, check if the option exists
             $optionIndex = -1;
@@ -276,8 +304,23 @@ class AttractionController extends Controller
                 }
             }
             if ($optionIndex != -1) {
-                // Option exists, append ticket data
-                $cartData[$attractionIndex]['options'][$optionIndex]['tickets'] = array_merge($cartData[$attractionIndex]['options'][$optionIndex]['tickets'], $ticket_data);
+                // Option exists, check if the ticket exists
+                foreach ($ticket_data as $newTicket) {
+                    $ticketExists = false;
+                    foreach ($cartData[$attractionIndex]['options'][$optionIndex]['tickets'] as $existingTicket) {
+                        if ($existingTicket['ticket_id'] == $newTicket['ticket_id']) {
+                            // Ticket exists, update its count and price
+                            $existingTicket['count'] += $newTicket['count'];
+                            $existingTicket['agent_price'] = $newTicket['agent_price'];
+                            $ticketExists = true;
+                            break;
+                        }
+                    }
+                    if (!$ticketExists) {
+                        // Ticket does not exist, append it to the option
+                        $cartData[$attractionIndex]['options'][$optionIndex]['tickets'][] = $newTicket;
+                    }
+                }
             } else {
                 // Option does not exist, add new option
                 $cartData[$attractionIndex]['options'][] = $newOption;
@@ -286,6 +329,8 @@ class AttractionController extends Controller
             // Attraction does not exist, add new entry
             $cartData[] = $formatted_data[0];
         }
+        
+        //SPECIAL TICKET DATA
         // echo"<pre>";
         // print_r($cartData); die;
         $check_cart_data->more_info = json_encode($cartData);

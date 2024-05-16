@@ -17,7 +17,11 @@ class CartController extends Controller
         // $carts=1;
         $user_id=Auth::user()->id;
         $carts=Cart::where('user_id',$user_id)->first();
-        $cart_info=json_decode($carts->more_info);
+        $cart_info=json_decode($carts->more_info,true);
+        // echo"<pre>";
+        // print_r($cart_info);
+        // die;
+        // dd($cart_info);
         // $cart_info=json_decode($carts->more_info,true);
         // $attractionids = array_column($cart_info ?? [], 'attraction_id');
         // dd($cart_info);

@@ -94,10 +94,10 @@
                   <div class="col-lg-9 col-md-8">Web Designer</div>
                 </div> -->
 
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col-lg-3 col-md-4 label">Country</div>
                   <div class="col-lg-9 col-md-8">{{$userdata->country ?? 'NA'}}</div>
-                </div>
+                </div> -->
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Address</div>
@@ -169,7 +169,7 @@
                   <div class="row mb-3">
                     <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="country" type="text" class="form-control" id="country" value="{{$userdata->country}}">
+                      <input name="country" type="text" class="form-control" id="country" value="">
                     </div>
                   </div>
 
@@ -344,5 +344,9 @@ $(document).on('submit','#profile_update_form',function(){
   var countryData = $("#country").countrySelect("getSelectedCountryData");
   $(this).append("<input type='hidden' name='country' value='"+countryData.iso2+"'>");
 })
+
+  $('#country').countrySelect({
+      defaultCountry: "{{$userdata->country}}",
+  }); 
 
 </script>
