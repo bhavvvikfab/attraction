@@ -10,26 +10,26 @@
         </a>
       </li><!-- End Dashboard Nav -->
 
+      @if(session('prefix') == 'admin')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#Supl-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Attractions</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="Supl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        @if(session('prefix') == 'admin')
           <li>
             <a href="{{ route(session('prefix', 'agent') . '.all_attraction') }}">
               <i class="bi bi-circle"></i><span>All Attractions</span>
             </a>
           </li>
-        @else
-          <li>
-            <a href="{{ route(session('prefix', 'agent') . '.view_attraction') }}">
-              <i class="bi bi-circle"></i><span>All Attraction</span>
-            </a>
-          </li>
-          @endif
         </ul>
-      </li><!-- End Supplier Nav -->
+      </li>
+      @else
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.view_attraction') }}">
+        <i class="bi bi-menu-button-wide"></i><span>Attractions</span>
+        </a>
+      </li>
+      @endif
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#order-nav" data-bs-toggle="collapse" href="#">

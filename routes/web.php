@@ -145,11 +145,13 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/all_chat', [AttractionController::class, 'view_attraction'])->name('agent.all_chat');
     Route::post('/view_single_attraction/addcart_attraction', [AttractionController::class, 'addcart_attraction'])->name('agent.addcart_attraction');
     
+    // cart start
     Route::post('/cart/add',[CartController::class,'store'])->name('agent.addCart');
     Route::get('/cartlist',[CartController::class,'index'])->name('agent.cartlist');
-    
-    Route::get('/getAttractions_autosearch', [AttractionController::class, 'getAttractions_autosearch'])->name('agent.getAttractions_autosearch');
+    Route::post('/updateCartQTY',[CartController::class,'updateCartQTY'])->name('agent.updateCartQTY');
+    // cart end
 
+    Route::get('/getAttractions_autosearch', [AttractionController::class, 'getAttractions_autosearch'])->name('agent.getAttractions_autosearch');
 });
 // route's for AGENT end
 

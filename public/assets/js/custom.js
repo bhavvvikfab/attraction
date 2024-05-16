@@ -1,4 +1,19 @@
+function makeAjaxRequest(url, method, data, successCallback, errorCallback) {
+  $.ajax({
+      url: url,
+      type: method,
+      data: data,
+      async:false,
+      contentType: data instanceof FormData ? false : 'application/x-www-form-urlencoded; charset=UTF-8',
+      processData: !(data instanceof FormData),
+      success: successCallback,
+      error: errorCallback
+  });
+}
+
 $(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip()
+
   $('#country').countrySelect({
       defaultCountry: "my",
       displayCountryName: true
