@@ -17,6 +17,8 @@ class TopupController extends Controller
         // Filter transactions if the user is an agent
         if(Auth::user()->role == 2){
             $userTransactions = $userTransactions->where('user_id', Auth::user()->id);
+        }else{
+            $userTransactions = $userTransactions->where('user_id', '!=', Auth::user()->id);
         }
 
         return view('topup.topup', [
@@ -45,10 +47,22 @@ class TopupController extends Controller
     
         if ($transactionStatus == "completed") {
             $userData->credit_balance += $userTransaction->amount;
+
+                $transactionAdminId = 'TX' . now()->timestamp . Str::random(6);
+
+                $transactionAdmin = new UserTransaction([
+                    'user_id' => Auth::user()->id,
+                    'transaction_id' => $transactionAdminId,
+                    'amount' => $userTransaction->amount,
+                    'type' => "debit",
+                    'status' => "completed",
+                    'balance' => $userData->credit_balance,
+                ]);
+
+                $transactionAdmin->save();
+
             $userData->save();
 
-            // $adminData->credit_balance -= $userTransaction->amount;
-            // $adminData->save();
         }
     
         $userTransaction->status = $transactionStatus;
@@ -62,13 +76,13 @@ class TopupController extends Controller
     
         $finalBalance = Auth::user()->credit_balance + $requestedAmount;
 
-        $transactionId = 'TX' . now()->timestamp . Str::random(6); // Example: TX1646886532abc123
+        $transactionId = 'TX' . now()->timestamp . Str::random(6); 
     
         $transaction = new UserTransaction([
             'user_id' => Auth::user()->id,
             'transaction_id' => $transactionId,
             'amount' => $requestedAmount,
-            'type' => "debit",
+            'type' => "credit",
             'status' => "pending",
             'balance' => $finalBalance,
         ]);
