@@ -26,7 +26,7 @@
 
               <div class="row">
                 <div class="col-md-5">
-                  <h5 class="" style="font-weight: 900;">You have 0 item(s) in cart</h5>
+                  <h5 class="" style="font-weight: 900;">You have {{count($cart_info) ?? 0}} item(s) in cart</h5>
                 </div>
                 <div class="col-md-7 d-flex justify-content-end">
                   <!--bindings={
@@ -40,9 +40,14 @@
 <!-- fdfdf -->
 @if(!empty($cart_info))
 @foreach($cart_info as $singlecart)
-<div class="text-dark mb-2 fs-3">{{$singlecart['attractionDetails']['name']}}</div>
-@foreach($singlecart['options'] as $single_option) 
-<div class="mb-4 myticket">
+<div class="selectticket-card card text-dark m-2">
+  <div class="selectticket-infor col-md-12 px-2 py-1">
+    <div class="mb-2 fs-3 ticket-card-header">{{$singlecart['attractionDetails']['name']}}</div>
+  </div>
+<div class="p-4">
+  @foreach($singlecart['options'] as $single_option) 
+ 
+  <div class="mb-4 myticket">
           
             <div class="selectticket-card card text-dark mb-2">
               <div class="selectticket-infor col-md-12 px-2 py-1">
@@ -52,7 +57,7 @@
                       <div class="col-sm col">
                         <h5 class="ticket-card-header">
                           <!-- Ticket testing replicate -->
-                       
+                          {{$single_option['optionDetailsArray']['option_name']}}
                         </h5>
                       </div>
                     </div>
@@ -74,7 +79,7 @@
 
                 </div>
               </div>
-@foreach($single_option['tickets'] as $single_ticket)
+              @if(!empty($single_option['tickets']))
               <div class="selectticket-quantity table-responsive border-top bg-white">
                 <div>
                   <table class="select-ticket-table table font-weight-normal m-10">
@@ -95,10 +100,12 @@
                         <th scope="col">
                           <span >Nett Price:</span>
                         </th>
+                        <th class="text-center" scope="col"><span >QTY:</span></th>
                         <th scope="col"></th>
                       </tr>
                     </thead>
                     <tbody >
+              @foreach($single_option['tickets'] as $single_ticket)
                 
                       <tr>
 
@@ -125,22 +132,6 @@
                             </span>
                           </div>
                         </td>
-                        <!-- <td>
-                          <div class="variation-price d-inline">
-                            <span >
-                              SGD 13
-                            </span>
-                          </div>
-                        </td> -->
-                        <!-- <td >
-                          <div class="variation-price d-inline">
-                            <span >
-                              SGD 12.00
-                            </span>
-
-                          </div>
-                        </td> -->
-
                         <td>
                           <div>
                             <h5 class="variation-title font-style-primary p-0">
@@ -153,27 +144,28 @@
                         </td>
 
                         <td class="td-text-cart">
-                        <div class="qty-container">
-                          <button class="qty-btn-minus btn-light" data-id="" type="button"><i class="bi bi-dash-lg"></i></button>
-                          <input type="text" name="qty" value="{{ $single_ticket['count'] ? $single_ticket['count']: 0 }}" class="input-qty"/>
-                          <button class="qty-btn-plus btn-light" data-id="" type="button"><i class="bi bi-plus-lg"></i></button>
-                        </div>
-                      </td>
+                          <div class="qty-container">
+                            <button class="qty-btns qty-btn-minus btn-light" data-id="" type="button"><i class="bi bi-dash-lg"></i></button>
+                            <input type="text" data-attraction_id="{{$singlecart['attraction_id']}}" data-option_id="{{$single_option['option_id']}}" data-ticket_id="{{$single_ticket['ticket_id']}}" name="qty" value="{{ $single_ticket['count'] ? $single_ticket['count']: 0 }}" min="1" class="input-qty"/>
+                            <button class="qty-btns qty-btn-plus btn-light" data-id="" type="button"><i class="bi bi-plus-lg"></i></button>
+                          </div>
+                        </td>
+                        
+                        <td class="td-text-cart">
+                          <div class="qty-container">
+                            <button class="bg-white border-0 btn-danger qty-btn-minus qty-btns text-danger" type="button" data-toggle="tooltip" title="Remove ticket"><i class="bi bi-x-circle-fill"></i></i></button>
+                          </div>
+                        </td>
 
                       </tr>
                    
-
-                    </tbody>
+@endforeach
+                  </tbody>
                   </table>
-
-
-
-
 
                 </div>
               </div>
-@endforeach
-
+@endif
 
               <div class="selectticket-btn font-weight-bold collapse-button row m-0 font-style-primary d-flex justify-content-end px-2">
                 <!-- <div aria-expanded="false" class="col-sm-3 col pr-1 d-flex align-items-center collapsed ticket-toggle" data-toggle="collapse" data-target="#collapseInfor" aria-controls="#collapseInfor">
@@ -185,39 +177,11 @@
 
                 <div class="col-md-9 col-sm-12 col py-2 text-md-right text-sm-center row justify-content-end none">
                   <div class="row w-100">
-                    <div class="col-md d-flex align-items-center justify-content-md-end mb-md-0 mb-3">
-                      <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4">
-                        <span class="calendar card-icons pr-1">
-                          <i class="bi bi-calendar3"></i>
-                        </span>
-                        <span class="card-icon-label">
-                          Valid from 12 Sept 2022 to 31 Mar 2023
-                        </span>
-                      </div>
-
-                      <div class="icon-wrapper d-flex justify-content-between align-items-center px-lg-4" >
-                        <span class="lightning card-icons pr-1">
-                          <i class="bi bi-lightning-fill"></i>
-                        </span>
-                        <span class="card-icon-label">
-                          Instant
-                        </span>
-                      </div><!---->
-                      <div class="icon-wrapper d-flex justify-content-between align-items-center pr-4" >
-                        <span class="calendar card-icons pr-1">
-                          <i class="bi bi-calendar3"></i>
-                        </span>
-                        <span class="card-icon-label">
-                           Dated
-                        </span>
-                      </div>
-
-                    </div>
-                   <div class="add-cart-btn col-12 col-lg-2 p-0 text-right">
+                   <div class="add-cart-btn col-12 col-lg-2 p-0 text-right w-100">
                       <!-- <a href="cart.php" role="button"> -->
                           <button class="btn btn-danger btn-add" id="option" data-id="option-{{ $single_option['option_id']}}" type="button">
                             <span class="font-14"><i class="mdi mdi-cart-outline"></i></span>
-                            <span class="font-14">&nbsp;Delete</span>
+                            <span class="font-14">&nbsp;Remove</span>
                           </button>
                         <!-- </a> -->
                     </div>
@@ -248,6 +212,8 @@
             </div>
            </div>
            @endforeach
+           </div>
+           </div>
            @endforeach
            @endif
 <!-- dfdfdf -->
@@ -416,3 +382,52 @@
 
 @include('layouts.footer');
 
+<script>
+  const operations = {
+    'qty-btn-minus': function(qty) { return Math.max(Number(qty) - 1, 1); },
+    'qty-btn-plus': function(qty) { return Number(qty) + 1; }
+  };
+$(document).on('click','.qty-btns',function(){
+  var $this = $(this);
+  var qty_container = $this.parent();
+  var input_qty = qty_container.find('.input-qty');
+  var qty = input_qty.val();
+  var new_qty = qty; 
+  var operation = $this.hasClass('qty-btn-minus') ? 'qty-btn-minus' : 'qty-btn-plus';
+  new_qty = operations[operation](new_qty);
+  input_qty.val(new_qty).trigger('change');
+})
+
+$(document).on('change','.input-qty',function(){
+  var $this = $(this);
+  var qty_container = $this.parent();
+  var qty = $(this).val();
+  var attraction_id = $this.attr('data-attraction_id');
+  var option_id = $this.attr('data-option_id');
+  var ticket_id = $this.attr('data-ticket_id');
+  console.log('attraction_id:',attraction_id,',option_id:',option_id,",ticket_id:",ticket_id);
+  formData = '{}';
+  var fd = new FormData();
+  fd.append('attraction_id',attraction_id);
+  fd.append('option_id',option_id);
+  fd.append('ticket_id',ticket_id);
+  fd.append('qty',qty);
+
+  var url = '<?php echo route(session('prefix', 'agent') . '.updateCartQTY'); ?>';
+
+  makeAjaxRequest(url, 'POST', fd, 
+        function(response) {
+            // Handle success response
+            console.log(response);
+            showMessage('Message', response.msg, true);
+        },
+        function(xhr, status, error) {
+            // Handle error
+            console.log(xhr.responseJSON,status,error)
+            showMessage('Message', xhr.responseJSON.msg, false);
+        }
+    );
+
+})
+
+</script>
