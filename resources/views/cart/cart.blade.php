@@ -40,8 +40,8 @@
 <!-- fdfdf -->
 @if(!empty($cart_info))
 @foreach($cart_info as $singlecart)
-<div class="text-dark mb-2 fs-3">{{$singlecart->attraction_id}}</div>
-@foreach($singlecart->options as $single_option) 
+<div class="text-dark mb-2 fs-3">{{$singlecart['attractionDetails']['name']}}</div>
+@foreach($singlecart['options'] as $single_option) 
 <div class="mb-4 myticket">
           
             <div class="selectticket-card card text-dark mb-2">
@@ -60,7 +60,7 @@
                   <div class="col-lg-3 col-md-3 mb-md-2 mb-sm-0 pt-2 pl-0 pr-2 mx-md-0 favorite-id-container d-flex align-items-center justify-content-around">
                     <div class="option-id-wrapper mr-3">
                       <span class="ticket-card-header">
-                        Product Option ID : {{ $single_option->option_id}}
+                        Product Option ID : {{ $single_option['option_id']}}
                       
                       </span>
                     </div>
@@ -74,7 +74,7 @@
 
                 </div>
               </div>
-@foreach($single_option->tickets as $single_ticket)
+@foreach($single_option['tickets'] as $single_ticket)
               <div class="selectticket-quantity table-responsive border-top bg-white">
                 <div>
                   <table class="select-ticket-table table font-weight-normal m-10">
@@ -87,10 +87,10 @@
                         <th scope="col">
                           <span >SKU:</span>
                         </th>
-                        <th scope="col">
+                        <!-- <th scope="col">
                           <span >Original Merchant Price:</span>
                         </th>
-                        <th scope="col"><span >Minimum Selling Price:</span></th>
+                        <th scope="col"><span >Minimum Selling Price:</span></th> -->
 
                         <th scope="col">
                           <span >Nett Price:</span>
@@ -105,7 +105,7 @@
                         <td width="15%">
                           <div class="name-info-wrapper">
                             <h5 class="variation-title font-style-primary">
-                              <span class="font-weight-bold"></span>
+                              <span class="font-weight-bold">{{ $single_ticket['ticketdetails_array']['ticket_name'] ? $single_ticket['ticketdetails_array']['ticket_name']: 'NA' }}</span>
                             </h5>
 
                           </div>
@@ -113,7 +113,7 @@
                         <td>
                           <div class="variation-price d-inline">
                             <span>
-                            {{ $single_ticket->ticket_id ? $single_ticket->ticket_id : 'NA' }}
+                            {{ $single_ticket['ticket_id'] ? $single_ticket['ticket_id']: 'NA' }}
                             <input type="hidden" name="ticket_ID[]" class="ticket_ID" value=" " >
                             </span>
                           </div>
@@ -121,31 +121,31 @@
                         <td>
                           <div class="variation-price d-inline">
                             <span>
-                          
+                            {{ $single_ticket['ticketdetails_array']['sku'] ? $single_ticket['ticketdetails_array']['sku']: 'NA' }}
                             </span>
                           </div>
                         </td>
-                        <td>
+                        <!-- <td>
                           <div class="variation-price d-inline">
                             <span >
                               SGD 13
                             </span>
                           </div>
-                        </td>
-                        <td >
+                        </td> -->
+                        <!-- <td >
                           <div class="variation-price d-inline">
                             <span >
                               SGD 12.00
                             </span>
 
                           </div>
-                        </td>
+                        </td> -->
 
                         <td>
                           <div>
                             <h5 class="variation-title font-style-primary p-0">
                               <span class="font-weight-bold">
-                                SGD 
+                              {{ $single_ticket['agent_price'] ? $single_ticket['agent_price']: 'NA' }}
                                 <input type="hidden" name="agent_price[]" class="agent_price" value="">
                               </span>
                             </h5>
@@ -155,7 +155,7 @@
                         <td class="td-text-cart">
                         <div class="qty-container">
                           <button class="qty-btn-minus btn-light" data-id="" type="button"><i class="bi bi-dash-lg"></i></button>
-                          <input type="text" name="qty" value="0" class="input-qty"/>
+                          <input type="text" name="qty" value="{{ $single_ticket['count'] ? $single_ticket['count']: 0 }}" class="input-qty"/>
                           <button class="qty-btn-plus btn-light" data-id="" type="button"><i class="bi bi-plus-lg"></i></button>
                         </div>
                       </td>
@@ -215,7 +215,7 @@
                     </div>
                    <div class="add-cart-btn col-12 col-lg-2 p-0 text-right">
                       <!-- <a href="cart.php" role="button"> -->
-                          <button class="btn btn-danger btn-add" id="option" type="button">
+                          <button class="btn btn-danger btn-add" id="option" data-id="option-{{ $single_option['option_id']}}" type="button">
                             <span class="font-14"><i class="mdi mdi-cart-outline"></i></span>
                             <span class="font-14">&nbsp;Delete</span>
                           </button>

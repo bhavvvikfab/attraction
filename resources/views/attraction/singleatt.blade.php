@@ -51,7 +51,12 @@
             display:none !important;
           }
         }
-
+    .hr_line{
+        background-color: black;
+        height: 5px;
+        border: none;
+        color: black;
+    }
 </style>
   <main id="main1" class="main">
     <div class="pagetitle">
@@ -300,7 +305,7 @@
                       </tr>
                     </thead>
                     <tbody >
-                      @foreach($single_data['ticketType'] as $single_ticket)
+                      @foreach($single_data['ticketType'] as $key1=>$single_ticket)
                       <tr>
 
                         <td width="15%">
