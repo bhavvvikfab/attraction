@@ -1,7 +1,13 @@
 @include('layouts.header');
 @include('layouts.sidebar');
 <style>
+    .container_padding{
+        padding : 3 rem;
+    }
    @media only screen and (max-width: 765px) {
+           .container_padding{
+                padding : .25 rem;
+            }
           table.select-ticket-table.table.font-weight-normal tr th {
             display: none;
           }
