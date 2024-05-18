@@ -53,7 +53,7 @@
         <div class="card">
           <div class="shopping-page">
 
-            <div class="container-fluid mb-2 p-5">
+            <div class="container-fluid mb-2 container_padding">
 
               <div class="row">
                 <div class="col-md-5">
