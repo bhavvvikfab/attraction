@@ -98,7 +98,18 @@
               </span>
           </div>
         </li>
-
+        @if(session('prefix') == 'agent')
+        <!-- $cart_info getting from middleware -->
+        @php
+        $cartCount = isset($cart_info) ? count($cart_info) : 0; 
+        @endphp
+        <li class="nav-item dropdown pe-3 ps-3" placement="bottom-right">
+            <a class="nav-link text-muted" href="{{ route(session('prefix', 'agent') . '.cartlist') }}">
+              <i class="bi bi-cart-fill" style="font-size:18px;"></i>
+              <span class="text-dark"><b>({{ $cartCount }})</b></span>
+            </a>
+          </li>
+        @endif
 
         <li class="nav-item dropdown pe-3 ps-3">
 

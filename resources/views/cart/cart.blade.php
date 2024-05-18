@@ -1,5 +1,36 @@
 @include('layouts.header');
 @include('layouts.sidebar');
+<style>
+    .container_padding{
+        padding : 3 rem;
+    }
+   @media only screen and (max-width: 765px) {
+           .container_padding{
+                padding : .25 rem;
+            }
+          table.select-ticket-table.table.font-weight-normal tr th {
+            display: none;
+          }
+
+          .d-flex-sm-column {
+              flex-direction: column;
+          }
+
+          table.select-ticket-table.table.font-weight-normal tr td {
+            display: block;
+            width: 100% !important;
+          }
+
+          table.select-ticket-table.table.font-weight-normal tr td::before {
+            content: attr(data-cell) " ";
+            font-weight: 800;
+            text-transform: capitalize;
+          }
+          .x1,.x2{
+            display:none !important;
+          }
+        }
+</style>
 
 <main id="main" class="main">
   <div class="pagetitle">
@@ -8,7 +39,7 @@
         <h1>Cart</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{url('/')}}">Dashboard</a></li>
             <li class="breadcrumb-item active">Cart</li>
           </ol>
         </nav>
@@ -22,7 +53,7 @@
         <div class="card">
           <div class="shopping-page">
 
-            <div class="container-fluid mb-2 p-5">
+            <div class="container-fluid mb-2 container_padding">
 
               <div class="row">
                 <div class="col-md-5">
@@ -117,7 +148,7 @@
 
                           </div>
                         </td>
-                        <td>
+                        <td data-cell="Ticket Type ID:">
                           <div class="variation-price d-inline">
                             <span>
                             {{ $single_ticket['ticket_id'] ? $single_ticket['ticket_id']: 'NA' }}
@@ -125,25 +156,25 @@
                             </span>
                           </div>
                         </td>
-                        <td>
+                        <td data-cell="SKU:">
                           <div class="variation-price d-inline">
                             <span>
                             {{ $single_ticket['ticketdetails_array']['sku'] ? $single_ticket['ticketdetails_array']['sku']: 'NA' }}
                             </span>
                           </div>
                         </td>
-                        <td>
+                        <td data-cell="Nett Price:">
                           <div>
                             <h5 class="variation-title font-style-primary p-0">
                               <span class="font-weight-bold">
                               {{ $single_ticket['agent_price'] ? $single_ticket['agent_price']: 'NA' }}
-                                <input type="hidden" name="agent_price[]" class="agent_price" value="">
+                                <input type="hidden" name="agent_price[]" class="agent_price" value="{{$single_ticket['agent_price']}}">
                               </span>
                             </h5>
                           </div>
                         </td>
 
-                        <td class="td-text-cart">
+                        <td class="td-text-cart" data-cell="QTY:">
                           <div class="qty-container">
                             <button class="qty-btns qty-btn-minus btn-light" data-id="" type="button"><i class="bi bi-dash-lg"></i></button>
                             <input type="text" data-attraction_id="{{$singlecart['attraction_id']}}" data-option_id="{{$single_option['option_id']}}" data-ticket_id="{{$single_ticket['ticket_id']}}" name="qty" value="{{ $single_ticket['count'] ? $single_ticket['count']: 0 }}" min="1" class="input-qty"/>
@@ -153,7 +184,7 @@
                         
                         <td class="td-text-cart">
                           <div class="qty-container">
-                            <button class="bg-white border-0 btn-danger qty-btn-minus qty-btns text-danger" type="button" data-toggle="tooltip" title="Remove ticket"><i class="bi bi-x-circle-fill"></i></i></button>
+                            <button class="bg-white border-0 btn-danger text-danger remove_ticket" data-id="{{$single_ticket['ticket_id']}}" type="button" data-toggle="tooltip" title="Remove ticket"><i class="bi bi-x-circle-fill"></i></i></button>
                           </div>
                         </td>
 
@@ -175,18 +206,18 @@
                   <p   class="hide-text" style="display:none;">Hide Ticket Information</p>
                 </div> -->
 
-                <div class="col-md-9 col-sm-12 col py-2 text-md-right text-sm-center row justify-content-end none">
+                <!-- <div class="col-md-9 col-sm-12 col py-2 text-md-right text-sm-center row justify-content-end none">
                   <div class="row w-100">
                    <div class="add-cart-btn col-12 col-lg-2 p-0 text-right w-100">
-                      <!-- <a href="cart.php" role="button"> -->
+                      
                           <button class="btn btn-danger btn-add" id="option" data-id="option-{{ $single_option['option_id']}}" type="button">
                             <span class="font-14"><i class="mdi mdi-cart-outline"></i></span>
                             <span class="font-14">&nbsp;Remove</span>
                           </button>
-                        <!-- </a> -->
+                     
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
 
 
@@ -223,7 +254,7 @@
               <form class="">
                 <div class="row pt-4">
                   <div class="col-md-6">
-                    <h6 class="font-weight-bold">Advanced</h6>
+                    <!-- <h6 class="font-weight-bold">Advanced</h6>
                     <div class="shopping-advanced ml-3">
                       <div class="form-group custom-control custom-checkbox mb-0">
                         <input class="custom-control-input" formcontrolname="groupBooking" id="group_booking"
@@ -243,7 +274,7 @@
                         <label class="custom-control-label" for="apply_promo_code">Apply Discount</label>
                       </div>
 
-                    </div>
+                    </div> -->
                   </div>
                   <div class="col-md-6 pt-md-0 pt-3">
                     <div class="card cart-body">
@@ -273,7 +304,7 @@
                           <div class="text-right">
 
                             <h6 class="card-text font-weight-500">
-                              $150.00
+                            <p class="sub_totle">{{$subtotal}}</p>
                             </h6>
 
                           </div>
@@ -282,7 +313,8 @@
                         <div class="card-title-cart d-flex justify-content-between align-items-center">
                           <h6>Payable Amount</h6>
                           <h6 class="card-text font-weight-500">
-                            $150.00
+                          
+                          <p class="payble_amount">{{$subtotal}}</p>
                           </h6>
                         </div>
 
@@ -293,7 +325,8 @@
 
                           </h5>
                           <h5 class="card-text text-pinky font-weight-bold">
-                            $150.00
+                            
+                            <p class="final_subtotal">{{$subtotal}}</p>
                           </h5>
                         </div>
                       </div>
@@ -301,76 +334,10 @@
                   </div>
                 </div>
 
-                <hr>
-                <h5 class="font-weight-bold pt-2">Customer Information
-                </h5>
+                
 
-                <div class="customer-info form-background mt-4 mb-4">
-                  <div class="row">
-                    <div class="col form-group cart-form">
-                      <h6>Customer Name</h6>
-                      <input class="form-control" formcontrolname="customerName" type="text" name="customerName">
-                      <!--bindings={
-  "ng-reflect-ng-if": "false"
-}-->
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 form-group cart-form">
-                      <h6>Email</h6>
-                      <input class="form-control" formcontrolname="email" type="text" name="email">
-                      <!--bindings={
-  "ng-reflect-ng-if": "false"
-}-->
-                    </div>
-                    <div class="col-md-6 form-group cart-form">
-                      <h6>Alternate Email<span class="optional-field">(optional)</span></h6>
-                      <input class="form-control" formcontrolname="alternateEmail" type="text" name="alternateEmail">
-                      <!--bindings={
-  "ng-reflect-ng-if": "false"
-}-->
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col form-group cart-form">
-                      <h6>NRIC / Passport No.<span class="optional-field">(optional)</span></h6>
-                      <input class="form-control" formcontrolname="passport" type="text" name="passport">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col form-group cart-form">
-                      <h6>Mobile<span class="optional-field">(optional)</span></h6>
-                      <div class="d-flex">
-                        <div class="country-number">
-                          <input class="form-control" formcontrolname="mobileCode" placeholder="Code" type="text"
-                            name="mobileCode">
-                        </div>
-                        <div class="mobile-number w-100">
-                          <input class="form-control" formcontrolname="mobileNumber" pattern="[0-9]*"
-                            placeholder="Mobile Number" type="number" name="mobileNumber">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col form-group cart-form">
-                      <h6>Partner Reference<span class="optional-field">(optional)</span></h6>
-                      <input class="form-control" formcontrolname="ownReferenceNumber" type="text"
-                        name="ownReferenceNumber">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col form-group cart-form">
-                      <h6>Remarks<span class="optional-field">(optional)</span></h6>
-                      <textarea class="form-control" formcontrolname="remarks" rows="3" name="remarks"></textarea>
-                    </div>
-                  </div>
-                </div>
-                <div class="shopping-btn">
-                  <button class="btn btn-blue" type="button" disabled="">
-                    <span class="btn-label"><i class="bi bi-check-lg"></i> </span>Checkout
-                  </button>
-                </div>
+                
+                
               </form>
             </div>
           </div>
@@ -420,6 +387,9 @@ $(document).on('change','.input-qty',function(){
             // Handle success response
             console.log(response);
             showMessage('Message', response.msg, true);
+            $('.sub_totle').text(response.subtotal);
+            $('.payble_amount').text(response.subtotal);
+            $('.final_subtotal').text(response.subtotal);
         },
         function(xhr, status, error) {
             // Handle error
@@ -429,5 +399,42 @@ $(document).on('change','.input-qty',function(){
     );
 
 })
+
+$(document).on('click', '.remove_ticket', function (){
+    //  alert('kk');
+     var ticket_id=$(this).attr("data-id");
+      // alert (ticket_id);
+      var url = '<?php echo route(session('prefix', 'agent') . '.remove_ticket'); ?>';
+     if (confirm('Are you sure delete this record?')) {
+       // alert ($user_id);
+       $.ajax({
+         type: 'POST',
+         url: url,
+         data: { ticket_id:ticket_id },
+        //  contentType: false,
+        //   processData: false,
+         success: function (data) {
+          if (data.status) {
+            showMessage('Message', data.message, true);
+                       
+            setTimeout(function(){            
+                window.location.reload();           
+            },2000);            
+          }else {
+            showMessage('Message', data.message, false);
+            $.each(data.errors, function(index, value) {
+              showMessage('Error', value, false)
+              
+          });
+            
+          }
+         //   console.log(data);
+         
+         }
+
+
+       });
+     }
+});
 
 </script>
