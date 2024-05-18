@@ -352,7 +352,7 @@
                             <h5 class="variation-title font-style-primary p-0">
                               <span class="font-weight-bold">
                                 SGD {{ $single_ticket['agent_price'] ? $single_ticket['agent_price'] : 'NA' }}
-                                <input type="hidden" name="agent_price[]" class="agent_price" value="{{ $single_ticket['agent_price'] ? $single_ticket['agent_price'] : 'NA' }}">
+                                <input type="hidden" name="agent_price[]" class="agent_price" value="{{ $single_ticket['agent_price'] ? $single_ticket['agent_price'] : 0 }}">
                               </span>
                             </h5>
                           </div>

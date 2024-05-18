@@ -20,17 +20,25 @@ class CartController extends Controller
         $user_id=Auth::user()->id;
         $carts=Cart::where('user_id',$user_id)->first();
         $cart_info= isset($carts->more_info) ? json_decode($carts->more_info,true) : array();
-        // echo"<pre>";
+      
+        $subtotal = 0;
+
+        foreach ($cart_info as $attraction) {
+            foreach ($attraction['options'] as $option) {
+                foreach ($option['tickets'] as $ticket) {
+                    $agent_price = !empty($ticket['agent_price']) ? floatval($ticket['agent_price']) : 0;
+                    $subtotal += $agent_price * $ticket['count'];
+                }
+            }
+        }
+        
+        //   echo"<pre>";
         // print_r($cart_info);
         // die;
-        // dd($cart_info);
-        // $cart_info=json_decode($carts->more_info,true);
-        // $attractionids = array_column($cart_info ?? [], 'attraction_id');
-        // dd($cart_info);
 
         // $all=Attraction::with('attraction_ticket')->whereIn('id',$attractionids)->get();
 // dd($all);
-        return view('cart.cart', compact('cart_info'));
+        return view('cart.cart', compact('cart_info','subtotal'));
     }
 
     public function store(Request $request)
@@ -114,15 +122,81 @@ class CartController extends Controller
                     return $attraction;
                 }
             },$cart_info);
+// echo "<pre>";
+// print_r( $updatedArray); die;
+$subtotal = 0;
+
+foreach ($updatedArray as $attraction) {
+    foreach ($attraction['options'] as $option) {
+        foreach ($option['tickets'] as $ticket) {
+            $agent_price = !empty($ticket['agent_price']) ? floatval($ticket['agent_price']) : 0;
+            $subtotal += $agent_price * $ticket['count'];
+        }
+    }
+}
+
 
             $carts->more_info = $updatedArray ?? array();
             if($carts->save()){
-                $response = ['status'=>true,'msg'=>'Cart updted successfully', 200];
+                $response = ['status'=>true,'msg'=>'Cart updted successfully','subtotal'=>$subtotal, 200];
             }
 
         } catch (\Exception $e) {
             $response = ['status'=>false,'msg'=>$e->getMessage(), 400];
         }
         return $response;
+    }
+
+    public function remove_ticket(Request $request) {
+        try{
+            $ticket_id = $request->ticket_id;
+    $user_id = Auth::user()->id;
+    $carts = Cart::where('user_id', $user_id)->first();
+
+    // Decode the more_info JSON into a PHP array
+    $cart_info = isset($carts->more_info) ? json_decode($carts->more_info, true) : array();
+
+    // Iterate through the cart info to find and remove the ticket
+    foreach ($cart_info as $attractionKey => &$attraction) {
+        if (isset($attraction['options']) && is_array($attraction['options'])) {
+            foreach ($attraction['options'] as $optionKey => &$option) {
+                if (isset($option['tickets']) && is_array($option['tickets'])) {
+                    foreach ($option['tickets'] as $ticketKey => $ticket) {
+                        if ($ticket['ticket_id'] == $ticket_id) {
+                            // Remove the ticket
+                            unset($option['tickets'][$ticketKey]);
+                        }
+                    }
+                    // Reindex the tickets array
+                    $option['tickets'] = array_values($option['tickets']);
+                    
+                    // If the tickets array is empty, remove the option
+                    if (empty($option['tickets'])) {
+                        unset($attraction['options'][$optionKey]);
+                    }
+                }
+            }
+            // Reindex the options array
+            $attraction['options'] = array_values($attraction['options']);
+
+            // If the options array is empty, remove the attraction
+            if (empty($attraction['options'])) {
+                unset($cart_info[$attractionKey]);
+            }
+        }
+    }
+
+    // Reindex the attractions array
+    $cart_info = array_values($cart_info);
+
+    // Encode the modified array back to JSON and save it
+    $carts->more_info = json_encode($cart_info);
+    $carts->save();
+
+    return response()->json(['status' => 'success', 'message' => 'Ticket removed successfully']);
+    }catch(Exception $e){
+      
+        return response()->json(['status' => 'false', 'message' => $e->getMessage()]);
+    }
     }
 }
