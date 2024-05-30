@@ -122,23 +122,22 @@ class CartController extends Controller
                     return $attraction;
                 }
             },$cart_info);
-// echo "<pre>";
-// print_r( $updatedArray); die;
-$subtotal = 0;
 
-foreach ($updatedArray as $attraction) {
-    foreach ($attraction['options'] as $option) {
-        foreach ($option['tickets'] as $ticket) {
-            $agent_price = !empty($ticket['agent_price']) ? floatval($ticket['agent_price']) : 0;
-            $subtotal += $agent_price * $ticket['count'];
-        }
-    }
-}
+            $subtotal = 0;
+
+            foreach ($updatedArray as $attraction) {
+                foreach ($attraction['options'] as $option) {
+                    foreach ($option['tickets'] as $ticket) {
+                        $agent_price = !empty($ticket['agent_price']) ? floatval($ticket['agent_price']) : 0;
+                        $subtotal += $agent_price * $ticket['count'];
+                    }
+                }
+            }
 
 
             $carts->more_info = $updatedArray ?? array();
             if($carts->save()){
-                $response = ['status'=>true,'msg'=>'Cart updted successfully','subtotal'=>$subtotal, 200];
+                $response = ['status'=>true,'msg'=>'Cart updated successfully','subtotal'=>$subtotal, 200];
             }
 
         } catch (\Exception $e) {

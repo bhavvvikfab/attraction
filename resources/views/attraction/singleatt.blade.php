@@ -7,26 +7,26 @@
       .sidebar {
         display: none;
       }
-}
+    }
 
-/* Hide certain columns on mobile screens */
-/* @media screen and (max-width: 768px) {
-    
-    .sku,
-    .minimum-selling-price {
-        display: none;
-    }
-} */
+  /* Hide certain columns on mobile screens */
+  /* @media screen and (max-width: 768px) {
+      
+      .sku,
+      .minimum-selling-price {
+          display: none;
+      }
+  } */
 
-/* Prevent horizontal scrolling on mobile screens */
-/* @media screen and (max-width: 768px) {
-    body {
-        overflow-x: hidden;
-    }
-    .select-ticket-table-wrapper {
-        overflow-x: auto;
-    }
-} */
+  /* Prevent horizontal scrolling on mobile screens */
+  /* @media screen and (max-width: 768px) {
+      body {
+          overflow-x: hidden;
+      }
+      .select-ticket-table-wrapper {
+          overflow-x: auto;
+      }
+  } */
 
   @media only screen and (max-width: 765px) {
           table.select-ticket-table.table.font-weight-normal tr th {
@@ -245,8 +245,20 @@
       
       @if(!empty($all_data['attraction_option']['data']))
       @foreach($all_data['attraction_option']['data'] as $key=>$single_data)
+          @php
+              if ($single_data['ticketValidity'] === "VisitDate"){
+                  $validityTickets = "Valid on visit date";
+              }else if ($single_data['ticketValidity'] === "Duration"){
+                  $validityTickets = "Valid for {$single_data['definedDuration']} days";
+              }else if ($single_data['ticketValidity'] === "FixedDate") {
+                  $startDate = \Carbon\Carbon::parse($single_data['redeemStart'])->format('d M Y');
+                  $endDate = \Carbon\Carbon::parse($single_data['redeemEnd'])->format('d M Y');
+                  $validityTickets = "Valid from {$startDate} to {$endDate}";
+              }
+          @endphp          
           <div class="mb-4 myticket">
-          <input type="hidden" name="attraction_ID" class="attraction_ID"value="{{$attraction_single->id}}">
+            <input type="hidden" name="attraction_ID" class="attraction_ID" value="{{$attraction_single->id}}">
+            <input type="hidden" id="validityTickets" class="validityTickets{{$key}}" value="{{$validityTickets}}">
             <div class="selectticket-card card text-dark mb-2">
               <div class="selectticket-infor col-md-12 px-2 py-1">
                 <div class="row align-items-center h-100 p-2">
@@ -255,7 +267,7 @@
                       <div class="col-sm col">
                         <h5 class="ticket-card-header">
                           <!-- Ticket testing replicate -->
-                          {{$single_data['name'];}}
+                          {{$single_data['name']}}
                         </h5>
                       </div>
                     </div>
@@ -265,7 +277,7 @@
                       <span class="ticket-card-header">
                         Product Option ID : {{$single_data['id'];}}
                         <input type="hidden" name="option_ID[]" class="option_ID" value=" {{$single_data['id'];}}" >
-                        <input type="hidden" name="ticketValidity[]" class="ticketValidity" value=" {{$single_data['ticketValidity'];}}" >
+                        <input type="hidden" name="ticketValidity[]" class="ticketValidity" value="{{$single_data['ticketValidity']}}" >
                         <input type="hidden" name="duration[]" class="duration" value=" {{$single_data['definedDuration'];}}" >
                       </span>
                     </div>
@@ -304,8 +316,18 @@
                         <th scope="col"></th>
                       </tr>
                     </thead>
-                    <tbody >
+                    <tbody class="tbodyClassOption{{$key}}">
                       @foreach($single_data['ticketType'] as $key1=>$single_ticket)
+                        @php
+                          $ticketType_id=$single_ticket['id'];
+                          use App\Helpers\HelperClass;
+                          if($single_data['ticketValidity'] === "VisitDate" || $single_data['ticketValidity'] === "FixedDate" ){
+                            $helper = new HelperClass();
+                            $unavailableDates = $helper->getUnavailableDates($ticketType_id, $dateFrom, $dateTo);
+                            $availableDates = $helper->getAvailableDates($ticketType_id, $dateFrom, $dateTo);
+                          }
+                          
+                        @endphp   
                       <tr>
 
                         <td width="15%">
@@ -360,9 +382,9 @@
 
                         <td class="td-text-cart">
                         <div class="qty-container">
-                          <button class="qty-btn-minus btn-light" data-id="option{{$key}}" type="button"><i class="bi bi-dash-lg"></i></button>
+                          <button class="qty-btn-minus btn-light" data-id="option{{$key}}" data-validity="$single_data['ticketValidity']" type="button"><i class="bi bi-dash-lg"></i></button>
                           <input type="text" name="qty" value="0" class="input-qty"/>
-                          <button class="qty-btn-plus btn-light" data-id="option{{$key}}" type="button"><i class="bi bi-plus-lg"></i></button>
+                          <button class="qty-btn-plus btn-light" data-id="option{{$key}}" data-validity="$single_data['ticketValidity']" type="button"><i class="bi bi-plus-lg"></i></button>
                         </div>
                       </td>
 
@@ -396,11 +418,20 @@
                         <span class="calendar card-icons pr-1">
                           <i class="bi bi-calendar3"></i>
                         </span>
-                        <span class="card-icon-label">
-                          Valid from 12 Sept 2022 to 31 Mar 2023
+                        <span class="card-icon-label">                          
+                          {{$validityTickets}}
                         </span>
                       </div>
-
+                      @if ($single_data['isCancellable'])                      
+                      <div class="icon-wrapper d-flex justify-content-between align-items-center ps-lg-4" >
+                        <span class="lightning card-icons pr-1">
+                          <i class="bi bi-ban fs-5 text-danger"></i>
+                        </span>
+                        <span class="card-icon-label">
+                          Cancellable
+                        </span>
+                      </div>
+                      @endif
                       <div class="icon-wrapper d-flex justify-content-between align-items-center px-lg-4" >
                         <span class="lightning card-icons pr-1">
                           <i class="bi bi-lightning-fill"></i>
@@ -421,7 +452,7 @@
                     </div>
                    <div class="add-cart-btn col-12 col-lg-2 p-0 text-right">
                       <!-- <a href="cart.php" role="button"> -->
-                          <button class="btn btn-success btn-add disabled" id="option{{$key}}" type="button">
+                          <button class="btn btn-success btn-add disabled" id="option{{$key}}" data-option="{{$single_data['name']}}" data-tbody="tbodyClassOption{{$key}}" type="button">
                             <span class="font-14"><i class="mdi mdi-cart-outline"></i></span>
                             <span class="font-14">&nbsp;Add to Cart</span>
                           </button>
@@ -438,7 +469,9 @@
                     <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Description / Important Notes</h5>
                     <div class="mb-4 ml-3"><p>{{$single_data['description'];}}</p></div>
                     <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Validity</h5>
-                    <p class="ml-3">Valid from 12 Sept 2022 to 31 Mar 2023</p>
+                    <p class="ml-3">                        
+                      {{$validityTickets}}
+                    </p>
                     <h5 class="mb-0 font-weight-bold font-style-primary text-head mb-2">Cancellation Policy</h5>
                         <ul>
                           @if($single_data['cancellationNotes'])
@@ -1039,13 +1072,13 @@
           </div>
         </td>
 
-        <td class="td-text-cart">
-                        <div class="qty-container">
-                          <button class="qty-btn-minus btn-light" type="button"><i class="bi bi-dash-lg"></i></button>
-                          <input type="text" name="qty" value="0" class="input-qty"/>
-                          <button class="qty-btn-plus btn-light" type="button"><i class="bi bi-plus-lg"></i></button>
-                        </div>
-                      </td>
+          <td class="td-text-cart">
+            <div class="qty-container">
+              <button class="qty-btn-minus btn-light" type="button"><i class="bi bi-dash-lg"></i></button>
+              <input type="text" name="qty" value="0" class="input-qty"/>
+              <button class="qty-btn-plus btn-light" type="button"><i class="bi bi-plus-lg"></i></button>
+            </div>
+          </td>
 
         <!-- <td class="input-field-td">
           <div class="d-flex">
@@ -1198,36 +1231,37 @@
 <?php foreach($top_three_attractions as $single){
   $field=json_decode($single->fields);
   ?>
-<div class="col-lg-4">
+  <div class="col-lg-4">
 
-<div class="bg-white attr grow px-2">
-  <a href="{{ route(session('prefix', 'agent') . '.view_single_attraction' ,['id'=>$single->id]) }}">
-  <div class="card">
-  @if($single->attraction_id)
-              
-              <img class="card-img-top" src="{{ env('API_IMAGE_URL') }}{{ $single->image }}" alt="Card image cap">
-              @else
-              
-              <img class="card-img-top" src="{{ asset('assets/img/' . (!empty($single->image) ? $single->image : 'default.jpg')) }}" alt="Card image cap">
-              @endif
-    
-        <div class="card-body">
-                              <div class="row">
-                                <div class="col-lg-10">
-                                  <h5 class="search-title-card">{{$single->name}}</h5>
-                                </div>
-                                <div class="col-lg-2">
-                                  <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
-                                </div>
-                              </div>
-                                <p class="card-text">{{$field->city}}</p>
-                                <p><i class="bi bi-calendar3 aticon1" ></i> {{$field->opening_date}} <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
+    <div class="bg-white attr grow px-2">
+      <a href="{{ route(session('prefix', 'agent') . '.view_single_attraction' ,['id'=>$single->id]) }}">
+        <div class="card">
+          @if($single->attraction_id)
+                    
+                    <img class="card-img-top" src="{{ env('API_IMAGE_URL') }}{{ $single->image }}" alt="Card image cap">
+                    @else
+                    
+                    <img class="card-img-top" src="{{ asset('assets/img/' . (!empty($single->image) ? $single->image : 'default.jpg')) }}" alt="Card image cap">
+                    @endif
+          
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-10">
+                    <h5 class="search-title-card">{{$single->name}}</h5>
+                  </div>
+                  <div class="col-lg-2">
+                    <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
+                  </div>
+                </div>
+                  <p class="card-text">{{$field->city}}</p>
+                  <p><i class="bi bi-calendar3 aticon1" ></i> {{$field->opening_date}} <i class="bi bi-lightning-fill aticon2"></i> Instant</p>
 
-                             </div>
+              </div>
+        </div>
+      </a>
+    </div>
+
   </div>
-</a>
-</div>
-</div>
 <?php } ?>
 <!-- <div class="col-lg-4">
 
@@ -1262,105 +1296,234 @@
 
 
               <div class="tab-pane fade" id="pills-info" role="tabpanel" aria-labelledby="pills-info-tab">
-              <div   class="row pt-5 bg-white">
-                <div   class="col-12 pt-lg-4 pt-3 px-lg-4 px-3">
-<div  class="col pb-3 ">
-    <h5  class="font-weight-bold text-black">
-      <i class="bi bi-ticket-detailed-fill"></i> Description</h5>
-    <div  class="content-container custom-border-bottom">
+                <div   class="row pt-5 bg-white">
+                  <div   class="col-12 pt-lg-4 pt-3 px-lg-4 px-3">
+                    <div  class="col pb-3 ">
+                        <h5  class="font-weight-bold text-black">
+                          <i class="bi bi-ticket-detailed-fill"></i> Description</h5>
+                        <div  class="content-container custom-border-bottom">
 
-    <div >{{$field_data->description}}</div>
-
-
-    </div>
-</div>
-
-<div  class="col pb-3 ">
-    <h5  class="font-weight-bold text-black">
-      <i class="bi bi-ticket-detailed-fill"></i> What to Expect</h5>
-    <div  class="content-container custom-border-bottom">
-
-    <div >
-
-    </div>
+                        <div >{{$field_data->description}}</div>
 
 
-    </div>
-</div>
-
-<div  class="col pb-3 ">
-    <h5  class="font-weight-bold text-black">
-       <i class="bi bi-ticket-detailed-fill"></i> Things to Note</h5>
-    <div  class="content-container custom-border-bottom">
-
-    <p >No available information as of the moment. Please check again later.</p>
-    </div>
-</div>
-
-<div  class="col pb-3 ">
-    <h5  class="font-weight-bold text-black">
-      <i class="bi bi-ticket-detailed-fill"></i> Operating Hours</h5>
-    <div  class="content-container pt-3 custom-border-bottom">
-        <div  class="row">
-
-
-                <div  class="col-3">
-                    <div  class="table-responsive">
-                        <table  class="table table-bordered">
-                            <tbody >
-
-                            <tr >
-                                    <td ><strong >SUNDAY</strong></td>
-                                    <td >00:30 to 02:30</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        </div>
                     </div>
+
+                    <div  class="col pb-3 ">
+                        <h5  class="font-weight-bold text-black">
+                          <i class="bi bi-ticket-detailed-fill"></i> What to Expect</h5>
+                        <div  class="content-container custom-border-bottom">
+
+                        <div >
+
+                        </div>
+
+
+                        </div>
+                    </div>
+
+                    <div  class="col pb-3 ">
+                        <h5  class="font-weight-bold text-black">
+                          <i class="bi bi-ticket-detailed-fill"></i> Things to Note</h5>
+                        <div  class="content-container custom-border-bottom">
+
+                        <p >No available information as of the moment. Please check again later.</p>
+                        </div>
+                    </div>
+
+                    <div  class="col pb-3 ">
+                        <h5  class="font-weight-bold text-black">
+                          <i class="bi bi-ticket-detailed-fill"></i> Operating Hours</h5>
+                        <div  class="content-container pt-3 custom-border-bottom">
+                            <div  class="row">
+
+
+                                    <div  class="col-3">
+                                        <div  class="table-responsive">
+                                            <table  class="table table-bordered">
+                                                <tbody >
+
+                                                <tr >
+                                                        <td ><strong >SUNDAY</strong></td>
+                                                        <td >00:30 to 02:30</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div  class="col pb-3">
+                        <h5  class="font-weight-bold text-black">
+                          <i class="bi bi-ticket-detailed-fill"></i>Blocked Out Dates
+                        </h5>
+                        <div  class="content-container form-group mb-2 pt-3">
+                          <div  class="row">
+                              <div  class="col-12">
+                                  <div >
+                                      <table  class="table font-weight-normal table-borderless border-table si-bg-table">
+                                          <thead  class="">
+                                              <tr >
+                                                  <th  class="custom-min-width">Month &amp; Year</th>
+                                                  <th  class="custom-min-width">Date</th>
+                                                  <th  class="custom-min-width">Day</th>
+                                                  <th  class="custom-min-width">Remarks</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody >
+
+
+
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+
+                  </div>
                 </div>
-
-
-
-        </div>
-    </div>
-</div>
-
-
-<div  class="col pb-3">
-    <h5  class="font-weight-bold text-black">
-      <i class="bi bi-ticket-detailed-fill"></i> Blocked Out Dates</h5>
-    <div  class="content-container form-group mb-2 pt-3">
-        <div  class="row">
-            <div  class="col-12">
-                <div >
-                    <table  class="table font-weight-normal table-borderless border-table si-bg-table">
-                        <thead  class="">
-                            <tr >
-                                <th  class="custom-min-width">Month &amp; Year</th>
-                                <th  class="custom-min-width">Date</th>
-                                <th  class="custom-min-width">Day</th>
-                                <th  class="custom-min-width">Remarks</th>
-                            </tr>
-                        </thead>
-                        <tbody >
-
-
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-</div>
-</div>
-
-                </div>
-              </div>
               </div>
 
           </div>
 
       </div>
     </section>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header rounded-1 selectticket-infor text-light">
+            <h5 class="modal-title" id="exampleModalLabel"><i class="bi bi-info-circle"></i> Confirmation Details</h5>
+            <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div _ngcontent-xuh-c20="" class="container px-0">
+              <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
+                <h5 _ngcontent-xuh-c20="" class="font-weight-bold font-style-primary modalTktType">Standard Ticket</h5>
+              </div>
+
+              <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
+                <div _ngcontent-xuh-c20="" class="bg-light-color mb-2">
+                  <div _ngcontent-xuh-c20="" class="row m-0 ticketsVariation">
+                    <!-- <div _ngcontent-xuh-c20="" class="col-6 py-3 text-center">
+                      <span _ngcontent-xuh-c20="" class="font-weight-bold font-14">
+                        ADULT
+                      </span>
+                    </div>
+                    <div _ngcontent-xuh-c20="" class="col-6 d-flex justify-content-center pr-3">
+                      <div _ngcontent-xuh-c20="" class="row mx-0 text-nowrap d-flex justify-content-end">
+                        <div class="qty-container">
+                          <button class="qty-btn-minus btn-light" data-id="option0" data-validity="$single_data['ticketValidity']" type="button"><i class="bi bi-dash-lg"></i></button>
+                          <input type="text" name="qty" value="0" class="input-qty">
+                          <button class="qty-btn-plus btn-light" data-id="option0" data-validity="$single_data['ticketValidity']" type="button"><i class="bi bi-plus-lg"></i></button>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+
+              <hr _ngcontent-xuh-c20="" class="w-100">
+
+              <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
+                <div _ngcontent-xuh-c20="">
+                  <p _ngcontent-xuh-c20="" class="font-weight-bold pt-3">Validity</p>
+                  <p _ngcontent-xuh-c20="" class="ticketValText">
+                    Please select visit date
+                  </p>
+                </div>  
+              </div>
+              <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
+                <blockquote _ngcontent-xuh-c20="" class="p-b-0 mb-2">
+                  <div _ngcontent-xuh-c20="" class="form-group">
+                    <div _ngcontent-xuh-c20="" class="row">
+                      <label _ngcontent-xuh-c20="" class="col-md-6">
+                        Visit Date
+                      </label>
+                    </div>
+                    <div _ngcontent-xuh-c20="" class="input-group">
+                      <input type="date" name="" id="" class="form-control">
+                      <!-- <input _ngcontent-xuh-c20="" type="date" class="form-control form-control-sm bg-white" id="visitDate" ngbdatepicker="" ng-reflect-day-template="[object Object]" ng-reflect-mark-disabled="(l,n)=>!!this.disabledDates.fi" ng-reflect-min-date="[object Object]" ng-reflect-max-date="[object Object]" readonly="">
+                      <div _ngcontent-xuh-c20="" class="input-group-append">
+                        <button _ngcontent-xuh-c20="" class="bi bi-calendar-week btn btn-outline-secondary btn-sm" type="button">
+                        </button>
+                      </div> -->
+                    </div>
+                    <br _ngcontent-xuh-c20="">
+                  </div>
+                </blockquote>
+              </div>
+              <hr _ngcontent-xuh-c20="" class="w-100">
+                <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
+                  <ngb-tabset _ngcontent-xuh-c20="" class="custom-info-tab" ng-reflect-destroy-on-hide="false">
+                    <ul role="tablist" class="nav nav-tabs justify-content-start">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="" role="tab" id="ADULT" aria-controls="ADULT-panel" aria-selected="true" aria-disabled="false">
+                          ADULT
+                        </a>
+                      </li>
+                    </ul>
+                    <div class="tab-content">
+                      <div role="tabpanel" class="tab-pane active" aria-labelledby="ADULT" id="ADULT-panel">
+                          <app-cart-q-and-a _ngcontent-xuh-c20="" _nghost-xuh-c21="" ng-reflect-questions-set="[object Object]" ng-reflect-variation-name="ADULT" ng-reflect-ticket-id="7836">
+                              <div _ngcontent-xuh-c21="" class="px-4 ng-valid ng-touched ng-dirty" ng-reflect-ng-class="px-4" ng-reflect-name="7836">
+                                <div _ngcontent-xuh-c21="" class="row">
+                                  <div _ngcontent-xuh-c21="" class="col-7">
+                                    <p _ngcontent-xuh-c21="" class="font-weight-bold pt-3">
+                                      Additional Information
+                                    </p>
+                                  </div>
+                                </div>
+                                  <div _ngcontent-xuh-c21="" class="quantity-container">
+                                    <p _ngcontent-xuh-c21="" class="font-weight-bold">Quantity: 1</p>
+                                    <div _ngcontent-xuh-c21="" class="quantity-selection">
+                                      <div _ngcontent-xuh-c21="" class="number-container" ng-reflect-klass="number-container" ng-reflect-ng-class="">
+                                          <span _ngcontent-xuh-c21="" class="number-pill active-pill" ng-reflect-klass="number-pill" ng-reflect-ng-class="active-pill">
+                                            1
+                                          </span>              
+                                      </div>
+                                    </div>
+                                  </div>
+                                <blockquote _ngcontent-xuh-c21="" class="pb-0 mb-2">
+                                      <div _ngcontent-xuh-c21="" ng-reflect-ng-class="" ng-reflect-name="0" class="ng-valid ng-touched ng-dirty">
+                                          <div _ngcontent-xuh-c21="" class="form-group">
+                                            <div _ngcontent-xuh-c21="" ng-reflect-name="0" class="ng-valid ng-touched ng-dirty">
+                                              <label _ngcontent-xuh-c21="" for="">
+                                                Are you vaccinated with at least 3 doses of COVID-19 Vaccines?
+                                              </label><select _ngcontent-xuh-c21="" class="form-control ng-valid ng-touched ng-dirty" formcontrolname="answer" id="options" ng-reflect-name="answer">
+                                                  <option _ngcontent-xuh-c21="" formarrayname="options" value="No" ng-reflect-value="No" ng-reflect-name="options" class="ng-untouched ng-pristine ng-valid">
+                                                    No
+                                                  </option><option _ngcontent-xuh-c21="" formarrayname="options" value="Yes" ng-reflect-value="Yes" ng-reflect-name="options" class="ng-untouched ng-pristine ng-valid">
+                                                  Yes
+                                                </option>
+                                              </select>
+                                            </div>
+                                          </div>                                              
+                                      </div>     
+                                </blockquote>
+                              </div>
+                          </app-cart-q-and-a>          
+                      </div>
+                    </div>
+                  </ngb-tabset>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -1420,38 +1583,57 @@ $(document).ready(function(){
 });
 // Function to update add button based on quantity
 function updateAddBtn(input,opbtn) {
-        var quantity = parseInt(input.val());
-        var addBtn = $('#'+opbtn);
-        if (quantity > 0) {
-            addBtn.removeClass('disabled');
-        } else {
-            addBtn.addClass('disabled');
-        }
+    var quantity = parseInt(input.val());
+    var addBtn = $('#'+opbtn);
+    if (quantity > 0) {
+        addBtn.removeClass('disabled');
+    } else {
+        addBtn.addClass('disabled');
     }
+}
 
-$(document).on('click','.btn-add',function(){
-    // alert('jj');
+$(document).on('click','.btn-add',function(){  
+    var tbody= $(this).attr('data-tbody');
+    var optionName= $(this).attr('data-option');  
+
     var myTicketDiv = $(this).closest('.myticket');
     var attraction_ID = myTicketDiv.find('.attraction_ID').val();
+    var validityTicketsText = myTicketDiv.find('#validityTickets').val();
     // var ticket_ID = myTicketDiv.find('.ticket_ID').val();
     
     var option_ID = myTicketDiv.find('.option_ID').val();
     var ticketValidity = myTicketDiv.find('.ticketValidity').val();
+    console.log(ticketValidity);
+    if(ticketValidity === "VisitDate" || ticketValidity === "FixedDate" ){
+      var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+        keyboard: false
+      });
+      myModal.show();      
+    }
+    
+
     var duration = myTicketDiv.find('.duration').val();
     
     ticket_ID=[];
     myTicketDiv.find('.ticket_ID').each(function(){
-      ticket_ID.push($(this).val()); // Push each value into the optionIds array
+      ticket_ID.push($(this).val());
     });
     agent_price=[];
     myTicketDiv.find('.agent_price').each(function(){
-      agent_price.push($(this).val()); // Push each value into the optionIds array
+      agent_price.push($(this).val());
     });
     quantity=[];
     myTicketDiv.find('.input-qty').each(function(){
-      quantity.push($(this).val()); // Push each value into the optionIds array
+      // if($(this).val() > 0){
+      //   $(".ticketsVariation").append($("."+tbody).clone());
+      // }
+      quantity.push($(this).val()); 
     });
+
+    $(".modalTktType").text(optionName);
+    $(".ticketValText").text(validityTicketsText);
     
+    return;
 
     // Now you can use optionId and netId as needed
     console.log("attraction_ID:", attraction_ID);

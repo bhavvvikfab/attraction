@@ -217,12 +217,8 @@ class HelperClass
         $url = 'booking/reserve';
         $fields = array(
             "alternateEmail" => "",
-            "creditCardCurrencyId" => null,
-            "customerName" => $customerName,
             "email" => $email,
-            "groupName" => "",
-            "groupBooking" => false,
-            "groupNoOfMember" => 1,
+            "customerName" => $customerName,
             "mobileNumber" => "",
             "mobilePrefix" => "",
             "otherInfo" => array(
@@ -233,11 +229,12 @@ class HelperClass
             "ticketTypes" => $ticketTypes,
             "remarks" => ""
         );
+        // return json_encode($fields);    
         if($this->apiKey){
-            $response = $this->callExternalApi($url, 'POST', json_encode($fields), $this->apiKey);
+            $response = $this->callExternalApi($url, 'POST', $fields, $this->apiKey);
         }else {
             $token = $this->getToken();
-            $response = $this->callExternalApi($url, 'POST', json_encode($fields), $token);
+            $response = $this->callExternalApi($url, 'POST', $fields, $token);
         }
         
         return $response;
@@ -250,12 +247,12 @@ class HelperClass
             "remarks" => $remarks
         );
         if($this->apiKey){
-            $response = $this->callExternalApi($url, 'POST', json_encode($fields), $this->apiKey);
+            $response = $this->callExternalApi($url, 'POST', $fields, $this->apiKey);
             if(empty(json_decode($response)->data)){
                 $token = $this->getToken();
-                $response = $this->callExternalApi($url, 'POST', json_encode($fields), $token);
+                $response = $this->callExternalApi($url, 'POST', $fields, $token);
             }
-            return json_decode($response)->data;
+            return $response;
         }
     }
 
