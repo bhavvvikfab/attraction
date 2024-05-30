@@ -136,6 +136,7 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
 
     Route::get('/all_booking', [BookingController::class, 'index'])->name('agent.all_booking');
     Route::get('/view_booking/{id}', [BookingController::class, 'view_booking'])->name('agent.view_booking');
+    Route::post('/reserve_booking', [BookingController::class, 'create'])->name('agent.reserve_booking');
 
     Route::get('/all_agent', [AttractionController::class, 'view_attraction'])->name('agent.all_agent');
     Route::get('/add_agent', [AttractionController::class, 'view_attraction'])->name('agent.add_agent');
@@ -157,4 +158,7 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
 // route's for AGENT end
 
 Route::resource('products', ProductController::class);
+
+Route::post('agent/reserve_booking', [BookingController::class, 'create'])->name('agent.reserve_booking');
+Route::post('agent/confirm_booking', [BookingController::class, 'confirm_booking'])->name('agent.confirm_booking');
 
