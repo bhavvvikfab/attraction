@@ -124,6 +124,24 @@ class BookingController extends Controller
 
         return view('booking.viewbookingdetail',compact('booking_data'));
     }
+    public function booking(){
+        $user_id=Auth::user()->id;
+        $carts=Cart::where('user_id',$user_id)->first();
+        $cart_info= isset($carts->more_info) ? json_decode($carts->more_info,true) : array();
+      
+        $subtotal = 0;
+
+        foreach ($cart_info as $attraction) {
+            foreach ($attraction['options'] as $option) {
+                foreach ($option['tickets'] as $ticket) {
+                    $agent_price = !empty($ticket['agent_price']) ? floatval($ticket['agent_price']) : 0;
+                    $subtotal += $agent_price * $ticket['count'];
+                }
+            }
+        }
+
+        return view('booking.booking',compact('cart_info','subtotal'));
+    }
 
 
 

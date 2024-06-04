@@ -98,7 +98,7 @@
       <!-- End top op Nav-->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.admin_invoice') }}">
+        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.all_invoice') }}">
           <i class="bi bi-receipt"></i>
           <span>Invoice</span>
         </a>
