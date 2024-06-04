@@ -70,8 +70,8 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::get('/topup', [TopupController::class, 'index'])->name('admin.topup');
     Route::post('/update-topup-status', [TopupController::class, 'updateTopUpStatus']);
 
-    Route::get('/admin_invoice', [InvoiceController::class, 'index'])->name('admin.admin_invoice');
-    Route::get('/view_single_invoice', [InvoiceController::class, 'view_single_invoice'])->name('admin.view_single_invoice');
+    Route::get('/all_invoice', [InvoiceController::class, 'index'])->name('admin.all_invoice');
+    Route::get('/view_single_invoice/{id}', [InvoiceController::class, 'view_single_invoice'])->name('admin.view_single_invoice');
 
 
     Route::get('/all_chat', [ChatController::class, 'index'])->name('admin.all_chat');
@@ -134,9 +134,15 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/topup', [TopupController::class, 'index'])->name('agent.topup');
     Route::post('/request-topup', [TopupController::class, 'requestTopUp']);
 
+    Route::get('/all_invoice', [InvoiceController::class, 'index'])->name('agent.all_invoice');
+    Route::get('/view_single_invoice/{id}', [InvoiceController::class, 'view_single_invoice'])->name('agent.view_single_invoice');
+    Route::get('/view_single_invoice/download/{id}', [InvoiceController::class, 'downloadInvoice'])->name('invoice.download');
+   
+    
     Route::get('/all_booking', [BookingController::class, 'index'])->name('agent.all_booking');
     Route::get('/view_booking/{id}', [BookingController::class, 'view_booking'])->name('agent.view_booking');
     Route::post('/reserve_booking', [BookingController::class, 'create'])->name('agent.reserve_booking');
+    Route::get('/booking', [BookingController::class, 'booking'])->name('agent.booking');
 
     Route::get('/all_agent', [AttractionController::class, 'view_attraction'])->name('agent.all_agent');
     Route::get('/add_agent', [AttractionController::class, 'view_attraction'])->name('agent.add_agent');
@@ -162,3 +168,4 @@ Route::resource('products', ProductController::class);
 Route::post('agent/reserve_booking', [BookingController::class, 'create'])->name('agent.reserve_booking');
 Route::post('agent/confirm_booking', [BookingController::class, 'confirm_booking'])->name('agent.confirm_booking');
 
+Route::get('all_invoice/get_invoice_data', [InvoiceController::class, 'get_invoice_data'])->name('invoice.get_invoice_data');
