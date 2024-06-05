@@ -66,6 +66,9 @@
                     Invoice No
                   </th>
                   <th>BookingID</th>
+                   @if (session('prefix') == 'admin')
+                  <th>Agent</th>
+                  @endif
                   <th>Date</th>
                   <!-- <th>Email</th> -->
                   <!-- <th>Quantity</th>
@@ -153,7 +156,49 @@
 
 
 
+// $(document).ready(function() {
+//   var table = $('#invoice_table').DataTable({
+//     searchBuilder: true,
+//     processing: true,
+//     serverSide: true,
+//     ajax: {
+//       url: '{{ route('invoice.get_invoice_data') }}',
+//       data: function(d) {
+//         d.search_date = $('#search_date').val(); // Add search date to request data
+//         d.agent_id = $('#agent_filter').val();
+//       }
+//     },
+//     columns: [
+//       { data: 'id', name: 'id' },
+//       { data: 'invoice_no', name: 'invoice_no' },
+//       { data: 'booking_id', name: 'booking_id', searchable: false },
+//       { data: 'date2', name: 'date2',orderable: false, searchable: false  }, // Add back if needed
+//       { data: 'action', name: 'action', orderable: false, searchable: false },
+//     ]
+//     @if (session('prefix') == 'admin')
+//     columns.splice(3, 0, { data: 'agent_name', name: 'agent_name' });
+//   @endif
+//   });
+
+//   $('#search_date,#agent_filter').change(function() {
+//     // alert($(this).val());
+//     table.draw(); // Redraw table on date change
+//   });
+// });
+
 $(document).ready(function() {
+  var columns = [
+    { data: 'id', name: 'id' },
+    { data: 'invoice_no', name: 'invoice_no' },
+    { data: 'booking_id', name: 'booking_id', searchable: false },
+    { data: 'date2', name: 'date2', orderable: false, searchable: false },
+    { data: 'action', name: 'action', orderable: false, searchable: false },
+  ];
+
+  @if (session('prefix') == 'admin')
+    columns.splice(3, 0, { data: 'agent_name', name: 'agent_name' });
+  @endif
+
   var table = $('#invoice_table').DataTable({
     searchBuilder: true,
     processing: true,
@@ -165,18 +210,11 @@ $(document).ready(function() {
         d.agent_id = $('#agent_filter').val();
       }
     },
-    columns: [
-      { data: 'id', name: 'id' },
-      { data: 'invoice_no', name: 'invoice_no' },
-      { data: 'booking_id', name: 'booking_id', searchable: false },
-      { data: 'date2', name: 'date2',orderable: false, searchable: false  }, // Add back if needed
-      { data: 'action', name: 'action', orderable: false, searchable: false },
-    ]
+    columns: columns
   });
 
-  $('#search_date,#agent_filter').change(function() {
-    // alert($(this).val());
-    table.draw(); // Redraw table on date change
+  $('#search_date, #agent_filter').change(function() {
+    table.draw(); // Redraw table on filter change
   });
 });
 </script>

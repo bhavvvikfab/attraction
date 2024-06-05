@@ -29,25 +29,25 @@
               <div class="col-lg-6">
                 <h3 class="card-title text-start fs-2">Attraction</h3>
               </div>
-              <div class="col-lg-6">
+              <div class="col-lg-6 d-flex justify-content-end">
+                <a id="downloadLink" href="#" class="btn  fw-bold mt-3" title="Download"> Download PDF <i class="fa fa-file-pdf" style="font-size:20px"></i></a>
                 <h3 class="card-title text-end fs-2">
                   Invoice
                  </h3>
-                 <a id="downloadLink" href="#" class="btn  fw-bold mb-2" title="Download"> Download PDF <i class="fa fa-file-pdf" style="font-size:20px"></i></a>
               </div>
             </div>
           </div>
           
           <div class="card-body" id="contentToDownload">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 ps-4">
                         <h5 class="font-weight-bold">Agent Details</h5>
-                        <p><strong>Name:</strong> {{Auth::User()->name}}</p>
-                        <p><strong>Email:</strong> {{Auth::User()->email}}</p>
-                        <p><strong>Mobile:</strong> {{Auth::User()->phone}}</p>
-                        <p><strong>Address:</strong> {{Auth::User()->address ?? 'NA'}}</p>
+                        <p><strong>Name:</strong> {{$invoice_data->agent_details->name ?? 'NA'}}</p>
+                        <p><strong>Email:</strong> {{$invoice_data->agent_details->email ?? 'NA'}}</p>
+                        <p><strong>Mobile:</strong> {{$invoice_data->agent_details->phone ?? 'NA'}}</p>
+                        <p><strong>Address:</strong> {{$invoice_data->agent_details->address ?? 'NA'}}</p>
                     </div>
-                    <div class="col-md-6 text-right">
+                    <div class="col-md-6 text-right pe-4">
                         <h5 class="font-weight-bold">Customer Details</h5>
                         <p><strong>Name:</strong> Customer Name</p>
                         <p><strong>Email:</strong> customer@example.com</p>
@@ -305,6 +305,10 @@ document.getElementById('downloadLink').addEventListener('click', function() {
     const element = document.getElementById('contentToDownload');
 
     html2pdf()
+        .set({
+                margin: 1, // add 1px margin to all sides
+                filename: 'downloaded_pdf.pdf'
+            })
         .from(element)
         .toPdf()
         .get('pdf')
