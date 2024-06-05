@@ -21,7 +21,10 @@ class InvoiceController extends Controller
         // }else{
         //     $invoice_data=Invoice::where('agent_id',Auth::user()->id)->get();
         // }
-        $invo= $invoice_data=Invoice::with('agent_details')->get();
+        // $invo= $invoice_data=Invoice::with('agent_details')->get();
+        $invo = Invoice::with('agent_details')
+        ->get()
+        ->unique('agent_id');
         // dd($invo);
 
         $invoice_data = [];
@@ -155,6 +158,11 @@ class InvoiceController extends Controller
           // Apply the agent filter for the logged-in agent if not admin and no agent filter is applied
           $invoiceQuery->where('agent_id', Auth::user()->id);
       }
+
+       // Include agent details only if the user is an admin
+       if (session('prefix') == 'admin') {
+        $invoiceQuery->with('agent_details');
+    }
   
       // Execute the query and get the results
       $invoiceData = $invoiceQuery->get();
@@ -178,6 +186,13 @@ class InvoiceController extends Controller
             $formattedDate = Carbon::parse($row->created_at)->format('d-m-Y');
             return $formattedDate;
           })
+          ->addColumn('agent_name', function($row) {
+            // Only add the agent_name column if the user is an admin
+            if (session('prefix') == 'admin' && $row->agent_details) {
+                return $row->agent_details->name;
+            }
+            return null;
+        })
           ->rawColumns(['action','date2'])
           ->make(true);
       }
@@ -188,7 +203,7 @@ class InvoiceController extends Controller
     public function view_single_invoice($id)
     {
         // dd($id);
-        $invoice_data=Invoice::with(['bookingItem','booking'])->where('id',$id)->first();
+        $invoice_data=Invoice::with(['bookingItem','booking','agent_details'])->where('id',$id)->first();
         // dd($invoice_data);
         $invoice_items=$invoice_data['bookingItem']['items'];
      $items = isset($invoice_items)? json_decode($invoice_items,true) : array();
