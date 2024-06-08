@@ -1,6 +1,10 @@
 @include('layouts.header');
 @include('layouts.sidebar');
-
+<style>
+  a#downloadLink {
+    color: white;
+}
+</style>
 <main id="main" class="main">
   <div class="pagetitle">
     <div class="row">

@@ -74,8 +74,13 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::get('/view_single_invoice/{id}', [InvoiceController::class, 'view_single_invoice'])->name('admin.view_single_invoice');
 
 
-    Route::get('/all_chat', [ChatController::class, 'index'])->name('admin.all_chat');
-    Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('admin.view_chat'); 
+    // Route::get('/all_chat', [ChatController::class, 'index'])->name('admin.all_chat');
+    // Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('admin.view_chat'); 
+
+    Route::get('/chat', [ChatController::class, 'index'])->name('admin.chat.index');
+Route::get('/viewchat/{id}', [ChatController::class, 'viewChat'])->name('admin.chat.view');
+Route::get('/chat/messages/{id}', [ChatController::class, 'fetchMessages'])->name('admin.chat.messages');
+Route::post('/chat/messages', [ChatController::class, 'sendMessage'])->name('admin.chat.send');
 
     Route::post('/update_credential', [Api_credentialController::class, 'index'])->name('admin.update_credential');
 
@@ -138,6 +143,14 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/view_single_invoice/{id}', [InvoiceController::class, 'view_single_invoice'])->name('agent.view_single_invoice');
     Route::get('/view_single_invoice/download/{id}', [InvoiceController::class, 'downloadInvoice'])->name('invoice.download');
    
+    //for chat
+    // Route::get('/all_chat', [ChatController::class, 'index'])->name('agent.all_chat');
+    // Route::get('/view_chat', [ChatController::class, 'view_chat'])->name('agent.view_chat'); 
+
+    Route::get('/chat', [ChatController::class, 'index'])->name('agent.chat.index');
+    Route::get('/viewchat/{id}', [ChatController::class, 'viewChat'])->name('agent.chat.view');
+    Route::get('/chat/messages/{id}', [ChatController::class, 'fetchMessages'])->name('agent.chat.messages');
+    Route::post('/chat/messages', [ChatController::class, 'sendMessage'])->name('agent.chat.send');
     
     Route::get('/all_booking', [BookingController::class, 'index'])->name('agent.all_booking');
     Route::get('/view_booking/{id}', [BookingController::class, 'view_booking'])->name('agent.view_booking');
@@ -149,7 +162,7 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
 
     Route::get('/admin_invoice', [AttractionController::class, 'view_attraction'])->name('agent.admin_invoice');
     
-    Route::get('/all_chat', [AttractionController::class, 'view_attraction'])->name('agent.all_chat');
+    // Route::get('/all_chat', [AttractionController::class, 'view_attraction'])->name('agent.all_chat');
     Route::post('/view_single_attraction/addcart_attraction', [AttractionController::class, 'addcart_attraction'])->name('agent.addcart_attraction');
     
     // cart start

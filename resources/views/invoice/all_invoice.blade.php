@@ -1,5 +1,24 @@
 @include('layouts.header');
 @include('layouts.sidebar');
+<!-- jQuery (necessary for DataTables and Daterangepicker) -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Moment.js (necessary for Daterangepicker) -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<!-- Daterangepicker CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<!-- Daterangepicker JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
+
+<!-- DataTables JS -->
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+
 
 <main id="main" class="main">
   <div class="pagetitle">
@@ -41,8 +60,9 @@
             <table class="table table-borderless invoice-table" id="invoice_table">
               <div class="row">
                 <div class="col-lg-4 mb-2">
-                  <label for="">Date</label>
-                  <input type="date" class="form-control" id="search_date">
+                  <label for="">DateRange</label>
+                  <!-- <input type="date" class="form-control" id="search_date"> -->
+                  <input type="text" class="form-control" placeholder="Select" id="search_date_range">
                 </div>
                 <?php  if(session('prefix')=='admin'){
                  
@@ -57,6 +77,10 @@
                 </select>
     </div>
                 <?php  } ?>
+              </div>
+              <div class="col-lg-4 mb-2">
+              <label for="">date</label>
+
               </div>
               <!-- <table class="table datatable table-bordered supplier-table"> -->
               <thead>
@@ -98,65 +122,21 @@
 // });
 </script>
 <script>
-// $(document).ready(function() {
-//     // $('#attractiontable').DataTable();
-//     $('#invoice_table').DataTable({
-//         processing: true,
-//         serverSide: true,
-//         ajax: '{{ route('invoice.get_invoice_data') }}',
-//         columns: [
-//             { data: 'id', name: 'id' },
-//             { data: 'invoice_no', name: 'invoice_no'},
-//             { data: 'booking_id', name: 'booking_id',searchable: false },
-//             // { data: 'invoice_status', name: 'invoice_status' },
-//             { data: 'action', name: 'action', orderable: false, searchable: false },
-            
-//         ]
-//     });
-    
-// });
 
 
 // $(document).ready(function() {
-//     // Setup - add a text input to each header cell
-//     $('#invoice_table thead tr:eq(1) th').each(function(i) {
-//         if (i !== 0 && i !== 3 && i !== 4) { // Skip Sr. No, Status, and Action columns
-//             var title = $('#invoice_table thead tr:eq(0) th').eq(i).text();
-//             $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-//         }
-//     });
+//   var columns = [
+//     { data: null, name: 'sr_no', searchable: false, orderable: false },
+//     { data: 'invoice_no', name: 'invoice_no' },
+//     { data: 'booking_id', name: 'booking_id', searchable: false },
+//     { data: 'date2', name: 'date2', orderable: false, searchable: false },
+//     { data: 'action', name: 'action', orderable: false, searchable: false },
+//   ];
 
-//     // DataTable
-//     var table = $('#invoice_table').DataTable({
-//         processing: true,
-//         serverSide: true,
-//         ajax: '{{ route('invoice.get_invoice_data') }}',
-//         columns: [
-//             { data: 'id', name: 'id' },
-//             { data: 'invoice_no', name: 'invoice_no' },
-//             { data: 'booking_id', name: 'booking_id' },
-//             // { data: 'invoice_status', name: 'invoice_status' },
-//             { data: 'action', name: 'action', orderable: false, searchable: false }
-//         ],
-//         initComplete: function() {
-//             // Apply the search
-//             this.api().columns().every(function(i) {
-//                 if (i !== 0 && i !== 3 && i !== 4) { // Skip Sr. No, Status, and Action columns
-//                     var that = this;
-//                     $('input', this.header()).on('keyup change', function() {
-//                         if (that.search() !== this.value) {
-//                             that.search(this.value).draw();
-//                         }
-//                     });
-//                 }
-//             });
-//         }
-//     });
-// });
+//   @if (session('prefix') == 'admin')
+//     columns.splice(3, 0, { data: 'agent_name', name: 'agent_name' });
+//   @endif
 
-
-
-// $(document).ready(function() {
 //   var table = $('#invoice_table').DataTable({
 //     searchBuilder: true,
 //     processing: true,
@@ -168,27 +148,39 @@
 //         d.agent_id = $('#agent_filter').val();
 //       }
 //     },
-//     columns: [
-//       { data: 'id', name: 'id' },
-//       { data: 'invoice_no', name: 'invoice_no' },
-//       { data: 'booking_id', name: 'booking_id', searchable: false },
-//       { data: 'date2', name: 'date2',orderable: false, searchable: false  }, // Add back if needed
-//       { data: 'action', name: 'action', orderable: false, searchable: false },
-//     ]
-//     @if (session('prefix') == 'admin')
-//     columns.splice(3, 0, { data: 'agent_name', name: 'agent_name' });
-//   @endif
+//     rowCallback: function(row, data, index) {
+//     $('td:eq(0)', row).html(index + 1); // Set the first column to the row number (starting from 1)
+//   },
+//     columns: columns
 //   });
 
-//   $('#search_date,#agent_filter').change(function() {
-//     // alert($(this).val());
-//     table.draw(); // Redraw table on date change
+//   $('#search_date, #agent_filter').change(function() {
+//     table.draw(); // Redraw table on filter change
 //   });
 // });
 
+
 $(document).ready(function() {
+  // Initialize the date range picker
+  $('#search_date_range').daterangepicker({
+    autoUpdateInput: false,
+    locale: {
+      cancelLabel: 'Clear'
+    }
+  });
+
+  $('#search_date_range').on('apply.daterangepicker', function(ev, picker) {
+    $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+    table.draw(); // Redraw table on date range change
+  });
+
+  $('#search_date_range').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+    table.draw(); // Redraw table on date range clear
+  });
+
   var columns = [
-    { data: 'id', name: 'id' },
+    { data: null, name: 'sr_no', searchable: false, orderable: false },
     { data: 'invoice_no', name: 'invoice_no' },
     { data: 'booking_id', name: 'booking_id', searchable: false },
     { data: 'date2', name: 'date2', orderable: false, searchable: false },
@@ -206,15 +198,18 @@ $(document).ready(function() {
     ajax: {
       url: '{{ route('invoice.get_invoice_data') }}',
       data: function(d) {
-        d.search_date = $('#search_date').val(); // Add search date to request data
+        d.search_date_range = $('#search_date_range').val(); // Add search date range to request data
         d.agent_id = $('#agent_filter').val();
       }
+    },
+    rowCallback: function(row, data, index) {
+      $('td:eq(0)', row).html(index + 1); // Set the first column to the row number (starting from 1)
     },
     columns: columns
   });
 
-  $('#search_date, #agent_filter').change(function() {
-    table.draw(); // Redraw table on filter change
+  $('#agent_filter').change(function() {
+    table.draw(); // Redraw table on agent filter change
   });
 });
 </script>

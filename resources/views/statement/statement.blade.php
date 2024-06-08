@@ -37,7 +37,7 @@
                                     <label for="" class="fw-bold mb-1 agent_lable"><i
                                             class="bi bi-person-fill"></i> Select
                                         Agent :</label>
-                                    <select id="single" class="form-select selected_agent_statement "
+                                    <select id="single" class="form-select selected_agent_statement js-example-responsive"
                                         style="width:100%;">
                                         <option>--Select--Agent--</option>
                                         @isset($agents)
@@ -46,7 +46,10 @@
                                             @endforeach
                                         @endisset
                                     </select>
+                                    <div class="text-center">
                                     <small class="agent_error text-danger" hidden>Select Agent..!</small>
+                                    </div>
+                                    
                                 </div>
                             @endif
                             <div class="col-sm-12  col-lg-6 col-md-6">
@@ -54,7 +57,7 @@
                                     Date Range :</label>
                                 <input type="text" name="daterange" class="form-control" value=""
                                     placeholder="--Start-date--End-date--" id="data_range"
-                                    style="border: 1px solid rgba(165, 163, 163, 0.822); height:28px;" />
+                                    style="border: 1px solid rgba(165, 163, 163, 0.822); " />
                             </div>
 
                         </div>
@@ -90,6 +93,12 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="container text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
                         
                     </div>
                 </div>
@@ -99,6 +108,7 @@
     </section>
     <script>
         $(document).ready(function() {
+            $(".spinner-border").hide();
             $("#single").select2({
                 placeholder: "--select--agent--",
                 allowClear: true,
@@ -152,7 +162,7 @@
             $('#data_range').on('apply.daterangepicker', function(ev, picker) {
                 // console.log($(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate
                 //     .format('DD/MM/YYYY')));
-
+                $(".spinner-border").show();
                 $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format(
                     'DD/MM/YYYY'));
                 var start_date = picker.startDate.format('YYYY-MM-DD');
@@ -180,6 +190,7 @@
                             end_date: enddate
                         },
                         success: (data) => {
+                            $(".spinner-border").hide();
                             // console.log(data);
                             // $('input[name="daterange"]').val('');
                             $('#table').removeClass('d-none');
@@ -226,6 +237,7 @@
                             }
                         },
                         error: (error) => {
+                            $(".spinner-border").hide();
                             $('.agent_error').removeAttr('hidden');
                             $('#table').addClass('d-none');
                             console.log(error.responseText);
@@ -241,6 +253,7 @@
                             end_date: enddate
                         },
                         success: (data) => {
+                            $(".spinner-border").hide();
                             // console.log(data);
                             // $('input[name="daterange"]').val('');
                             $('#table').removeClass('d-none');
@@ -290,6 +303,7 @@
                             }
                         },
                         error: (error) => {
+                            $(".spinner-border").hide();
                             console.log(error);
                         }
 
