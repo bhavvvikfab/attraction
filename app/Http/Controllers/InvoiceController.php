@@ -33,170 +33,126 @@ class InvoiceController extends Controller
         return view('invoice.all_invoice',compact('invoice_data','invo'));
     }
     public function get_invoice_data(Request $request){
-        // if ($request->ajax()) {
-        //     if(session('prefix')=='admin'){
-        //         // dd('adddd');
-        //     $invoice_data=Invoice::get();
-        // }else{
-        //     // dd('agggee');
-        //     $invoice_data=Invoice::where('agent_id',Auth::user()->id)->get();
-        // }
+       
 
 
-        //     // $invoice_data=Invoice::get();
-    
-        //     return Datatables::of($invoice_data)
-        //         ->addIndexColumn()
-        //         ->addColumn('action', function($row){
-        //             $btn = '<div class="d-flex justify-content-around align-items-center">';
-        //             $btn .= '<div class="viewinc">';
-        //             $btn .= '<a href="'.route(session('prefix', 'agent').'.view_single_invoice', ['id' => $row->id]).'">';
-        //             $btn .= '<button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>';
-        //             $btn .= '</a>';
-        //             $btn .= '</div>';
-                  
-        //             $btn .= '</div>';
-        //             return $btn;
-        //         })
-        //         ->rawColumns(['action'])
-        //         ->make(true);
-        // }
+    //   if ($request->ajax()) {
+    //     $searchDate = $request->get('search_date');
+    //     $agentId = $request->get('agent_id');
+    //   // Initialize the query builder
+    //   $invoiceQuery = Invoice::query();
 
+    //   // Apply the searchDate filter if provided
+    //   if ($searchDate) {
+    //       $invoiceQuery->whereDate('created_at', $searchDate);
+    //   }
+  
+    //   // Apply the agentId filter if provided
+    //   if ($agentId) {
+    //       $invoiceQuery->where('agent_id', $agentId);
+    //   } elseif (session('prefix') != 'admin') {
+    //       // Apply the agent filter for the logged-in agent if not admin and no agent filter is applied
+    //       $invoiceQuery->where('agent_id', Auth::user()->id);
+    //   }
 
-
-    //     if ($request->ajax()) {
-    //     $query = Invoice::query();
-
-    //     // Apply filters
-    //     if ($request->get('search')['value']) {
-    //         $search = $request->get('search')['value'];
-    //         $query->where(function($q) use ($search) {
-    //             $q->where('id', 'like', "%{$search}%")
-    //               ->orWhere('invoice_no', 'like', "%{$search}%")
-    //               ->orWhere('booking_id', 'like', "%{$search}%")
-    //               ->orWhere('invoice_status', 'like', "%{$search}%");
-    //         });
-    //     }
-
-    //     if(session('prefix')!='admin'){
-    //         $query->where('agent_id',Auth::user()->id)->get();
-    //     }elseif(session('prefix')=='admin'){
-    //         $query->where('agent_id',Auth::user()->id)->get();
-    //     }
-    //     // dd($query);
-
-    //     return Datatables::of($query)
-    //         ->addIndexColumn()
-    //         ->addColumn('action', function($row) {
-    //             $btn = '<div class="d-flex justify-content-around align-items-center">';
-    //             $btn .= '<div class="viewinc">';
-    //             $btn .= '<a href="' . route(session('prefix', 'agent') . '.view_single_invoice', ['id' => $row->id]) . '">';
-    //             $btn .= '<button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>';
-    //             $btn .= '</a>';
-    //             $btn .= '</div>';
-    //             $btn .= '</div>';
-    //             return $btn;
-    //         })
-    //         ->rawColumns(['action'])
-    //         ->make(true);
+    //    // Include agent details only if the user is an admin
+    //    if (session('prefix') == 'admin') {
+    //     $invoiceQuery->with('agent_details');
     // }
-
-
-
-    // if ($request->ajax()) {
-    //     $searchDate = $request->get('search_date'); // Retrieve search date from request
-    
-    //     if (session('prefix') == 'admin') {
-    //       $invoiceData = Invoice::where(function($query) use ($searchDate) {
-    //         if ($searchDate) {
-    //           $query->whereDate('created_at', $searchDate);
-    //         }
-    //       })->get();
-    //     } else {
-    //       $invoiceData = Invoice::where('agent_id', Auth::user()->id)
-    //         ->where(function($query) use ($searchDate) {
-    //           if ($searchDate) {
-    //             $query->whereDate('created_at', $searchDate);
-    //           }
-    //         })->get();
-    //     }
-    
+  
+    //   // Execute the query and get the results
+    //   $invoiceData = $invoiceQuery->get();
+    // // dd( $invoiceData);
     //     return Datatables::of($invoiceData)
     //       ->addIndexColumn()
     //       ->addColumn('action', function($row) {
     //         // ... (Action column logic remains the same)
     //         $btn = '<div class="d-flex justify-content-around align-items-center">';
-    //         $btn .= '<div class="viewinc">';
-    //         $btn .= '<a href="'.route(session('prefix', 'agent').'.view_single_invoice', ['id' => $row->id]).'">';
-    //         $btn .= '<button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>';
-    //         $btn .= '</a>';
-    //         $btn .= '</div>';
-          
-    //         $btn .= '</div>';
-    //         return $btn;
+    //                 $btn .= '<div class="viewinc">';
+    //                 $btn .= '<a href="'.route(session('prefix', 'agent').'.view_single_invoice', ['id' => $row->id]).'">';
+    //                 $btn .= '<button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>';
+    //                 $btn .= '</a>';
+    //                 $btn .= '</div>';
+                  
+    //                 $btn .= '</div>';
+    //                 return $btn;
     //       })
-    //       ->rawColumns(['action'])
+    //       ->addColumn('date2', function($row) {
+    //         // ... (Action column logic remains the same)
+    //         $formattedDate = Carbon::parse($row->created_at)->format('d-m-Y');
+    //         return $formattedDate;
+    //       })
+    //       ->addColumn('agent_name', function($row) {
+    //         // Only add the agent_name column if the user is an admin
+    //         if (session('prefix') == 'admin' && $row->agent_details) {
+    //             return $row->agent_details->name;
+    //         }
+    //         return null;
+    //     })
+    //       ->rawColumns(['action','date2'])
     //       ->make(true);
     //   }
 
 
-      if ($request->ajax()) {
-        $searchDate = $request->get('search_date');
+    if ($request->ajax()) {
+        $searchDateRange = $request->get('search_date_range');
         $agentId = $request->get('agent_id');
-      // Initialize the query builder
-      $invoiceQuery = Invoice::query();
-
-      // Apply the searchDate filter if provided
-      if ($searchDate) {
-          $invoiceQuery->whereDate('created_at', $searchDate);
-      }
-  
-      // Apply the agentId filter if provided
-      if ($agentId) {
-          $invoiceQuery->where('agent_id', $agentId);
-      } elseif (session('prefix') != 'admin') {
-          // Apply the agent filter for the logged-in agent if not admin and no agent filter is applied
-          $invoiceQuery->where('agent_id', Auth::user()->id);
-      }
-
-       // Include agent details only if the user is an admin
-       if (session('prefix') == 'admin') {
-        $invoiceQuery->with('agent_details');
-    }
-  
-      // Execute the query and get the results
-      $invoiceData = $invoiceQuery->get();
-    // dd( $invoiceData);
+    
+        // Initialize the query builder
+        $invoiceQuery = Invoice::query();
+    
+        // Apply the searchDateRange filter if provided
+        if ($searchDateRange) {
+            $dates = explode(' - ', $searchDateRange);
+            $startDate = Carbon::createFromFormat('Y-m-d', trim($dates[0]))->startOfDay();
+            $endDate = Carbon::createFromFormat('Y-m-d', trim($dates[1]))->endOfDay();
+            $invoiceQuery->whereBetween('created_at', [$startDate, $endDate]);
+        }
+    
+        // Apply the agentId filter if provided
+        if ($agentId) {
+            $invoiceQuery->where('agent_id', $agentId);
+        } elseif (session('prefix') != 'admin') {
+            // Apply the agent filter for the logged-in agent if not admin and no agent filter is applied
+            $invoiceQuery->where('agent_id', Auth::user()->id);
+        }
+    
+        // Include agent details only if the user is an admin
+        if (session('prefix') == 'admin') {
+            $invoiceQuery->with('agent_details');
+        }
+    
+        // Execute the query and get the results
+        $invoiceData = $invoiceQuery->get();
+    
         return Datatables::of($invoiceData)
-          ->addIndexColumn()
-          ->addColumn('action', function($row) {
-            // ... (Action column logic remains the same)
-            $btn = '<div class="d-flex justify-content-around align-items-center">';
-                    $btn .= '<div class="viewinc">';
-                    $btn .= '<a href="'.route(session('prefix', 'agent').'.view_single_invoice', ['id' => $row->id]).'">';
-                    $btn .= '<button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>';
-                    $btn .= '</a>';
-                    $btn .= '</div>';
-                  
-                    $btn .= '</div>';
-                    return $btn;
-          })
-          ->addColumn('date2', function($row) {
-            // ... (Action column logic remains the same)
-            $formattedDate = Carbon::parse($row->created_at)->format('d-m-Y');
-            return $formattedDate;
-          })
-          ->addColumn('agent_name', function($row) {
-            // Only add the agent_name column if the user is an admin
-            if (session('prefix') == 'admin' && $row->agent_details) {
-                return $row->agent_details->name;
-            }
-            return null;
-        })
-          ->rawColumns(['action','date2'])
-          ->make(true);
-      }
-
+            ->addIndexColumn()
+            ->addColumn('action', function($row) {
+                // Action column logic remains the same
+                $btn = '<div class="d-flex justify-content-around align-items-center">';
+                $btn .= '<div class="viewinc">';
+                $btn .= '<a href="'.route(session('prefix', 'agent').'.view_single_invoice', ['id' => $row->id]).'">';
+                $btn .= '<button type="button" class="btn btn-success"><i class="ri-eye-line"></i></button>';
+                $btn .= '</a>';
+                $btn .= '</div>';
+                $btn .= '</div>';
+                return $btn;
+            })
+            ->addColumn('date2', function($row) {
+                // Format date column
+                $formattedDate = Carbon::parse($row->created_at)->format('d-m-Y');
+                return $formattedDate;
+            })
+            ->addColumn('agent_name', function($row) {
+                // Only add the agent_name column if the user is an admin
+                if (session('prefix') == 'admin' && $row->agent_details) {
+                    return $row->agent_details->name;
+                }
+                return null;
+            })
+            ->rawColumns(['action', 'date2'])
+            ->make(true);
+    }
       
 
     }

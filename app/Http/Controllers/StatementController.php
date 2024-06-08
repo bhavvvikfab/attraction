@@ -7,6 +7,7 @@ use App\Models\UserTransaction;
 use Illuminate\Support\Facades\Auth;
 use PDF;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class StatementController extends Controller
 {
@@ -69,8 +70,10 @@ class StatementController extends Controller
             // Ensure $data is an array
             if (is_array($data)) {
                 $pdf = PDF::loadView('statement.statement_pdf');
+                $fileName = now()->format('Ymd_His'). '_statement.pdf';
+                return $pdf->download($fileName);
 
-                return $pdf->download('statement.pdf');
+                // return $pdf->download('statement.pdf');
             } else {
                 return redirect()->back()->with('error', 'Agent statement data is not in the expected format.');
             }

@@ -57,105 +57,44 @@
                 </button>
               </div>
             </div>
-            <table class="table table-borderless chat-table-admin chat-admin-table">
-              <!-- <table class="table datatable table-bordered supplier-table"> -->
+            <table class="table table-borderless chat-table-admin" id="chat-admin-table">
+              
               <thead>
                 <tr>
                   <th> Sr. No. </th>
                   <th>
-                    Customer Name
+                     Name
                   </th>
-                  <th>Agent Name</th>
+                  <!-- <th>Agent Name</th> -->
                   <th>Email</th>
                   <th>Phone</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
+                @php $i=1;@endphp
+              @foreach ($chatusers as $user)
                 <tr>
-                  <td>1</td>
+                  <td>{{$i++}}</td>
 
                   <td>
-                    Ram
+                    {{$user->name}}
                   </td>
-                  <td>Krishna</td>
-                  <td>kr123@gmail.com</td>
-                  <td>1596324870</td>
+                  <!-- <td>Krishna</td> -->
+                  <td>{{$user->email}}</td>
+                  <td>{{$user->phone}}</td>
                   <td>
                     <div class="viewchat">
-                      <a href="viewchat.php">
-                        <button type="button" class="btn btn-primary"><i class="bi bi-chat-dots-fill"></i> Chat </button>
+                      <a href="{{ route(session('prefix', 'agent') . '.chat.view' ,['id'=>$user->id]) }}">
+                        <!-- <button type="button" class="btn btn-primary"><i class="bi bi-chat-dots-fill"></i> Chat </button> -->
+                       <button class="chat-button btn btn-primary" data-user-id="{{ $user->id }}">Chat</button>
                       </a>
                     </div>
                   </td>
                 </tr>
+                @endforeach
                 <tr>
-                  <td>2</td>
-
-                  <td>
-                    Denis
-                  </td>
-                  <td>Theodore</td>
-                  <td>th123@gmail.com</td>
-                  <td>1596389870</td>
-                  <td>
-                    <div class="viewchat">
-                      <a href="viewchat.php">
-                        <button type="button" class="btn btn-primary"><i class="bi bi-chat-dots-fill"></i> Chat </button>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-
-                  <td>
-                    Krupa
-                  </td>
-                  <td>Kristan</td>
-                  <td>krt123@gmail.com</td>
-                  <td>9876543210</td>
-                  <td>
-                    <div class="viewchat">
-                      <a href="viewchat.php">
-                        <button type="button" class="btn btn-primary"><i class="bi bi-chat-dots-fill"></i> Chat </button>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-
-                  <td>
-                    Trisha
-                  </td>
-                  <td>Yug</td>
-                  <td>yug123@gmail.com</td>
-                  <td>163247890</td>
-                  <td>
-                    <div class="viewchat">
-                      <a href="viewchat.php">
-                        <button type="button" class="btn btn-primary"><i class="bi bi-chat-dots-fill"></i> Chat </button>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>
-                    Ram
-                  </td>
-                  <td>Riddhi</td>
-                  <td>rm123@gmail.com</td>
-                  <td>1234567890</td>
-                  <td>
-                    <div class="viewchat">
-                      <a href="viewchat.php">
-                        <button type="button" class="btn btn-primary"><i class="bi bi-chat-dots-fill"></i> Chat </button>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
+                  
 
               </tbody>
             </table>
@@ -172,3 +111,12 @@
 </main><!-- End #main -->
 
 @include('layouts.footer');
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+        $(document).ready(function() {
+          console.log('hhh');
+            $('#chat-admin-table').DataTable();
+
+        });
+    </script>

@@ -117,7 +117,7 @@
         <!-- End statement Nav-->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.all_chat') }}">
+        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.chat.index') }}">
           <i class="bi bi-chat-dots"></i>
           <span>Chat</span>
         </a>
