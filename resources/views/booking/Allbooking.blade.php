@@ -75,15 +75,19 @@
                     <?php 
                     $i=1;
                     foreach($booking_data as $sinle_book){
-
-                    // print_r($sinle_book->created_at);
+                      $bookinItems = $sinle_book->bookingItems->items ?? false;
+                      if($bookinItems){
+                        $attractionTitle = json_decode($bookinItems)->tickets[0]->attractionTitle;
+                      }else{
+                        $attractionTitle = "NA";
+                      }
                     ?>
                     <tr>
                       <td>{{$i++}}</td>
                       <!-- <td scope="row"><a href="#">#2457</a></td> -->
                       <td>{{ $sinle_book->created_at->format('Y-m-d') ?? 'NA' }}</td>
                       <td>{{$sinle_book->user->name ?? 'NA'}}</td>
-                      <td>{{$sinle_book->attraction->name ?? 'NA'}}</td>
+                      <td>{{$attractionTitle ?? 'NA'}}</td>
                       <td>{{$sinle_book->local_amt ?? 'NA'}}</td>
                       <td>
                       <div class="d-flex justify-content-around align-items-center">

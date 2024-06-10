@@ -325,7 +325,7 @@
                 <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
                 <div class="activity-content">
                   <!-- Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae -->
-                  {{!!$noti->notification !!}}
+                  {!! $noti->notification !!}
                 </div>
               </div>
               <?php }}else{?>

@@ -189,40 +189,40 @@
                   $cities = [];
                 @endphp 
                 @if(count($attractions)>0)
-                @foreach($attractions as $attraction)
+                  @foreach($attractions as $attraction)
                       @php
                           $fields = json_decode($attraction->fields);
                           if (isset($fields->city)) {
                               $cities[] = $fields->city;
                           }
                       @endphp
-                  <div class="col-lg-4 col-12">
-                    <div class="bg-white attr">
-                      <a href="{{ route(session('prefix', 'agent') . '.view_single_attraction' ,['id'=>$attraction->id]) }}">
-                        <div class="card">
-                          @if($attraction->attraction_id)
-                          <img class="card-img-top" src="{{ env('API_IMAGE_URL') }}{{ $attraction->image }}" alt="Card image cap">                          
-                          @else
-                          <img class="card-img-top" src="{{ asset('assets/img/') }}/{{ $attraction->image }}" alt="Card image cap">
-                          @endif
-                            <div class="card-body">
-                                <div class="row">
-                                  <div class="col-lg-10">
-                                    <h5 class="search-title-card">{{ $attraction->name }}</h5>
+                    <div class="col-lg-4 col-12">
+                      <div class="bg-white attr">
+                        <a href="{{ route(session('prefix', 'agent') . '.view_single_attraction' ,['id'=>$attraction->id]) }}">
+                          <div class="card">
+                            @if($attraction->attraction_id)
+                            <img class="card-img-top" src="{{ env('API_IMAGE_URL') }}{{ $attraction->image }}" alt="Card image cap">                          
+                            @else
+                            <img class="card-img-top" src="{{ asset('assets/img/') }}/{{ $attraction->image }}" alt="Card image cap">
+                            @endif
+                              <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-lg-10">
+                                      <h5 class="search-title-card">{{ $attraction->name }}</h5>
+                                    </div>
+                                    <div class="col-lg-2">
+                                      <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
+                                    </div>
+                                      <p class="card-text text-dark">{{ $fields->address }} {{ $fields->city }}</p>
+                                      <p class="card-text text-dark">
+                                          <i class="bi bi-calendar3 aticon1"></i> 
+                                          Open Date {{-- \Carbon\Carbon::createFromFormat('d/m/Y', $fields->opening_date)->format('Y-m-d') --}}  
+                                          <i class="bi bi-lightning-fill aticon2"></i>
+                                          Instant
+                                      </p>
                                   </div>
-                                  <div class="col-lg-2">
-                                    <h5 class="search-fav-icon"><i class="bi bi-star-fill"></i></h5>
-                                  </div>
-                                    <p class="card-text text-dark">{{ $fields->address }} {{ $fields->city }}</p>
-                                    <p class="card-text text-dark">
-                                        <i class="bi bi-calendar3 aticon1"></i> 
-                                        Open Date {{-- \Carbon\Carbon::createFromFormat('d/m/Y', $fields->opening_date)->format('Y-m-d') --}}  
-                                        <i class="bi bi-lightning-fill aticon2"></i>
-                                        Instant
-                                    </p>
-                                </div>
-                          </div>  
-                        </a>
+                            </div>  
+                          </a>
                       </div>
                     </div>
                   </div>

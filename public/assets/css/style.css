@@ -1781,6 +1781,12 @@ button.btn.btn-blue {
  opacity: unset;
 }
 
+button.btn.btn-light-blue {
+  background:#18517491;
+  color:white;
+  opacity: unset;
+ }
+
 
 /*-----------------------------Single atttrction Page------------------------------------------*/
 

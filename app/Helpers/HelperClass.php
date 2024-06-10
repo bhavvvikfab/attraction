@@ -30,6 +30,11 @@ class HelperClass
         return "Hello, $name!";
     }
 
+
+    public function getToken1() {
+        return null;
+    }
+
     public function getToken() {
         $credential = new Api_credential();
         $credential = $credential->first();
@@ -172,7 +177,7 @@ class HelperClass
                 $token = $this->getToken();
                 $response = $this->callExternalApi($url, 'GET', array(), $token);
             }
-            return json_decode($response)->data;
+            return $response;
         }
     }
 
@@ -184,12 +189,12 @@ class HelperClass
                 $token = $this->getToken();
                 $response = $this->callExternalApi($url, 'GET', array(), $token);
             }
-            return json_decode($response)->data;
+            return $response;
         }
     }
 
     function checkEventAvailability1($ticketTypeID, $dateFrom, $dateTo) {
-        $url = 'ticketType/checkEventAvailability?ticketTypeID='.$referenceNumber.'&dateFrom='.$dateFrom.'&dateTo='.$dateTo;
+        $url = 'ticketType/checkEventAvailability?ticketTypeID='.$ticketTypeID.'&dateFrom='.$dateFrom.'&dateTo='.$dateTo;
         if($this->apiKey){
             $response = $this->callExternalApi($url, 'GET', array(), $this->apiKey);
             if(empty(json_decode($response)->data)){
@@ -202,7 +207,7 @@ class HelperClass
     //Selected
     function checkEventAvailability($ticketTypeID, $date) {
         // Format OF date 2024-05-03
-        $url = 'ticketType/checkEventAvailability?id='.$referenceNumber.'&date='.$date;
+        $url = 'ticketType/checkEventAvailability?id='.$ticketTypeID.'&date='.$date;
         if($this->apiKey){
             $response = $this->callExternalApi($url, 'GET', array(), $this->apiKey);
             if(empty(json_decode($response)->data)){
