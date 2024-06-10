@@ -48,11 +48,11 @@
                   <label class="form-label" for="inputNanme4"> <b> Attraction Image: </b>
                   </label> <!-- <img src="assets/img/tourist-places-in-shillong.jpg"> -->
                     <div class="attraction-thumbnail">
-                          @if($booking_data->attraction->attraction_id)
-                          <img  height="300" width="300" src="{{ env('API_IMAGE_URL') }}{{ $booking_data->attraction->image }}" alt="Card image cap">                          
-                          @else
-                          <img  height="300" width="300" src="{{ asset('assets/img/') }}/{{ $booking_data->attraction->image }}" alt="Card image cap">
-                          @endif
+                          @foreach (json_decode($booking_data->bookingItems->items)->tickets as $key => $ticket)
+                            @if ($key < 1)
+                              <img  height="300" width="300" src="{{ env('API_IMAGE_URL') }}{{ $ticket->attractionImagePath }}" alt="Card image cap">  
+                            @endif
+                          @endforeach                          
                     </div>               
 
                 </div>

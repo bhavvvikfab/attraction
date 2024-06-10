@@ -77,7 +77,7 @@
     </div>
 
     <section id="singleatt">
-    <?php $field_data= json_decode($attraction_single->fields) ?>
+      <?php $field_data= json_decode($attraction_single->fields) ?>
       <div class="row">
         <div class="col-lg-12 bg-white">
           <div class="product-detail-header container-fluid bg-white py-4 px-0">
@@ -194,7 +194,7 @@
 
 
      <!-- -----------------------------------------Tabs................... -->
-     <div class="custom-tabset">
+      <div class="custom-tabset">
           <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
               <li class="nav-item" role="presentation">
                 <button class="nav-link active bg-white" id="pills-ticket-tab" data-bs-toggle="pill" data-bs-target="#pills-ticket" type="button" role="tab" aria-controls="pills-ticket" aria-selected="true">Ticket</button>
@@ -209,7 +209,7 @@
                 <button class="nav-link bg-white" id="pills-info-tab" data-bs-toggle="pill" data-bs-target="#pills-info" type="button" role="tab" aria-controls="pills-info" aria-selected="false">More Info</button>
               </li>
           </ul>
-</div>
+      </div>
 
           <div class="tab-content selectticket" id="pills-tabContent">
                <div class="tab-pane fade show active" id="pills-ticket" role="tabpanel" aria-labelledby="pills-ticket-tab">
@@ -277,8 +277,16 @@
                       <span class="ticket-card-header">
                         Product Option ID : {{$single_data['id'];}}
                         <input type="hidden" name="option_ID[]" class="option_ID" value=" {{$single_data['id'];}}" >
+                        @php
+                          if($single_data['visitDate']){
+                            $visitDateReq = $single_data['visitDate']['required'];
+                          }else{
+                            $visitDateReq = false;
+                          }
+                        @endphp
+                        <input type="hidden" name="visitDate[]" class="visitDate" value="{{$visitDateReq}}" >
                         <input type="hidden" name="ticketValidity[]" class="ticketValidity" value="{{$single_data['ticketValidity']}}" >
-                        <input type="hidden" name="duration[]" class="duration" value=" {{$single_data['definedDuration'];}}" >
+                        <input type="hidden" name="duration[]" class="duration" value="{{$single_data['definedDuration'];}}" >
                       </span>
                     </div>
                     <div class="favorite-wrapper">
@@ -319,14 +327,16 @@
                     <tbody class="tbodyClassOption{{$key}}">
                       @foreach($single_data['ticketType'] as $key1=>$single_ticket)
                         @php
+                          $unavailableDates = json_encode(array());
+                          $availableDates = json_encode(array());
                           $ticketType_id=$single_ticket['id'];
-                          use App\Helpers\HelperClass;
                           if($single_data['ticketValidity'] === "VisitDate" || $single_data['ticketValidity'] === "FixedDate" ){
-                            $helper = new HelperClass();
+                            $helper = new App\Helpers\HelperClass;
+                            $dateFrom = date('Y-m-d', strtotime('+0 day'));
+                            $dateTo = date('Y-m-d', strtotime('+1 year'));
                             $unavailableDates = $helper->getUnavailableDates($ticketType_id, $dateFrom, $dateTo);
                             $availableDates = $helper->getAvailableDates($ticketType_id, $dateFrom, $dateTo);
                           }
-                          
                         @endphp   
                       <tr>
 
@@ -335,7 +345,6 @@
                             <h5 class="variation-title font-style-primary">
                               <span class="font-weight-bold">{{ $single_ticket['name'] ? $single_ticket['name'] : 'NA' }}</span>
                             </h5>
-
                           </div>
                         </td>
                         <td data-cell="Ticket Type ID:">
@@ -514,23 +523,6 @@
 
 </div>
                   </div>
-
-                  <!-- <div class="row ">
-                    <div class="col-lg-12">
-
-                      <div class="card">
-
-                         <div class="card-header">
-                           <div class="row">
-                              <div class="col-lg-8">
-                                  <h5 class="card-title text-start">Invoice</h5>
-                              </div>
-
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                  </div> -->
 
 </div>
 
@@ -1450,7 +1442,7 @@
                       </label>
                     </div>
                     <div _ngcontent-xuh-c20="" class="input-group">
-                      <input type="date" name="" id="" class="form-control">
+                      <input type="date" name="visitDate" id="visitDate" class="form-control">
                       <!-- <input _ngcontent-xuh-c20="" type="date" class="form-control form-control-sm bg-white" id="visitDate" ngbdatepicker="" ng-reflect-day-template="[object Object]" ng-reflect-mark-disabled="(l,n)=>!!this.disabledDates.fi" ng-reflect-min-date="[object Object]" ng-reflect-max-date="[object Object]" readonly="">
                       <div _ngcontent-xuh-c20="" class="input-group-append">
                         <button _ngcontent-xuh-c20="" class="bi bi-calendar-week btn btn-outline-secondary btn-sm" type="button">
@@ -1461,8 +1453,8 @@
                   </div>
                 </blockquote>
               </div>
-              <hr _ngcontent-xuh-c20="" class="w-100">
-                <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
+              <!-- <hr _ngcontent-xuh-c20="" class="w-100"> -->
+                <!-- <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
                   <ngb-tabset _ngcontent-xuh-c20="" class="custom-info-tab" ng-reflect-destroy-on-hide="false">
                     <ul role="tablist" class="nav nav-tabs justify-content-start">
                       <li class="nav-item">
@@ -1514,12 +1506,12 @@
                       </div>
                     </div>
                   </ngb-tabset>
-                </div>
+                </div> -->
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary modal-submit">Submit</button>
           </div>
         </div>
       </div>
@@ -1527,129 +1519,140 @@
 
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- Your custom script -->
-<script>
-// $(document).ready(function(){
-//   $('.ticket-toggle').click(function(){
-//     $('.show-text, .hide-text').toggle();
-//   });
-// });
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Your custom script -->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
 
-$(document).ready(function(){
-  $('.ticket-toggle').click(function(){
-    // Get the show and hide text elements relative to the clicked toggle button
-    var showText = $(this).find('.show-text');
-    var hideText = $(this).find('.hide-text');
+    $(document).ready(function(){
+      $('.ticket-toggle').click(function(){
+        // Get the show and hide text elements relative to the clicked toggle button
+        var showText = $(this).find('.show-text');
+        var hideText = $(this).find('.hide-text');
 
-    // Toggle the visibility of the show and hide text elements
-    showText.toggle();
-    hideText.toggle();
+        // Toggle the visibility of the show and hide text elements
+        showText.toggle();
+        hideText.toggle();
 
-    // Get the target collapse ID from data attribute
-    var targetCollapseId = $(this).data('target');
+        // Get the target collapse ID from data attribute
+        var targetCollapseId = $(this).data('target');
 
-    // Check if the corresponding collapse content is currently open
-    var isCollapsed = $(targetCollapseId).hasClass('collapse');
+        // Check if the corresponding collapse content is currently open
+        var isCollapsed = $(targetCollapseId).hasClass('collapse');
 
-    // Toggle the visibility of the collapse content
-    $(targetCollapseId).collapse(isCollapsed ? 'show' : 'hide');
-    $(this).find('.show-icon').toggle();
-    $(this).find('.hide-icon').toggle();
+        // Toggle the visibility of the collapse content
+        $(targetCollapseId).collapse(isCollapsed ? 'show' : 'hide');
+        $(this).find('.show-icon').toggle();
+        $(this).find('.hide-icon').toggle();
 
-  });
-});
-$(document).ready(function(){
-    // Increment quantity
-    $(document).on('click', '.qty-btn-plus', function(){
-      var opbtn= $(this).attr('data-id');
-        var input = $(this).closest('.qty-container').find('.input-qty');
-        var value = parseInt(input.val());
-        input.val(value + 1);
-        updateAddBtn(input,opbtn);
-    });
-
-    // Decrement quantity
-    $(document).on('click', '.qty-btn-minus', function(){
-      var opbtn= $(this).attr('data-id');
-        var input = $(this).closest('.qty-container').find('.input-qty');
-        var value = parseInt(input.val());
-        if(value > 0) {
-            input.val(value - 1);
-            updateAddBtn(input,opbtn);
-        }
-    });
-});
-// Function to update add button based on quantity
-function updateAddBtn(input,opbtn) {
-    var quantity = parseInt(input.val());
-    var addBtn = $('#'+opbtn);
-    if (quantity > 0) {
-        addBtn.removeClass('disabled');
-    } else {
-        addBtn.addClass('disabled');
-    }
-}
-
-$(document).on('click','.btn-add',function(){  
-    var tbody= $(this).attr('data-tbody');
-    var optionName= $(this).attr('data-option');  
-
-    var myTicketDiv = $(this).closest('.myticket');
-    var attraction_ID = myTicketDiv.find('.attraction_ID').val();
-    var validityTicketsText = myTicketDiv.find('#validityTickets').val();
-    // var ticket_ID = myTicketDiv.find('.ticket_ID').val();
-    
-    var option_ID = myTicketDiv.find('.option_ID').val();
-    var ticketValidity = myTicketDiv.find('.ticketValidity').val();
-    console.log(ticketValidity);
-    if(ticketValidity === "VisitDate" || ticketValidity === "FixedDate" ){
-      var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
-        keyboard: false
       });
-      myModal.show();      
-    }
-    
 
-    var duration = myTicketDiv.find('.duration').val();
-    
-    ticket_ID=[];
-    myTicketDiv.find('.ticket_ID').each(function(){
-      ticket_ID.push($(this).val());
-    });
-    agent_price=[];
-    myTicketDiv.find('.agent_price').each(function(){
-      agent_price.push($(this).val());
-    });
-    quantity=[];
-    myTicketDiv.find('.input-qty').each(function(){
-      // if($(this).val() > 0){
-      //   $(".ticketsVariation").append($("."+tbody).clone());
-      // }
-      quantity.push($(this).val()); 
+      $('#moreinfo_btn').click(function(){
+        $('#pills-info-tab').click(); // Trigger click event on element with ID 'set2'
+      });
     });
 
-    $(".modalTktType").text(optionName);
-    $(".ticketValText").text(validityTicketsText);
-    
-    return;
+      // Increment quantity
+      $(document).on('click', '.qty-btn-plus', function(){
+        var opbtn= $(this).attr('data-id');
+          var input = $(this).closest('.qty-container').find('.input-qty');
+          var value = parseInt(input.val());
+          input.val(value + 1);
+          updateAddBtn(input,opbtn);
+      });
 
-    // Now you can use optionId and netId as needed
-    console.log("attraction_ID:", attraction_ID);
-    console.log("ticket_ID:", ticket_ID);
-    console.log("option_ID:", option_ID);
-    console.log("agent_price:", agent_price);
-    console.log("input-qty:", quantity);
+      // Decrement quantity
+      $(document).on('click', '.qty-btn-minus', function(){
+        var opbtn= $(this).attr('data-id');
+          var input = $(this).closest('.qty-container').find('.input-qty');
+          var value = parseInt(input.val());
+          if(value > 0) {
+              input.val(value - 1);
+              updateAddBtn(input,opbtn);
+          }
+      });
 
-    $.ajax({
-           type: 'POST',
-           url: 'addcart_attraction',
-           data: { attraction_ID:attraction_ID,ticket_ID:ticket_ID,option_ID:option_ID,agent_price:agent_price,quantity:quantity,ticketValidity:ticketValidity,duration:duration },
+      // Function to update add button based on quantity
+      function updateAddBtn(input,opbtn) {
+          var quantity = parseInt(input.val());
+          var addBtn = $('#'+opbtn);
+          if (quantity > 0) {
+              addBtn.removeClass('disabled');
+          } else {
+              addBtn.addClass('disabled');
+          }
+      }
+
+    var myTicketDiv = null;
+
+    $(document).on('click','.btn-add',function(){  
+        var tbody= $(this).attr('data-tbody');
+        var optionName= $(this).attr('data-option');  
+
+        myTicketDiv = $(this).closest('.myticket');
+        var attraction_ID = myTicketDiv.find('.attraction_ID').val();
+        var validityTicketsText = myTicketDiv.find('#validityTickets').val();
+        // var ticket_ID = myTicketDiv.find('.ticket_ID').val();
+        
+        var option_ID = myTicketDiv.find('.option_ID').val();
+        var ticketValidity = myTicketDiv.find('.ticketValidity').val();  
+        var visitDate = myTicketDiv.find('.visitDate').val();          
+
+        var duration = myTicketDiv.find('.duration').val();
+        
+        ticket_ID=[];
+        myTicketDiv.find('.ticket_ID').each(function(){
+          ticket_ID.push($(this).val());
+        });
+        agent_price=[];
+        myTicketDiv.find('.agent_price').each(function(){
+          agent_price.push($(this).val());
+        });
+        quantity=[];
+        myTicketDiv.find('.input-qty').each(function(){
+          // if($(this).val() > 0){
+          //   $(".ticketsVariation").append($("."+tbody).clone());
+          // }
+          quantity.push($(this).val()); 
+        });
+
+        $(".modalTktType").text(optionName);
+        $(".ticketValText").text(validityTicketsText);   
+
+        if(visitDate){
+          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+            keyboard: false
+          });
+          myModal.show();
+          var unavailableDates = '<?php if(isset($unavailableDates)) { print_r($unavailableDates); } ?>';
+          var availableDates = '<?php if(isset($availableDates)) { print_r($availableDates); } ?>';
+          console.log(unavailableDates);
+          console.log(availableDates);         
+
+          $("#visitDate").datepicker({
+              beforeShowDay: enableAvailableDates(availableDates),
+              dateFormat: 'yy-mm-dd'
+          });
+          return;
+        }
+        
+
+        // Now you can use optionId and netId as needed
+        console.log("attraction_ID:", attraction_ID);
+        console.log("ticket_ID:", ticket_ID);
+        console.log("option_ID:", option_ID);
+        console.log("agent_price:", agent_price);
+        console.log("input-qty:", quantity);
+
+        $.ajax({
+            type: 'POST',
+            url: 'addcart_attraction',
+            data: { attraction_ID:attraction_ID,ticket_ID:ticket_ID,option_ID:option_ID,agent_price:agent_price,quantity:quantity,ticketValidity:ticketValidity,duration:duration },
           //  contentType: false,
           //   processData: false,
-           success: function (data) {
-  
+            success: function (data) {
+
             console.log(data);
             if(data.status){
               showMessage('message', data.message, true)
@@ -1657,22 +1660,77 @@ $(document).on('click','.btn-add',function(){
                 // setTimeout(function(){
               
                 // window.location.reload();
-             
+              
                 //   },2000);
             }
-           }
-  
-  
-         });
-
-  });
-
-  $(document).ready(function(){
-    $('#moreinfo_btn').click(function(){
-        $('#pills-info-tab').click(); // Trigger click event on element with ID 'set2'
+            }
+          });
     });
-});
-</script>
-    </main><!-- End #main -->
+
+    function enableAvailableDates(date) {
+        console.log(date);
+        var string = $.datepicker.formatDate('yy-mm-dd', date);
+        if (availableDates.includes(string)) {
+            return [true, "", "Available"];
+        } else {
+            return [false, "", "Unavailable"];
+        }
+    }
+
+
+    $(document).on('click','.modal-submit',function(){  
+        var tbody= $(this).attr('data-tbody');
+        var optionName= $(this).attr('data-option');  
+        var visitDate = $("#visitDate").val();
+        if(visitDate === ""){
+          $("#visitDate").focus();
+          return;
+        }
+        // var myTicketDiv = $(this).closest('.myticket');
+        var attraction_ID = $('.attraction_ID').val();
+        var validityTicketsText = myTicketDiv.find('#validityTickets').val();
+        // var ticket_ID = myTicketDiv.find('.ticket_ID').val();
+        
+        var option_ID = myTicketDiv.find('.option_ID').val();
+        var ticketValidity = myTicketDiv.find('.ticketValidity').val();  
+
+        var duration = myTicketDiv.find('.duration').val();
+        
+
+
+        // Now you can use optionId and netId as needed
+        // console.log("attraction_ID:", attraction_ID);
+        console.log("ticket_ID:", ticket_ID);
+        console.log("option_ID:", option_ID);
+        console.log("agent_price:", agent_price);
+        console.log("input-qty:", quantity);
+
+        $.ajax({
+            type: 'POST',
+            url: 'addcart_attraction',
+            data: { attraction_ID:attraction_ID,ticket_ID:ticket_ID,option_ID:option_ID,agent_price:agent_price,quantity:quantity,ticketValidity:ticketValidity,duration:duration,visitDate:visitDate },
+          //  contentType: false,
+          //   processData: false,
+            success: function (data) {
+
+            console.log(data);
+            if(data.status){
+              $('#exampleModal').modal('hide');
+
+              showMessage('message', data.message, true)
+              
+                // setTimeout(function(){
+              
+                // window.location.reload();
+              
+                //   },2000);
+            }
+            }
+          });
+    });
+
+  </script>
+
+</main><!-- End #main -->
 
 @include('layouts.footerwithnosidebar');

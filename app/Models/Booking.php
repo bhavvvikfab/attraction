@@ -32,4 +32,9 @@ class Booking extends Model
     {
         return $this->hasOne(Attraction::class,'id','attraction_id');
     }
+
+    public function bookingItems() 
+    {
+        return $this->hasOne(Booking_item::class ,'booking_id','id');
+    }
 }

@@ -170,6 +170,9 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::get('/cartlist',[CartController::class,'index'])->name('agent.cartlist');
     Route::post('/updateCartQTY',[CartController::class,'updateCartQTY'])->name('agent.updateCartQTY');
     Route::post('/remove_ticket',[CartController::class,'remove_ticket'])->name('agent.remove_ticket');
+    Route::post('/clear_cart',[CartController::class,'clear_cart'])->name('agent.clear_cart');
+
+    Route::post('/checkout',[BookingController::class, 'create'])->name('agent.checkout');
     // cart end
 
     Route::get('/getAttractions_autosearch', [AttractionController::class, 'getAttractions_autosearch'])->name('agent.getAttractions_autosearch');

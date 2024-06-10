@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Booking;
 use App\Models\Attraction;
+use App\Models\Booking_item;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\HelperClass;
@@ -14,9 +15,9 @@ class BookingController extends Controller
     public function index()
     {
         if(Auth::user()->role==1){
-            $booking_data=Booking::with('user','attraction')->get();
+            $booking_data=Booking::with('user', 'attraction', 'bookingItems')->get();
         }else{
-            $booking_data=Booking::where('customer_id', Auth::user()->id)->with('user','attraction')->get();
+            $booking_data=Booking::where('customer_id', Auth::user()->id)->with('user','attraction', 'bookingItems')->get();
 
         }
         return view('booking.Allbooking',compact('booking_data'));
@@ -24,19 +25,23 @@ class BookingController extends Controller
 
     public function create(Request $request)
     {
+        $requestData = $request->all();
+        $convertedData = json_decode(json_encode($requestData), true);
+        $jsonBookingInfoData = json_encode($convertedData);
+
         $customerName = Auth::user()->name;
         $customerEmail = Auth::user()->email;
         $customerID = Auth::user()->id;
         
         $cart = Cart::where('user_id', $customerID)->first();
         if (!$cart) {
-            return response()->json(['status' => false, 'message' => 'Cart not found'], 404);
+            return response()->json(['status' => false, 'message' => 'Cart not found']);
         }
 
         [$ticketFromCart, $localTotal] = $this->processTickets($cart->more_info);
         $user = User::find($customerID);
         if((int)$user->credit_balance < $localTotal) {
-            return response()->json(['status' => false, 'message' => 'Insufficient balance to checkout!'], 404);
+            return response()->json(['status' => false, 'message' => 'Insufficient balance to checkout!']);
         }
 
         $alternateEmail = $request->input('alternateEmail');
@@ -46,11 +51,11 @@ class BookingController extends Controller
         $reserveBookingData = json_decode($reserveBooking);
 
         if (isset($reserveBookingData->data)) {
-            return $this->handleBookingConfirmation($reserveBookingData->data, $customerID, $localTotal, $alternateEmail, $helper, $user);
+            return $this->handleBookingConfirmation($reserveBookingData->data, $customerID, $localTotal, $alternateEmail, $helper, $user, $jsonBookingInfoData);
         } else {
             $messageError = $reserveBookingData->error->message ?? "";
             $responseData = ['status' => false, 'message' => "Failed To booking your tickets", "error" => $messageError];
-            return response()->json($responseData, 401);
+            return response()->json($responseData);
         }        
     }
 
@@ -69,7 +74,7 @@ class BookingController extends Controller
                     $ticketFromCart[] = [
                         'id' => $ticket->ticket_id,
                         'quantity' => (int)$ticket->count,
-                        "visitDate" => null,
+                        "visitDate" => $ticket->visitDate,
                         "index" => 0,
                         "questionList" => [],
                         "event_id" => null,
@@ -83,7 +88,7 @@ class BookingController extends Controller
         return [$ticketFromCart, $localTotal];
     }
 
-    private function handleBookingConfirmation($bookingData, $customerID, $localTotal, $alternateEmail, $helper, $user)
+    private function handleBookingConfirmation($bookingData, $customerID, $localTotal, $alternateEmail, $helper, $user, $jsonBookingInfoData)
     {
         $booking = new Booking();         
         $booking->customer_id = $customerID;
@@ -94,6 +99,7 @@ class BookingController extends Controller
         $booking->alternate_email = $alternateEmail;
         $booking->local_amt = $localTotal;
         $booking->amount = $bookingData->amount;
+        $booking->customer_info = $jsonBookingInfoData;
         $booking->status = 1;
 
         $booking->save();
@@ -102,6 +108,13 @@ class BookingController extends Controller
         $confirmBookingData = json_decode($confirmBooking);
 
         if (isset($confirmBookingData->data)) {
+            $bookingSuccessDetails = $helper->getBookingDetails($bookingData->referenceNumber);
+            if($bookingSuccessDetails){
+                $bookingItems = new Booking_item;
+                $bookingItems->booking_id = $booking->id;
+                $bookingItems->items = json_encode($bookingSuccessDetails);
+                $bookingItems->save();
+            }
             $booking->confirm_time = $confirmBookingData->data->confirmTime;
             $booking->status = 2;
             $booking->save();
@@ -120,7 +133,7 @@ class BookingController extends Controller
     
     public function view_booking($id)
     {
-        $booking_data=Booking::with('user','attraction','attraction.attraction_ticket')->find($id);
+        $booking_data=Booking::with('user','attraction','attraction.attraction_ticket','bookingItems')->find($id);       
 
         return view('booking.viewbookingdetail',compact('booking_data'));
     }
@@ -142,7 +155,5 @@ class BookingController extends Controller
 
         return view('booking.booking',compact('cart_info','subtotal'));
     }
-
-
 
 }
