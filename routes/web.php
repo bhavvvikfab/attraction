@@ -14,6 +14,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Api_credentialController;
 use App\Http\Middleware\Auther;
 use Illuminate\Support\Facades\Auth;
@@ -93,6 +94,9 @@ Route::post('/chat/messages', [ChatController::class, 'sendMessage'])->name('adm
   Route::post('/get_agent_statement', [StatementController::class, 'get_agent_statement'])->name('admin.get_agent_statement');
   Route::get('/pdf_generate', [StatementController::class, 'generatePDF'])->name('admin.generatePDF');
   //statement routes end
+
+  //report route
+  Route::get('/all_report',[ReportController::class,'all_report'])->name('admin.all_report');
 
 //manage credit route
   Route::get('/manage_credit', [ManageCreditController::class, 'manage_credit'])->name('admin.manage_credit');
@@ -175,6 +179,9 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::post('/checkout',[BookingController::class, 'create'])->name('agent.checkout');
     // cart end
 
+    //report route
+  Route::get('/all_report',[ReportController::class,'all_report'])->name('agent.all_report');
+
     Route::get('/getAttractions_autosearch', [AttractionController::class, 'getAttractions_autosearch'])->name('agent.getAttractions_autosearch');
 });
 // route's for AGENT end
@@ -185,3 +192,4 @@ Route::post('agent/reserve_booking', [BookingController::class, 'create'])->name
 Route::post('agent/confirm_booking', [BookingController::class, 'confirm_booking'])->name('agent.confirm_booking');
 
 Route::get('all_invoice/get_invoice_data', [InvoiceController::class, 'get_invoice_data'])->name('invoice.get_invoice_data');
+Route::get('all_report/get_report_data', [ReportController::class, 'get_report_data'])->name('report.get_report_data');

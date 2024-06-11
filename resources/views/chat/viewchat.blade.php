@@ -36,6 +36,7 @@
             <div class="card-body" id="chat-box" style="height: 400px; overflow-y: scroll;">
               <!-- Messages will be loaded here -->
             </div>
+            <span id="file-name" class="ms-3 me-4 text-end"></span>
             <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
               <div class="input-group mb-0">
                 <input type="text" id="msgtext" class="form-control" placeholder="Type message">
@@ -44,7 +45,7 @@
                 </button>
                 <button class="btn btn-secondary" id="file-button">Attach File</button>
                 <input type="file" id="file-input" style="display:none;" accept="image/*">
-                <span id="file-name" class="ms-3"></span>
+                
               </div>
             </div>
           </div>

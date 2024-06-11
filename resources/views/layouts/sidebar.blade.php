@@ -126,7 +126,7 @@
       <!-- End Chat Nav-->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="report.php">
+        <a class="nav-link collapsed" href="{{ route(session('prefix', 'agent') . '.all_report') }}">
           <i class="bi bi-file-text"></i>
           <span>Report</span>
         </a>
