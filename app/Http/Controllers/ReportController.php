@@ -180,7 +180,7 @@ foreach ($booking_maindata as $single_booking) {
             $b_array1['customer_id'] = $single_booking->customer_id;
             $b_array1['agent_name'] = $single_booking->user->name ?? 'NA';
             $b_array1['created_at'] = $single_booking->created_at ?? 'NA';
-    
+    if(isset($single_booking->bookingItems->items)){
             $items = json_decode($single_booking->bookingItems->items, true);
             foreach ($items as $single_item) {
                 $b_array2['attraction_id'] = $single_item['attraction_id'];
@@ -202,6 +202,7 @@ foreach ($booking_maindata as $single_booking) {
                     }
                 }
             }
+        }
         }
     
         // Filtering

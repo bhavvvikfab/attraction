@@ -1,6 +1,19 @@
 @include('layouts.header');
 @include('layouts.sidebar');
 
+<!-- jQuery (necessary for DataTables and Daterangepicker) -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+
+
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
+
+<!-- DataTables JS -->
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
 <main id="main" class="main">
   <div class="pagetitle">
     <div class="row">
@@ -36,13 +49,13 @@
 
           <div class="card-body view-chat-admin table-responsive ">
             <!-- Table with stripped rows -->
-            <div class="datatable-top">
+            <!-- <div class="datatable-top">
               <div class="datatable-dropdown">
                 <label>
                   <select class="datatable-selector">
                     <option value="">Customer Name</option>
                     <option value="" selected="">Staff Name</option>
-                    <!--<option value="">Order Date</option>-->
+                    
                     <option value="-1">All</option>
                   </select> Search
                 </label>
@@ -51,13 +64,12 @@
                 <input class="datatable-input" placeholder="Enter Keyword" type="search" title="Search within table">
 
                 <button class="btn search-button text-white" placement="top" type="submit"> Search
-                  <!-- <span>
-                        <i class="bi bi-search mx-2" style="color:white;"></i> -->
+                
 
                 </button>
               </div>
-            </div>
-            <table class="table table-borderless chat-table-admin" id="chat-admin-table">
+            </div> -->
+            <table class="table table-borderless chat-table-admin" id="chat-admin-table2">
               
               <thead>
                 <tr>
@@ -93,7 +105,7 @@
                   </td>
                 </tr>
                 @endforeach
-                <tr>
+                
                   
 
               </tbody>
@@ -111,12 +123,12 @@
 </main><!-- End #main -->
 
 @include('layouts.footer');
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
 <script>
         $(document).ready(function() {
           console.log('hhh');
-            $('#chat-admin-table').DataTable();
+            $('#chat-admin-table2').DataTable();
 
         });
     </script>
