@@ -10,13 +10,40 @@ class ChatController extends Controller
 {
     public function index()
     {
-        if (session('prefix') == 'admin') {
-            $chatusers = User::where('role', '!=', '1')->get();
-        } elseif (session('prefix') == 'agent') {
-            $chatusers = User::where('role', '=', '1')->get();
-        }
+        // if (session('prefix') == 'admin') {
+        //     $chatusers = User::where('role', '!=', '1')->get();
+        // } elseif (session('prefix') == 'agent') {
+        //     $chatusers = User::where('role', '=', '1')->get();
+        // }
 
-        return view('chat.chatadmin', compact('chatusers'));
+        // return view('chat.chatadmin', compact('chatusers'));
+
+
+
+        $chatusers = collect();
+
+    if (session('prefix') == 'admin') {
+        // Subquery to get the maximum timestamp of messages for each user
+        $subQuery = Chatmessage::selectRaw('MAX(created_at) as last_chat_at, sender_id')
+            ->whereHas('receiver', function ($query) {
+                $query->where('role', '=', '1'); // Admin role
+            })
+            ->groupBy('sender_id');
+
+        // Retrieve all users and sort them based on whether they have chatted with the admin
+        $chatusers = User::where('id', '!=', auth()->id())
+            ->leftJoinSub($subQuery, 'last_chats', function ($join) {
+                $join->on('users.id', '=', 'last_chats.sender_id');
+            })
+            ->orderByRaw('IFNULL(last_chats.last_chat_at, 0) DESC')
+            ->get();
+    } elseif (session('prefix') == 'agent') {
+        // Get all users with role '1' (assuming '1' represents agents)
+        $chatusers = User::where('role', '=', '1')->get();
+    }
+
+    return view('chat.chatadmin', compact('chatusers'));
+
     }
 
     public function viewChat($id)

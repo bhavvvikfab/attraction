@@ -77,7 +77,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="formFile" class="form-label"><i class="bi bi-image-fill" aria-hidden="true" style="font-size: 18px;"></i> Agent Image </label>
-                  <input class="form-control" type="file" id="image" name="image">
+                  <input class="form-control" type="file" id="image" name="image" accept="image/*">
                   <p class="image_err"></p>
                   <img src="{{ asset('assets/img/' . (!empty($agent->profile) ? $agent->profile : 'default.jpg')) }}" height="100" width="100">
                   <input type="hidden" name="old_img" value="{{$agent->profile}}">

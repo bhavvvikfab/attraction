@@ -18,7 +18,13 @@
 <!-- DataTables JS -->
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
+<!-- DataTables Buttons CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
 
+<!-- DataTables Buttons JS -->
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
 <main id="main" class="main">
   <div class="pagetitle">
@@ -55,7 +61,8 @@
 
           <div class="card-body admin-invoice-table table-responsive">
             <!-- Table with stripped rows -->
-            
+            <div class="dt-buttons btn-group"> <!-- Add this div to contain the buttons -->
+             </div>
 
             <table class="table table-borderless invoice-table" id="report_table">
               <div class="row">
@@ -161,7 +168,6 @@ $(document).ready(function() {
     { data: 'agent_price', name: 'agent_price', orderable: false},
     { data: 'count', name: 'count', orderable: false, searchable: false },
     { data: 'date2', name: 'date2', orderable: false },
-    
   ];
 
   @if (session('prefix') == 'admin')
@@ -180,13 +186,38 @@ $(document).ready(function() {
       }
     },
     rowCallback: function(row, data, index) {
-      $('td:eq(0)', row).html(index + 1); // Set the first column to the row number (starting from 1)
+      var pageInfo = table.page.info();
+      $('td:eq(0)', row).html(pageInfo.start + index + 1); // Set the first column to the row number, considering pagination
     },
-    columns: columns
+    columns: columns,
+    dom: 'Bfrtip', // Add the Buttons extension layout
+    buttons: [
+      {
+        extend: 'excelHtml5',
+        text: 'Export to Excel',
+        exportOptions: {
+          modifier: {
+            search: 'applied',
+            order: 'applied',
+            page: 'all'
+          },
+          columns: ':visible',
+          format: {
+            body: function ( data, row, column, node ) {
+              if(column === 0) {
+                return row + 1; // Handle sr_no column for export
+              }
+              return data;
+            }
+          }
+        }
+      }
+    ]
   });
 
   $('#agent_filter').change(function() {
     table.draw(); // Redraw table on agent filter change
   });
 });
+
 </script>

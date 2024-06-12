@@ -132,11 +132,11 @@
                                                 </label>
                                             </div>
 
-                                            <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i
+                                            <!-- <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i
                                                     class="bi bi-cart-check-fill" aria-hidden="true"></i>
                                                 {{-- <label class="form-label" for="inputNanme4"> <b class="m-1"> Bookings: </b> {{$field_data->booking}}
                                                 </label> --}}
-                                            </div>
+                                            </div> -->
 
                                         </div>
 
