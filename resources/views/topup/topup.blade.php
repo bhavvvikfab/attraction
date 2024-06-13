@@ -50,6 +50,11 @@
                   <span class="fw-medium tab-btn">Rejected</span>
                 </button>
               </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link p-2" id="paylater-tab" data-bs-toggle="tab" data-bs-target="#paylater" type="button" role="tab" aria-controls="paylater" aria-selected="false">
+                  <span class="fw-medium tab-btn">Paylater</span>
+                </button>
+              </li>
             </ul>
             
           </div>
@@ -73,6 +78,10 @@
               <div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected-tab">
                 <!-- Transactions table with failed transactions -->
                 @include('topup.partials.transaction_table', ['transactions' => $failedTransactions])
+              </div>
+              <div class="tab-pane fade" id="paylater" role="tabpanel" aria-labelledby="paylater-tab">
+                <!-- Transactions table with failed transactions -->
+                @include('topup.partials.transaction_table', ['transactions' => $paylaterTransactions])
               </div>
             </div>
 
@@ -101,6 +110,10 @@
           <div class="mb-3">
             <label for="topupAmount" class="form-label">Topup Amount</label>
             <input type="number" class="form-control" id="topupAmount" name="topupAmount">
+          </div>
+          <div class="mb-3">
+            <label for="chk_paylater" class="form-label">Pay Later</label>
+            <input type="checkbox" class="" id="chk_paylater" name="chk_paylater" value="1">
           </div>
         </form>
       </div>

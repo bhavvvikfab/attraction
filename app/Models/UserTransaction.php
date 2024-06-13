@@ -15,7 +15,8 @@ class UserTransaction extends Model
         'amount',
         'type',
         'status',
-        'balance'
+        'balance',
+        'paylater'
     ];
 
     public function user()

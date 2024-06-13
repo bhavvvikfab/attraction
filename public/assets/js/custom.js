@@ -127,7 +127,13 @@ $(document).on("change", "#topup-request", function() {
 
 $(document).on("click", "#submitRequestTopup", function() {
     var requestedAmount = $("#topupAmount").val();
-
+    // var paylater=$("#chk_paylater").val();
+    //  alert(paylater);
+    var checksts= 0;
+        if ($('#chk_paylater').is(':checked')) {
+          checksts=$('#chk_paylater').val();
+      }
+  //  alert(checksts);
     if (requestedAmount === "" || isNaN(requestedAmount) || requestedAmount <= 0) {
         $("#topupAmount").focus();
         return;
@@ -144,7 +150,7 @@ $(document).on("click", "#submitRequestTopup", function() {
                 url: '/agent/request-topup',
                 type: 'POST',
                 data: {
-                    requestedAmount: requestedAmount,
+                    requestedAmount: requestedAmount,checksts:checksts
                 },
                 success: function(response) {                
                     console.log(response);

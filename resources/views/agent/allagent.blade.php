@@ -136,7 +136,7 @@
                       <div class="viewsuser p-1">
                         
                         <a href="{{route('admin.login_asagent',['id'=>$singledata->id])}}">
-                          <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Agent Login"><i class="bi bi-box-arrow-in-right"></i></button>
+                          <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Login into {{$singledata->name}}"><i class="bi bi-box-arrow-in-right"></i></button>
                         </a>
                       </div>
                     </div>

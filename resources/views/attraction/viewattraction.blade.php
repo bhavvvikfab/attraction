@@ -143,7 +143,7 @@
                                         <hr>
                                         <div class="row">
 
-                                            <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
+                                            <!-- <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
                                                 <div class="dropdown">
                                                     <a class=" dropdown-toggle text-decoration-none text-dark fw-bold" type="button" id="dropdownDescription" data-bs-toggle="dropdown" aria-expanded="false">
                                                          Description
@@ -159,7 +159,23 @@
                                                         </li>
                                                     </ul>
                                                 </div>
+                                            </div> -->
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
+                                                <label class="form-label" for="">
+                                                    <b class="m-1">Description:</b>
+                                                    <span class="description-text" data-fulltext="{{ $fields['description'] }}" data-shorttext="{{ \Illuminate\Support\Str::limit($fields['description'], 200, $end='...') }}">
+                                                        @isset($fields['description'])
+                                                            {{ \Illuminate\Support\Str::limit($fields['description'], 200, $end='...') }}
+                                                            @if (strlen($fields['description']) > 200)
+                                                                <span class="more"> <a href="#" class="read-more">Read more</a></span>
+                                                            @endif
+                                                        @endisset
+                                                    </span>
+                                                </label>
                                             </div>
+
+
                                         </div>
 
                                         <!-- <div class="row">
@@ -491,3 +507,25 @@
 </main><!-- End #main -->
 
 @include('layouts.footer');
+<script>
+      $(document).ready(function () {
+        var showChar = 200;
+        var ellipsestext = "...";
+        var moretext = "Read more";
+        var lesstext = "Read less";
+
+        $(document).on('click', '.read-more', function () {
+            var $this = $(this);
+            var $content = $this.closest('.description-text');
+            $content.addClass('showContent').html($content.data('fulltext') + ' <a href="#" class="read-less">' + lesstext + '</a>');
+            return false;
+        });
+
+        $(document).on('click', '.read-less', function () {
+            var $this = $(this);
+            var $content = $this.closest('.description-text');
+            $content.removeClass('showContent').html($content.data('shorttext') + ' <a href="#" class="read-more">' + moretext + '</a>');
+            return false;
+        });
+    });
+</script>
