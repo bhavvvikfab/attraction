@@ -66,7 +66,7 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::post("/deleteagent", [AgentController::class, 'deleteagent'])->name('admin.deleteagent');
     Route::get("/viewagent/{id}", [AgentController::class, 'viewagent'])->name('admin.viewagent');
     Route::post("/agent_status_change", [AgentController::class, 'agent_status_change'])->name('admin.agent_status_change');
-
+    Route::get("/login_asagent/{id}", [AgentController::class, 'login_asagent'])->name('admin.login_asagent');
 
     Route::get('/topup', [TopupController::class, 'index'])->name('admin.topup');
     Route::post('/update-topup-status', [TopupController::class, 'updateTopUpStatus']);
@@ -178,6 +178,9 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
 
     Route::post('/checkout',[BookingController::class, 'create'])->name('agent.checkout');
     // cart end
+
+    //loginas agent
+    Route::get("/login_asagent/{id}", [AgentController::class, 'login_asagent'])->name('agent.login_asagent');
 
     //report route
   Route::get('/all_report',[ReportController::class,'all_report'])->name('agent.all_report');
