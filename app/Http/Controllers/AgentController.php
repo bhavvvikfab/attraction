@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Session;
 
 
 
@@ -194,6 +195,33 @@ class AgentController extends Controller
             'message' => 'Status Change successfully!'
         ];
         return response()->json($responseData, 200);
+
+    }
+    public function login_asagent($id){
+        // $agent_details=user::where('id',$id)->first();
+$admin_id=Auth::user()->id;
+
+            // Retrieve the user by ID
+    $user = User::find($id);
+
+    if ($user) {
+        // Log in the user
+        
+        Auth::loginUsingId($id);
+        $prefix = $user->role == 1 ? 'admin' : 'agent';
+        $redirect = $prefix ==  'admin'? $prefix.'/all_agent' : $prefix.'/';
+        if($prefix == 'agent'){
+            Session::put('backto_admin', $admin_id);
+        }
+
+        // Redirect to the intended page after login
+        return redirect()->intended($redirect); // Change 'dashboard' to your intended route
+    } else {
+        // Handle the case where the user is not found
+        return redirect()->back()->withErrors(['user' => 'User not found.']);
+    }
+
+
 
     }
 }

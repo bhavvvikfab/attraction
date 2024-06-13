@@ -51,7 +51,20 @@
   <!-- Country Selector CSS File -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/country-select-js@2.1.0/build/css/countrySelect.min.css">
 
-  
+  <style>
+     @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .blinking-button {
+            animation: blink 1s linear 4s infinite;
+        }
+    </style>
 
 </head>
 
@@ -84,6 +97,12 @@
             <i class="bi bi-search"></i>
           </a>
         </li><!-- End Search Icon-->
+
+        @if(session('prefix') == 'agent' &&  !empty(session('backto_admin')))
+        <li class="dropdown me-2 nav-item px-1 py-1 rounded-3">
+          <a href="{{route('agent.login_asagent',['id'=>session('backto_admin')])}}"><button class="btn btn-primary blinking-button" data-bs-toggle="tooltip" data-bs-placement="top" title="Back To Admin"><i class="bi bi-box-arrow-in-left"></i> </button></a>
+        </li>
+        @endif
 
         <li class="border border-primary dropdown me-2 nav-item px-1 py-1 rounded-3">
           <div class="align-items-center border border-primary d-flex px-2 py-1 rounded-3">

@@ -126,6 +126,19 @@
                         <button type="button" class="btn btn-danger agent_delete" data-id="{{$singledata->id}}"><i class="ri-delete-bin-line"></i></button>
                         
                       </div>
+                      <!-- <div class="viewsuser p-1">
+                        @php $url =  url('/').'/'.'agent';  @endphp
+                        <a href="{{$url}}" target="_private">
+                          <button type="button" class="btn btn-success"><i class="bi bi-person-fill"></i></button>
+                        </a>
+                      </div> -->
+
+                      <div class="viewsuser p-1">
+                        
+                        <a href="{{route('admin.login_asagent',['id'=>$singledata->id])}}">
+                          <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Agent Login"><i class="bi bi-box-arrow-in-right"></i></button>
+                        </a>
+                      </div>
                     </div>
                   </td>
                   

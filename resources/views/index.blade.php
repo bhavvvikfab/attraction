@@ -3,6 +3,11 @@
 
 <main id="main" class="main">
   <div class="pagetitle">
+  @if(session('prefix') == 'agent' &&  !empty(session('backto_admin')))
+  <div class="row mb-2">
+    <h1>Welcome Admin, to {{Auth::user()->name;}}</h1>
+  </div>
+  @endif
     <div class="row">
       <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12">
         <h1>Dashboard</h1>
