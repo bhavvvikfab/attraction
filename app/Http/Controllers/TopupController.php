@@ -23,9 +23,10 @@ class TopupController extends Controller
 
         return view('topup.topup', [
             'userTransactions' => $userTransactions,
-            'pendingTransactions' => $userTransactions->where('status', 'pending'),
+            'pendingTransactions' => $userTransactions->where('status', 'pending')->where('paylater', 0),
             'approvedTransactions' => $userTransactions->where('status', 'completed'),
             'failedTransactions' => $userTransactions->where('status', 'failed'),
+            'paylaterTransactions' => $userTransactions->where('status', 'pending')->where('paylater', 1),
         ]);
     }
 
@@ -73,6 +74,8 @@ class TopupController extends Controller
 
     public function requestTopUp(Request $request) {
         $requestedAmount = $request->requestedAmount;
+        $checksts= $request->checksts;
+       
     
         $finalBalance = Auth::user()->credit_balance + $requestedAmount;
 
@@ -85,6 +88,7 @@ class TopupController extends Controller
             'type' => "credit",
             'status' => "pending",
             'balance' => $finalBalance,
+            'paylater'=> $checksts
         ]);
     
         $transaction->save();
