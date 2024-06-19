@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\HelperClass;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Attraction;
@@ -14,16 +15,17 @@ class CartController extends Controller
 {
     public function index()
     {
-        // Fetch all carts
-        // $carts = Cart::all();
-        // $carts=1;
         $user_id=Auth::user()->id;
         $carts=Cart::where('user_id',$user_id)->first();
-        $cart_info= isset($carts->more_info) ? json_decode($carts->more_info,true) : array();
+        $cart_info = isset($carts->more_info) ? json_decode($carts->more_info,true) : array();
       
         $subtotal = 0;
 
         foreach ($cart_info as $attraction) {
+            // $attractionInfo = AttractionTicket::where('attraction_id', $attraction['attraction_id'])->first();
+            // if($attractionInfo){
+                // $attractionOptions = json_decode($attractionInfo['attraction_options'],true);
+            // }
             foreach ($attraction['options'] as $option) {
                 foreach ($option['tickets'] as $ticket) {
                     $agent_price = !empty($ticket['agent_price']) ? floatval($ticket['agent_price']) : 0;
@@ -32,12 +34,6 @@ class CartController extends Controller
             }
         }
         
-        //   echo"<pre>";
-        // print_r($cart_info);
-        // die;
-
-        // $all=Attraction::with('attraction_ticket')->whereIn('id',$attractionids)->get();
-// dd($all);
         return view('cart.cart', compact('cart_info','subtotal'));
     }
 
@@ -57,7 +53,6 @@ class CartController extends Controller
 
     public function destroy(Cart $cart)
     {
-
         $cart->delete();
         return redirect()->route('carts.index');
     }
@@ -204,5 +199,19 @@ class CartController extends Controller
         $carts = Cart::where('user_id', $userID)->delete();
 
         return response()->json(['status' => true, 'message' => 'Cart cleared successfully']);
+    }
+
+    public function getTicketSlots(Request $request){
+        $ticketTypeID = $request->input('ticketTypeID');
+        $visitDate = $request->input('visitDate');
+        $parsedDate = date('Y-m-d', strtotime($visitDate));
+        // $newDate = date('Y-m-d');
+        // $lastDate = date('Y-m-d', strtotime('+1 year', strtotime($newDate)));
+
+        $helper = new HelperClass();
+        $slots = $helper->checkEventAvailability($ticketTypeID, $parsedDate);
+        
+        // Return the response
+        return response()->json(['status' => true, 'slots' => $slots]);
     }
 }

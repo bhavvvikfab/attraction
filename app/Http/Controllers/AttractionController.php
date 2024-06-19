@@ -121,7 +121,7 @@ class AttractionController extends Controller
         
     }
 
-     function get_attraction_single_data($id){
+    function get_attraction_single_data($id){
         $attraction_single=Attraction::find($id)->toArray();
         $attraction_single2=Attraction::with('attraction_ticket')->find($id)->toArray();
         $main_attraction_ticket=$attraction_single2['attraction_ticket'];
@@ -174,7 +174,8 @@ class AttractionController extends Controller
         $quantity=$request->quantity;
         $ticketValidity=$request->ticketValidity;
         $duration=$request->duration;    
-        $visitDate=$request->visitDate;    
+        $visitDate=$request->visitDate;
+        $questions=$request->questions;     
     
         $inputArray = [
             "attraction_ID" => $attraction_ID,
@@ -185,6 +186,7 @@ class AttractionController extends Controller
             'ticketValidity'=>$ticketValidity,
             'duration'=>$duration,
             'visitDate'=> $visitDate,
+            'questions'=> $questions,
         ];
     
         $formatted_data = [];
@@ -204,24 +206,25 @@ class AttractionController extends Controller
                 return (int)$item2['id'] == $ticket_id;
             });
             $arrtt= reset($desiredataforticket);
-            // dd ($arrtt);
+            
             $ticketdetails_array=array(
                 "ticket_name"=> $arrtt['name'] ?? 'NA',
                 "sku"=> $arrtt['sku'] ?? 'NA',
 
             );
-            if ($inputArray["quantity"][$j] > 0) {
-
+            
+            if ($inputArray["quantity"][$j] > 0) {   
                 $ticket_data[] = [
                     "ticket_id" => $ticket_id,
-                    "count" => $inputArray["quantity"][$j],
-                    "visitDate"=> $inputArray['visitDate'],
+                    "count" => (int)$inputArray["quantity"][$j],
+                    "visitDate"=> $inputArray['visitDate'] ? date('Y-m-d', strtotime($inputArray['visitDate'])) : null,
+                    "questionList"=> $questions ? $questions[$ticket_id] : [],
                     "agent_price" => $inputArray["agent_price"][$j],
                     "ticketdetails_array" => $ticketdetails_array
                 ];
             }
         }
-        
+
         $newOption = [
             "option_id" => $inputArray["option_ID"],
             "ticketValidity" => $inputArray["ticketValidity"],

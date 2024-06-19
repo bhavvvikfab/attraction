@@ -10,6 +10,7 @@
             <th> Request No. </th>
             <th data-type="date" data-format="DD/MM/YYYY">Request Date</th>
             <th>Amount</th>
+            <th>Paylater</th>
             <th>Status</th>
         </tr>
     </thead>
@@ -23,8 +24,8 @@
             <td>{{ $transaction->transaction_id }}</td>
             <td>{{ $transaction->created_at->format('Y-m-d H:i') }}</td>
             <td>{{ $transaction->amount }}</td>
-            <td>
-                
+            <td>@if($transaction->paylater== 0){{'NO'}} @else{{'YES'}} @endif</td>
+            <td>                
                 @if($transaction->status == "pending")
                     @if(Auth::user()->role == 1)
                     <select class="btn btn-warning text-start" name="topup-request" id="topup-request" data-id="{{ $transaction->id }}">

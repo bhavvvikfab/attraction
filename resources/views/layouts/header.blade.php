@@ -110,9 +110,13 @@
               <span class="me-1">$</span>
               <span class="fw-bold">
                 @php
+                if(Auth::user()->role == 1){
                   $helper = new \App\Helpers\HelperClass;
                   $creditData = $helper->getCreditByReseller();
-                  $balance = (Auth::user()->role == 1) ? $creditData->balance ?? 0 : Auth::user()->credit_balance;
+                  $balance = $creditData->balance ?? 0;
+                }else{
+                  $balance = Auth::user()->credit_balance ?? 0;
+                }
                 @endphp
                 {{ number_format($balance ?? 0, 2) }}
               </span>

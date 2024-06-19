@@ -202,13 +202,13 @@
                   <div class="row">
                     <div class="col form-group cart-form">
                       <h6>Customer Name</h6>
-                      <input class="form-control" name="customerName" type="text" name="customerName" onchange="functionName(this.value)" >
+                      <input class="form-control customerName" name="customerName" type="text" onchange="functionName(this.value)" >
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6 form-group cart-form">
                       <h6>Email</h6>
-                      <input class="form-control" name="email" type="text" name="email">
+                      <input class="form-control email_required" name="email" type="text" onchange="functionName1(this.value)">
                     </div>
                     <div class="col-md-6 form-group cart-form">
                       <h6>Alternate Email<span class="optional-field">(optional)</span></h6>
@@ -309,7 +309,16 @@
       if (value==="") {
         $('.checkout_cart').addClass('disabled');
         $('.checkout_cart').addClass('btn-light-blue');
-      }else{
+      }else if($(".email_required").val()!=""){
+        $('.checkout_cart').removeClass('disabled');
+        $('.checkout_cart').removeClass('btn-light-blue');
+      }
+    }
+    function functionName1(value) {
+      if (value==="") {
+        $('.checkout_cart').addClass('disabled');
+        $('.checkout_cart').addClass('btn-light-blue');
+      }else if($(".customerName").val()!=""){
         $('.checkout_cart').removeClass('disabled');
         $('.checkout_cart').removeClass('btn-light-blue');
       }

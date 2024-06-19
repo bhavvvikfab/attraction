@@ -9,25 +9,6 @@
       }
     }
 
-  /* Hide certain columns on mobile screens */
-  /* @media screen and (max-width: 768px) {
-      
-      .sku,
-      .minimum-selling-price {
-          display: none;
-      }
-  } */
-
-  /* Prevent horizontal scrolling on mobile screens */
-  /* @media screen and (max-width: 768px) {
-      body {
-          overflow-x: hidden;
-      }
-      .select-ticket-table-wrapper {
-          overflow-x: auto;
-      }
-  } */
-
   @media only screen and (max-width: 765px) {
           table.select-ticket-table.table.font-weight-normal tr th {
             display: none;
@@ -57,6 +38,26 @@
         border: none;
         color: black;
     }
+    .available {
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 33px !important;
+      background-color: #28a745 !important;
+      color: white !important;
+    }
+
+    .unavailable {
+      background-color: #dc3545 !important;
+      color: white !important;
+      cursor: not-allowed !important;
+    }
+
+    .active-pill {
+      --bs-bg-opacity: 1;
+      background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+      color: white !important;
+    }
+
 </style>
   <main id="main1" class="main">
     <div class="pagetitle">
@@ -324,22 +325,34 @@
                         <th scope="col"></th>
                       </tr>
                     </thead>
-                    <tbody class="tbodyClassOption{{$key}}">
+                    <tbody class="tbodyClassOption{{$key}} tableTickets">
+                      <input type="hidden" class="questions" value="{{json_encode($single_data['questions'])}}">
+                      <input type="hidden" class="timeSlot" value="{{json_encode($single_data['timeSlot'])}}">
                       @foreach($single_data['ticketType'] as $key1=>$single_ticket)
                         @php
-                          $unavailableDates = json_encode(array());
-                          $availableDates = json_encode(array());
-                          $ticketType_id=$single_ticket['id'];
-                          if($single_data['ticketValidity'] === "VisitDate" || $single_data['ticketValidity'] === "FixedDate" ){
-                            $helper = new App\Helpers\HelperClass;
-                            $dateFrom = date('Y-m-d', strtotime('+0 day'));
-                            $dateTo = date('Y-m-d', strtotime('+1 year'));
-                            $unavailableDates = $helper->getUnavailableDates($ticketType_id, $dateFrom, $dateTo);
-                            $availableDates = $helper->getAvailableDates($ticketType_id, $dateFrom, $dateTo);
+                          $ticketType_id = $single_ticket['id'];
+                          $unavailableDates = json_encode([]);
+                          $availableDates = json_encode([]);
+
+                          if ($visitDateReq) {
+                              $helper = new App\Helpers\HelperClass;
+                              $dateFrom = date('Y-m-d');
+                              $dateTo = date('Y-m-d', strtotime('+1 year'));
+
+                              $unavailableDatesResponse = $helper->getUnavailableDates($ticketType_id, $dateFrom, $dateTo);
+                              $unavailableDatesData = json_decode($unavailableDatesResponse)->data ?? [];
+                              $unavailableDates = json_encode($unavailableDatesData);
+
+                              $availableDatesResponse = $helper->getAvailableDates($ticketType_id, $dateFrom, $dateTo);
+                              $availableDatesData = json_decode($availableDatesResponse)->data ?? [];
+                              $availableDates = json_encode($availableDatesData);
                           }
                         @endphp   
                       <tr>
-
+                        <input type="hidden" class="ticketID" value="{{$ticketType_id}}">
+                        <input type="hidden" class="ticketName" value="{{$single_ticket['name']}}">
+                        <input type="hidden" class="unavailableDates" value="{{$unavailableDates}}">
+                        <input type="hidden" class="availableDates" value="{{$availableDates}}">
                         <td width="15%">
                           <div class="name-info-wrapper">
                             <h5 class="variation-title font-style-primary">
@@ -351,7 +364,7 @@
                           <div class="variation-price d-inline">
                             <span>
                             {{ $single_ticket['id'] ? $single_ticket['id'] : 'NA' }}
-                            <input type="hidden" name="ticket_ID[]" class="ticket_ID" value=" {{$single_ticket['id'];}}" >
+                            <input type="hidden" name="ticket_ID[]" class="ticket_ID" value="{{$single_ticket['id'];}}" >
                             </span>
                           </div>
                         </td>
@@ -1397,117 +1410,6 @@
             <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div _ngcontent-xuh-c20="" class="container px-0">
-              <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
-                <h5 _ngcontent-xuh-c20="" class="font-weight-bold font-style-primary modalTktType">Standard Ticket</h5>
-              </div>
-
-              <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
-                <div _ngcontent-xuh-c20="" class="bg-light-color mb-2">
-                  <div _ngcontent-xuh-c20="" class="row m-0 ticketsVariation">
-                    <!-- <div _ngcontent-xuh-c20="" class="col-6 py-3 text-center">
-                      <span _ngcontent-xuh-c20="" class="font-weight-bold font-14">
-                        ADULT
-                      </span>
-                    </div>
-                    <div _ngcontent-xuh-c20="" class="col-6 d-flex justify-content-center pr-3">
-                      <div _ngcontent-xuh-c20="" class="row mx-0 text-nowrap d-flex justify-content-end">
-                        <div class="qty-container">
-                          <button class="qty-btn-minus btn-light" data-id="option0" data-validity="$single_data['ticketValidity']" type="button"><i class="bi bi-dash-lg"></i></button>
-                          <input type="text" name="qty" value="0" class="input-qty">
-                          <button class="qty-btn-plus btn-light" data-id="option0" data-validity="$single_data['ticketValidity']" type="button"><i class="bi bi-plus-lg"></i></button>
-                        </div>
-                      </div>
-                    </div> -->
-                  </div>
-                </div>
-              </div>
-
-              <hr _ngcontent-xuh-c20="" class="w-100">
-
-              <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
-                <div _ngcontent-xuh-c20="">
-                  <p _ngcontent-xuh-c20="" class="font-weight-bold pt-3">Validity</p>
-                  <p _ngcontent-xuh-c20="" class="ticketValText">
-                    Please select visit date
-                  </p>
-                </div>  
-              </div>
-              <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
-                <blockquote _ngcontent-xuh-c20="" class="p-b-0 mb-2">
-                  <div _ngcontent-xuh-c20="" class="form-group">
-                    <div _ngcontent-xuh-c20="" class="row">
-                      <label _ngcontent-xuh-c20="" class="col-md-6">
-                        Visit Date
-                      </label>
-                    </div>
-                    <div _ngcontent-xuh-c20="" class="input-group">
-                      <input type="date" name="visitDate" id="visitDate" class="form-control">
-                      <!-- <input _ngcontent-xuh-c20="" type="date" class="form-control form-control-sm bg-white" id="visitDate" ngbdatepicker="" ng-reflect-day-template="[object Object]" ng-reflect-mark-disabled="(l,n)=>!!this.disabledDates.fi" ng-reflect-min-date="[object Object]" ng-reflect-max-date="[object Object]" readonly="">
-                      <div _ngcontent-xuh-c20="" class="input-group-append">
-                        <button _ngcontent-xuh-c20="" class="bi bi-calendar-week btn btn-outline-secondary btn-sm" type="button">
-                        </button>
-                      </div> -->
-                    </div>
-                    <br _ngcontent-xuh-c20="">
-                  </div>
-                </blockquote>
-              </div>
-              <!-- <hr _ngcontent-xuh-c20="" class="w-100"> -->
-                <!-- <div _ngcontent-xuh-c20="" class="section-wrapper px-4">
-                  <ngb-tabset _ngcontent-xuh-c20="" class="custom-info-tab" ng-reflect-destroy-on-hide="false">
-                    <ul role="tablist" class="nav nav-tabs justify-content-start">
-                      <li class="nav-item">
-                        <a class="nav-link active" href="" role="tab" id="ADULT" aria-controls="ADULT-panel" aria-selected="true" aria-disabled="false">
-                          ADULT
-                        </a>
-                      </li>
-                    </ul>
-                    <div class="tab-content">
-                      <div role="tabpanel" class="tab-pane active" aria-labelledby="ADULT" id="ADULT-panel">
-                          <app-cart-q-and-a _ngcontent-xuh-c20="" _nghost-xuh-c21="" ng-reflect-questions-set="[object Object]" ng-reflect-variation-name="ADULT" ng-reflect-ticket-id="7836">
-                              <div _ngcontent-xuh-c21="" class="px-4 ng-valid ng-touched ng-dirty" ng-reflect-ng-class="px-4" ng-reflect-name="7836">
-                                <div _ngcontent-xuh-c21="" class="row">
-                                  <div _ngcontent-xuh-c21="" class="col-7">
-                                    <p _ngcontent-xuh-c21="" class="font-weight-bold pt-3">
-                                      Additional Information
-                                    </p>
-                                  </div>
-                                </div>
-                                  <div _ngcontent-xuh-c21="" class="quantity-container">
-                                    <p _ngcontent-xuh-c21="" class="font-weight-bold">Quantity: 1</p>
-                                    <div _ngcontent-xuh-c21="" class="quantity-selection">
-                                      <div _ngcontent-xuh-c21="" class="number-container" ng-reflect-klass="number-container" ng-reflect-ng-class="">
-                                          <span _ngcontent-xuh-c21="" class="number-pill active-pill" ng-reflect-klass="number-pill" ng-reflect-ng-class="active-pill">
-                                            1
-                                          </span>              
-                                      </div>
-                                    </div>
-                                  </div>
-                                <blockquote _ngcontent-xuh-c21="" class="pb-0 mb-2">
-                                      <div _ngcontent-xuh-c21="" ng-reflect-ng-class="" ng-reflect-name="0" class="ng-valid ng-touched ng-dirty">
-                                          <div _ngcontent-xuh-c21="" class="form-group">
-                                            <div _ngcontent-xuh-c21="" ng-reflect-name="0" class="ng-valid ng-touched ng-dirty">
-                                              <label _ngcontent-xuh-c21="" for="">
-                                                Are you vaccinated with at least 3 doses of COVID-19 Vaccines?
-                                              </label><select _ngcontent-xuh-c21="" class="form-control ng-valid ng-touched ng-dirty" formcontrolname="answer" id="options" ng-reflect-name="answer">
-                                                  <option _ngcontent-xuh-c21="" formarrayname="options" value="No" ng-reflect-value="No" ng-reflect-name="options" class="ng-untouched ng-pristine ng-valid">
-                                                    No
-                                                  </option><option _ngcontent-xuh-c21="" formarrayname="options" value="Yes" ng-reflect-value="Yes" ng-reflect-name="options" class="ng-untouched ng-pristine ng-valid">
-                                                  Yes
-                                                </option>
-                                              </select>
-                                            </div>
-                                          </div>                                              
-                                      </div>     
-                                </blockquote>
-                              </div>
-                          </app-cart-q-and-a>          
-                      </div>
-                    </div>
-                  </ngb-tabset>
-                </div> -->
-            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1517,12 +1419,17 @@
       </div>
     </div>
 
+
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- Bootstrap JS -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <!-- Your custom script -->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
   <script>
 
     $(document).ready(function(){
@@ -1585,149 +1492,282 @@
       }
 
     var myTicketDiv = null;
+    var visitDateReq = null;
+    $(document).on('click', '.btn-add', function() {
+    myTicketDiv = $(this).closest('.myticket');
+    const modal = new bootstrap.Modal(document.getElementById('exampleModal'), { keyboard: false });
 
-    $(document).on('click','.btn-add',function(){  
-        var tbody= $(this).attr('data-tbody');
-        var optionName= $(this).attr('data-option');  
+    const attraction_ID = myTicketDiv.find('.attraction_ID').val();
+    const validityTicketsText = myTicketDiv.find('#validityTickets').val();
+    const optionName = $(this).attr('data-option');
+    const option_ID = myTicketDiv.find('.option_ID').val();
+    const ticketValidity = myTicketDiv.find('.ticketValidity').val();
+    const visitDate = myTicketDiv.find('.visitDate').val();
+    visitDateReq = myTicketDiv.find('.visitDate').val();
+    const timeSlot = myTicketDiv.find('.timeSlot').val();
+    const duration = myTicketDiv.find('.duration').val();
 
-        myTicketDiv = $(this).closest('.myticket');
-        var attraction_ID = myTicketDiv.find('.attraction_ID').val();
-        var validityTicketsText = myTicketDiv.find('#validityTickets').val();
-        // var ticket_ID = myTicketDiv.find('.ticket_ID').val();
-        
-        var option_ID = myTicketDiv.find('.option_ID').val();
-        var ticketValidity = myTicketDiv.find('.ticketValidity').val();  
-        var visitDate = myTicketDiv.find('.visitDate').val();          
+    const ticket_ID = myTicketDiv.find('.ticket_ID').map(function() {
+        return $(this).val();
+    }).get();
 
-        var duration = myTicketDiv.find('.duration').val();
-        
-        ticket_ID=[];
-        myTicketDiv.find('.ticket_ID').each(function(){
-          ticket_ID.push($(this).val());
-        });
-        agent_price=[];
-        myTicketDiv.find('.agent_price').each(function(){
-          agent_price.push($(this).val());
-        });
-        quantity=[];
-        myTicketDiv.find('.input-qty').each(function(){
-          // if($(this).val() > 0){
-          //   $(".ticketsVariation").append($("."+tbody).clone());
-          // }
-          quantity.push($(this).val()); 
-        });
+    const agent_price = myTicketDiv.find('.agent_price').map(function() {
+        return $(this).val();
+    }).get();
 
-        $(".modalTktType").text(optionName);
-        $(".ticketValText").text(validityTicketsText);   
+    const quantity = myTicketDiv.find('.input-qty').map(function() {
+        return $(this).val();
+    }).get();
 
-        if(visitDate){
-          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
-            keyboard: false
-          });
-          myModal.show();
-          var unavailableDates = '<?php if(isset($unavailableDates)) { print_r($unavailableDates); } ?>';
-          var availableDates = '<?php if(isset($availableDates)) { print_r($availableDates); } ?>';
-          console.log(unavailableDates);
-          console.log(availableDates);         
-
-          $("#visitDate").datepicker({
-              beforeShowDay: enableAvailableDates(availableDates),
-              dateFormat: 'yy-mm-dd'
-          });
-          return;
+    const ticketData = myTicketDiv.find('.tableTickets .input-qty').map(function() {
+        if ($(this).val() > 0) {
+            return {
+                id: $(this).closest('tr').find('.ticketID').val(),
+                name: $(this).closest('tr').find('.ticketName').val(),
+                qty: $(this).val(),
+                unAvl: JSON.parse($(this).closest('tr').find('.unavailableDates').val()),
+                avl: JSON.parse($(this).closest('tr').find('.availableDates').val())
+            };
         }
-        
+    }).get();
 
-        // Now you can use optionId and netId as needed
-        console.log("attraction_ID:", attraction_ID);
-        console.log("ticket_ID:", ticket_ID);
-        console.log("option_ID:", option_ID);
-        console.log("agent_price:", agent_price);
-        console.log("input-qty:", quantity);
+    const questions = JSON.parse(myTicketDiv.find('.tableTickets .questions').val());
+    // console.log(questions.length);
+    const timeSlots = myTicketDiv.find('.tableTickets .timeSlot').val();
 
-        $.ajax({
-            type: 'POST',
-            url: 'addcart_attraction',
-            data: { attraction_ID:attraction_ID,ticket_ID:ticket_ID,option_ID:option_ID,agent_price:agent_price,quantity:quantity,ticketValidity:ticketValidity,duration:duration },
-          //  contentType: false,
-          //   processData: false,
-            success: function (data) {
+    const allAvailableDates = [].concat(...ticketData.map(data => data.avl));
+    const allUnavailableDates = [].concat(...ticketData.map(data => data.unAvl));
 
-            console.log(data);
-            if(data.status){
-              showMessage('message', data.message, true)
-              
-                // setTimeout(function(){
-              
-                // window.location.reload();
-              
-                //   },2000);
-            }
-            }
-          });
+    let modalBody = '';
+    ticketData.forEach(data => {
+        modalBody += `
+            <div class="bg-dark-subtle m-auto mb-3 py-1 rounded-3 row text-center w-75">
+                <div class="col">
+                    <label class="form-label fw-bold mb-0 mt-2">${data.name}</label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control w-50 text-center" disabled value="${data.qty}">
+                </div>
+            </div>
+        `;
     });
 
-    function enableAvailableDates(date) {
-        console.log(date);
-        var string = $.datepicker.formatDate('yy-mm-dd', date);
-        if (availableDates.includes(string)) {
-            return [true, "", "Available"];
-        } else {
-            return [false, "", "Unavailable"];
+    modalBody += `<hr><div class="container ms-md-4">
+        <p class="font-weight-bold">Validity</p>
+        <p class="validtiy">${validityTicketsText}</p>
+    </div>`;
+
+    if (visitDate) {
+        modalBody += `<div class="border mx-auto px-4 py-3 rounded-2 section-wrapper w-75">
+            <blockquote class="p-b-0 mb-2">
+                <div class="form-group mb-3">
+                    <div class="row">
+                        <label class="col-md-6">Visit Date</label>
+                    </div>
+                    <div class="input-group">
+                        <input class="form-control bg-white" id="visitDate">              
+                    </div>            
+                </div>`;
+        if (timeSlots !== "null") {
+            modalBody += `<div class="form-group">
+                            <label for=""> Visit Time Slot </label>
+                            <select class="form-control" name="mySlot" id="slot" disabled>
+                                <option value="0: null">-Select visit date time-</option>
+                            </select>
+                          </div>`;
         }
+        modalBody += `</blockquote></div>`;
     }
 
+    if (questions) {
+        modalBody += `<hr><div class="section-wrapper px-4">
+                        <ul class="nav nav-tabs" id="ticketTab" role="tablist">`;
 
-    $(document).on('click','.modal-submit',function(){  
-        var tbody= $(this).attr('data-tbody');
-        var optionName= $(this).attr('data-option');  
-        var visitDate = $("#visitDate").val();
-        if(visitDate === ""){
-          $("#visitDate").focus();
-          return;
+        ticketData.forEach((data, index) => {
+            modalBody += `<li class="nav-item" role="presentation">
+                            <button class="nav-link ${index === 0 ? 'active' : ''}" id="tab-${index}-link" data-bs-toggle="tab" data-bs-target="#tab-${index}" type="button" role="tab" aria-controls="tab-${index}" aria-selected="${index === 0 ? 'true' : 'false'}">
+                                ${data.name}
+                            </button>
+                          </li>`;
+        });
+
+        modalBody += `</ul><div class="tab-content" id="ticketTabContent">`;
+
+        ticketData.forEach((data, index) => {
+            modalBody += `<div class="tab-pane fade ${index === 0 ? 'show active' : ''}" id="tab-${index}" role="tabpanel" aria-labelledby="tab-${index}-link">
+                            <div class="quantity-selection mt-3">
+                                <div class="number-container ms-md-3"><strong>Quantity :</strong>`;
+
+            for (let i = 1; i <= data.qty; i++) {
+                modalBody += `<span class="mx-1 number-pill px-1 rounded-5 border ${i === 1 ? 'active-pill' : ''}" data-quantity="${i}">${i}</span>`;
+            }
+
+            modalBody += `</div></div>`;
+
+            for (let i = 1; i <= data.qty; i++) {
+                modalBody += `<div class="quantity-content ${i !== 1 ? 'd-none' : ''}" id="content-${index}-${i}">
+                                <div class="px-4 ng-untouched ng-pristine ng-valid">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="font-weight-bold pt-3">Additional Information for ${data.name} - Quantity ${i}</p>
+                                        </div>              
+                                    </div>`;
+
+                questions.forEach((question, index) => {
+                    modalBody += `<blockquote class="pb-0 mb-2">
+                                    <div class="ng-untouched ng-pristine ng-valid">
+                                        <div class="form-group">
+                                            <label for="">
+                                                ${question.question}
+                                                ${question.optional ? '<span class="optional-field">(optional)</span>' : ''}
+                                            </label>`;
+                    if (question.type === "DATE") {
+                        modalBody += `<input class="form-control question-answer-${data.id}-${i} field-${question.optional}" data-q-id="${question.id}" type="date" placeholder="Answer for ${data.name} - Quantity ${i}">`;
+                    } else if (question.type === "OPTION") {
+                        modalBody += `<select class="form-control question-answer-${data.id}-${i} field-${question.optional}" data-q-id="${question.id}" >`;
+                        question.options.forEach(option => {
+                            modalBody += `<option value="${option}">${option}</option>`;
+                        });
+                        modalBody += `</select>`;
+                    } else if (question.type === "FREETEXT") {
+                        modalBody += `<input class="form-control question-answer-${data.id}-${i} field-${question.optional}" data-q-id="${question.id}" type="text" placeholder="Answer for ${data.name} - Quantity ${i}">`;
+                    }
+                    modalBody += `</div></div></blockquote>`;
+                });
+                modalBody += `<input type="hidden" id="questionsTotal" value="${questions.length}">`;
+                modalBody += `</div></div>`;
+            }
+
+            modalBody += `</div>`;
+        });
+
+        modalBody += `</div></div>`;
+    }
+
+    document.querySelector('#exampleModal .modal-body').innerHTML = modalBody;
+
+    $('#visitDate').datepicker({
+        format: 'dd-MM-yyyy',
+        autoclose: true,
+        todayHighlight: true,
+        beforeShowDay: function(date) {
+            const formattedDate = date.toISOString().slice(0, 10);
+            if (allAvailableDates.includes(formattedDate)) {
+                return { classes: 'available', tooltip: 'Available' };
+            } else if (allUnavailableDates.includes(formattedDate)) {
+                return { enabled: false, classes: 'unavailable', tooltip: 'Unavailable' };
+            } else {
+                return { enabled: false, tooltip: 'Unavailable' };
+            }
         }
-        // var myTicketDiv = $(this).closest('.myticket');
-        var attraction_ID = $('.attraction_ID').val();
-        var validityTicketsText = myTicketDiv.find('#validityTickets').val();
-        // var ticket_ID = myTicketDiv.find('.ticket_ID').val();
-        
-        var option_ID = myTicketDiv.find('.option_ID').val();
-        var ticketValidity = myTicketDiv.find('.ticketValidity').val();  
-
-        var duration = myTicketDiv.find('.duration').val();
-        
-
-
-        // Now you can use optionId and netId as needed
-        // console.log("attraction_ID:", attraction_ID);
-        console.log("ticket_ID:", ticket_ID);
-        console.log("option_ID:", option_ID);
-        console.log("agent_price:", agent_price);
-        console.log("input-qty:", quantity);
-
-        $.ajax({
-            type: 'POST',
-            url: 'addcart_attraction',
-            data: { attraction_ID:attraction_ID,ticket_ID:ticket_ID,option_ID:option_ID,agent_price:agent_price,quantity:quantity,ticketValidity:ticketValidity,duration:duration,visitDate:visitDate },
-          //  contentType: false,
-          //   processData: false,
-            success: function (data) {
-
-            console.log(data);
-            if(data.status){
-              $('#exampleModal').modal('hide');
-
-              showMessage('message', data.message, true)
-              
-                // setTimeout(function(){
-              
-                // window.location.reload();
-              
-                //   },2000);
-            }
-            }
-          });
     });
+
+    modal.show();
+});
+
+$(document).on('click', '.modal-submit', function() {
+    const visitDate = $("#visitDate").val();
+    if(visitDateReq && visitDate == ''){
+      $("#visitDate").focus();
+      return;
+    }
+    var validate = 0; 
+    // const myTicketDiv = $('.myticket'); 
+    const attraction_ID = myTicketDiv.find('.attraction_ID').val();
+    const validityTicketsText = myTicketDiv.find('#validityTickets').val();
+    const option_ID = myTicketDiv.find('.option_ID').val();
+    const ticketValidity = myTicketDiv.find('.ticketValidity').val();
+    const duration = myTicketDiv.find('.duration').val();
+    const ticket_ID = myTicketDiv.find('.ticket_ID').map(function() {
+        return $(this).val();
+    }).get();
+    const agent_price = myTicketDiv.find('.agent_price').map(function() {
+        return $(this).val();
+    }).get();
+    const quantity = myTicketDiv.find('.input-qty').map(function() {
+        return $(this).val();
+    }).get();
+    
+    ticket_ID.forEach((element,index) => {
+      $('.question-answer-'+element).map(function() {
+        if($(this).hasClass('field-false') && $(this).val()==''){
+          $(this).focus();
+          validate++;
+        }
+      });
+    });
+    
+    if(validate > 0){
+      console.log('validate');
+      return;
+    }
+    
+    const questionAnswers = {};    
+    const questionTotal = $('#questionsTotal').val();
+
+    ticket_ID.forEach((element, index) => { 
+      questionAnswers[element] = [];
+      const questionAnswersPush = {};
+      for (q = 0; q <= quantity[index]; q++) {
+        questionAnswersPush[q] = [];
+        console.log('question-answer-'+element+'-'+q);
+        $('.question-answer-'+element+'-'+q).each(function() {
+          console.log('odod');
+          questionAnswersPush[q].push({
+                id: $(this).data('q-id'),
+                answer: $(this).val(),
+                ticketIndex: 0
+            });        
+        });
+        questionAnswers[element].push(questionAnswersPush[q]);
+      }      
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: 'addcart_attraction',
+        data: {
+            attraction_ID: attraction_ID,
+            ticket_ID: ticket_ID,
+            option_ID: option_ID,
+            agent_price: agent_price,
+            quantity: quantity,
+            ticketValidity: ticketValidity,
+            duration: duration,
+            visitDate: visitDate,
+            questions: questionAnswers,
+            questionTotal: questionTotal
+        },
+        success: function(data) {
+            if (data.status) {
+                $('#exampleModal').modal('hide');
+                showMessage('message', data.message, true);
+            }
+        }
+    });
+});
+
+function visitDateSlots(ticketTypeID, timeSlots) {
+    const onChangeVisitDate = $('#visitDate').val();
+    console.log(timeSlots);
+}
+
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('number-pill')) {
+        const quantity = event.target.getAttribute('data-quantity');
+        const index = event.target.closest('.tab-pane').id.split('-')[1];
+
+        document.querySelectorAll(`#tab-${index} .number-pill`).forEach(el => {
+            el.classList.remove('active-pill');
+        });
+        event.target.classList.add('active-pill');
+
+        document.querySelectorAll(`#tab-${index} .quantity-content`).forEach(el => {
+            el.classList.add('d-none');
+        });
+        document.getElementById(`content-${index}-${quantity}`).classList.remove('d-none');
+    }
+});
 
   </script>
 
