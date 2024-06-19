@@ -2132,7 +2132,16 @@ border: 1px solid rgba(1, 41, 112, 0.2);
     background: #0000ff0f;
 }
 .text-back, .text-head {
-    color: #012970;
+    color: #185174;
     font-weight: 600;
     font-size: 20px;
+}
+
+.border-primary-color{
+    border: solid;
+    border-width: thin;
+    border-color: #185174 !important;
+}
+.text-primary-color{
+  color: #185174 !important;
 }

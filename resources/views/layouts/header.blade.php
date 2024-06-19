@@ -104,9 +104,9 @@
         </li>
         @endif
 
-        <li class="border border-primary dropdown me-2 nav-item px-1 py-1 rounded-3">
-          <div class="align-items-center border border-primary d-flex px-2 py-1 rounded-3">
-              <i class="bi bi-wallet2 text-head me-2"></i>
+        <li class="border-primary-color text-primary-color shadow dropdown me-2 nav-item px-1 py-1 rounded-3 wallet">
+          <!-- <div class="align-items-center border border-primary d-flex px-2 py-1 rounded-3"> -->
+              <i class="bi bi-wallet2 me-2"></i>
               <span class="me-1">$</span>
               <span class="fw-bold">
                 @php
@@ -120,7 +120,7 @@
                 @endphp
                 {{ number_format($balance ?? 0, 2) }}
               </span>
-          </div>
+          <!-- </div> -->
         </li>
         @if(session('prefix') == 'agent')
         <!-- $cart_info getting from middleware -->
