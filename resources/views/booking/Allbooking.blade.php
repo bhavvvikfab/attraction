@@ -88,6 +88,7 @@ $(document).ready(function() {
     $('#booking_table').DataTable({
         processing: true,
         serverSide: true,
+        searching: false,
         ajax: '{{ route('all_booking.getBooking') }}',
         columns: [
           { data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false },
