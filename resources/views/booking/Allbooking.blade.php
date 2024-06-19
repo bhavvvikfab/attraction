@@ -40,6 +40,7 @@
                       <th scope="col">Attraction</th>
                       <th scope="col">Price</th>
                       <th scope="col">Status</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -57,9 +58,11 @@
                       <td>
                         <div class="d-flex justify-content-around align-items-center">
                           <div class="viewbooking p-1">
-                            <a href="{{ route(session('prefix', 'agent') . '.view_booking' ,['id'=>$sinle_book->id]) }}">
-                              <button type="button" class="btn btn-primary"><i class='ri-eye-line'></i></button>
-                            </a>
+                          @if ($sinle_book->invoice)
+                              <a href="{{ route(session('prefix', 'agent') . '.view_single_invoice' ,['id'=>$sinle_book->invoice->id]) }}/?booking=true">
+                                <button type="button" class="btn btn-primary"><i class='ri-eye-line'></i></button>
+                              </a>                              
+                            @endif
                           </div>
                         </div>
                       </td>
@@ -81,6 +84,20 @@
   @include('layouts.footer');
   <script>
 $(document).ready(function() {
-    $('#booking_table').DataTable();
+    // $('#booking_table').DataTable();
+    $('#booking_table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '{{ route('all_booking.getBooking') }}',
+        columns: [
+          { data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false },
+            { data: 'created_at', name: 'created_at' },
+            { data: 'customer', name: 'customer' },
+            { data: 'attrName', name: 'attrName', orderable: false, searchable: false },
+            { data: 'local_amt', name: 'local_amt', orderable: false, searchable: false },
+            { data: 'status', name: 'status', orderable: false, searchable: false },
+            { data: 'action', name: 'action', orderable: false, searchable: false },
+        ]
+    });
 });
 </script>

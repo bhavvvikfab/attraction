@@ -13,7 +13,7 @@
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-            <li class="breadcrumb-item active">Invoice Detail</li>
+            <li class="breadcrumb-item active"><?=isset($_GET['booking']) ? 'Booking' : 'Invoice'?> Detail</li>
           </ol>
         </nav>
       </div>
@@ -31,13 +31,13 @@
           <div class="card-header">
             <div class="row">
               <div class="col-lg-6">
-                <h3 class="card-title text-start fs-2">Attraction</h3>
+                <h3 class="card-title text-start fs-2"><?=isset($_GET['booking']) ? 'Booking' : 'Invoice'?></h3>
               </div>
               <div class="col-lg-6 d-flex justify-content-end">
-                <a id="downloadLink" href="#" class="btn  fw-bold mt-3" title="Download"> Download PDF <i class="fa fa-file-pdf" style="font-size:20px"></i></a>
-                <h3 class="card-title text-end fs-2">
+                <a id="downloadLink" style="color: #185174;" href="#" class="align-self-center btn btn-light fw-bold" title="Download"> Download PDF <i class="fa fa-file-pdf" style="font-size:20px"></i></a>
+                <!-- <h3 class="card-title text-end fs-2">
                   Invoice
-                 </h3>
+                 </h3> -->
               </div>
             </div>
           </div>
@@ -46,19 +46,19 @@
                 <div class="row">
                     <div class="col-md-6 ps-4">
                         <h5 class="font-weight-bold">Agent Details</h5>
-                        <p><strong>Name:</strong> {{$invoice_data->agent_details->name ?? 'NA'}}</p>
-                        <p><strong>Email:</strong> {{$invoice_data->agent_details->email ?? 'NA'}}</p>
-                        <p><strong>Mobile:</strong> {{$invoice_data->agent_details->phone ?? 'NA'}}</p>
-                        <p><strong>Address:</strong> {{$invoice_data->agent_details->address ?? 'NA'}}</p>
+                        @if($invoice_data->agent_details->name)<p><strong>Name:</strong> {{$invoice_data->agent_details->name ?? 'NA'}}</p>@endif
+                        @if($invoice_data->agent_details->email)<p><strong>Email:</strong> {{$invoice_data->agent_details->email ?? 'NA'}}</p>@endif
+                        @if($invoice_data->agent_details->phone)<p><strong>Mobile:</strong> {{$invoice_data->agent_details->phone ?? 'NA'}}</p>@endif
+                        @if($invoice_data->agent_details->address)<p><strong>Address:</strong> {{$invoice_data->agent_details->address ?? 'NA'}}</p>@endif
                     </div>
                     <div class="col-md-6 text-right pe-4">
                         <h5 class="font-weight-bold">Customer Details</h5>
                         @php
                           $customer = $invoice_data->booking->customer_info ? json_decode($invoice_data->booking->customer_info) : [];
                         @endphp
-                        <p><strong>Name:</strong>{{ $customer->customerName ?? 'N/A' }}</p>
-                        <p><strong>Email:</strong> {{ $customer->email ?? 'N/A' }}</p>
-                        <p><strong>Mobile:</strong> {{ $customer->mobileCode ?? ''. $customer->mobileNumber ?? 'N/A' }}</p>
+                        @if($customer->customerName)<p><strong>Name:</strong>{{ $customer->customerName ?? 'N/A' }}</p>@endif
+                        @if($customer->email)<p><strong>Email:</strong> {{ $customer->email ?? 'N/A' }}</p>@endif
+                        @if($customer->mobileNumber)<p><strong>Mobile:</strong> {{ $customer->mobileCode ?? '' }} {{$customer->mobileNumber ?? 'N/A' }}</p>@endif
                     </div>
                 </div>
                 <hr>
