@@ -15,17 +15,20 @@ use Illuminate\Support\Str;
 
 use App\Helpers\HelperClass;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+
 
 class BookingController extends Controller
 {
     public function index()
     {
         if(Auth::user()->role==1){
-            $booking_data=Booking::with('user', 'attraction', 'bookingItems')->whereNotNull('confirm_time')->get();
+            $booking_data=Booking::with('user', 'attraction', 'bookingItems')->whereNotNull('confirm_time')->orderBy('id','desc')->get();
         }else{
-            $booking_data=Booking::where('customer_id', Auth::user()->id)->whereNotNull('confirm_time')->with('user','attraction', 'bookingItems')->get();
+            $booking_data=Booking::where('customer_id', Auth::user()->id)->whereNotNull('confirm_time')->with('user','attraction', 'bookingItems')->orderBy('id','desc')->get();
         }
         foreach($booking_data as &$booking){
+            $booking->invoice = Invoice::where('booking_id', $booking->id)->first();
             $bookingCartInfoAttID = json_decode($booking->bookingItems->items)[0]->attraction_id;
             $attraction = Attraction::find($bookingCartInfoAttID);
             if($attraction){
@@ -34,8 +37,71 @@ class BookingController extends Controller
                 $booking->attrName = "N/A";
             }            
         }
+        $booking_data = array();
         return view('booking.Allbooking',compact('booking_data'));
-    }    
+    }
+
+    public function getBooking(Request $request)
+    {
+        if (Auth::user()->role == 1) {
+            $booking_data = Booking::with('user', 'attraction', 'bookingItems')
+                ->whereNotNull('confirm_time')
+                ->orderBy('bookings.id', 'desc');
+        } else {
+            $booking_data = Booking::where('customer_id', Auth::user()->id)
+                ->whereNotNull('confirm_time')
+                ->with('user', 'attraction', 'bookingItems')
+                ->orderBy('bookings.id', 'desc');
+        }
+    
+        return DataTables::eloquent($booking_data)
+            ->addIndexColumn()
+            ->addColumn('created_at', function ($booking) {
+                return isset($booking->created_at) ? date('d M Y',strtotime($booking->created_at)) : 'N/A';
+            })
+            ->addColumn('customer', function ($booking) {
+                return isset($booking->user->name) ? $booking->user->name : 'N/A';
+            })
+            ->addColumn('invoice', function ($booking) {
+                return Invoice::where('booking_id', $booking->id)->first();
+            })
+            ->addColumn('status', function ($booking) {
+                $html = '';
+                if($booking->status == 1){
+                    $html = '<span class="btn btn-warning">Reserved</span>';
+                }if($booking->status == 2){
+                    $html = '<span class="btn btn-success">Confirmed</span>';
+                }else{
+                    $html = '<span>N/A</span>';
+                }
+                return $html;
+            })
+            ->addColumn('attrName', function ($booking) {
+                $bookingCartInfo = json_decode($booking->bookingItems->items);
+                if (isset($bookingCartInfo[0]->attraction_id)) {
+                    $attraction = Attraction::find($bookingCartInfo[0]->attraction_id);
+                    return $attraction ? $attraction->name : "N/A";
+                }
+                return "N/A";
+            })
+            ->addColumn('action', function ($booking) {
+                $invoice = Invoice::where('booking_id', $booking->id)->first();
+                $html = '';
+                if(!empty($invoice)){
+                    $url = route(session('prefix', 'agent') . '.view_single_invoice', ['id' => $invoice->id]) . "?booking=true";
+                    $html = '<div class="d-flex justify-content-around align-items-center">
+                              <div class="viewbooking p-1">
+                                  <a href="'.$url.'">
+                                    <button type="button" class="btn btn-primary"><i class="ri-eye-line"></i></button>
+                                  </a>  
+                              </div>
+                            </div>';
+                } 
+                return $html;
+            })
+            ->rawColumns(['status', 'action'])
+            ->make(true);
+    }
 
     public function create(Request $request)
     {
@@ -90,9 +156,9 @@ class BookingController extends Controller
                         $ticketFromCart[] = [
                             'id' => $ticket->ticket_id,
                             'quantity' => 1,
-                            "visitDate" => $ticket->visitDate,
+                            "visitDate" => $ticket->visitDate ?? null,
                             "index" => 0,
-                            "questionList" => $ticket->questionList ? $ticket->questionList->$Q : [],
+                            "questionList" => isset($ticket->questionList) ? $ticket->questionList->$Q : [],
                             "event_id" => null,
                             "packageItems" => [],
                             "visitDateSettings" => []

@@ -55,6 +55,7 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::get('/view_single_attraction/{id}', [AttractionController::class, 'view_single_attraction'])->name('admin.view_single_attraction');
 
     Route::get('/all_booking', [BookingController::class, 'index'])->name('admin.all_booking');
+    Route::get('all_booking/getBooking', [BookingController::class, 'getBooking'])->name('all_booking.getBooking');
     Route::get('/view_booking/{id}', [BookingController::class, 'view_booking'])->name('admin.view_booking');
 
     Route::get('/all_agent', [AgentController::class, 'index'])->name('admin.all_agent');
@@ -102,6 +103,9 @@ Route::post('/chat/messages', [ChatController::class, 'sendMessage'])->name('adm
   Route::get('/manage_credit', [ManageCreditController::class, 'manage_credit'])->name('admin.manage_credit');
   Route::post('/get_transaction', [ManageCreditController::class, 'get_transaction'])->name('admin.get_transaction');
  //manage credit route end
+
+
+
 });
 // route's for ADMIN end
 
@@ -157,6 +161,7 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::post('/chat/messages', [ChatController::class, 'sendMessage'])->name('agent.chat.send');
     
     Route::get('/all_booking', [BookingController::class, 'index'])->name('agent.all_booking');
+    Route::get('all_booking/getBooking', [BookingController::class, 'getBooking'])->name('all_booking.getBooking');
     Route::get('/view_booking/{id}', [BookingController::class, 'view_booking'])->name('agent.view_booking');
     Route::post('/reserve_booking', [BookingController::class, 'create'])->name('agent.reserve_booking');
     Route::get('/booking', [BookingController::class, 'booking'])->name('agent.booking');
