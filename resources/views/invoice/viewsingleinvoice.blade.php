@@ -53,10 +53,12 @@
                     </div>
                     <div class="col-md-6 text-right pe-4">
                         <h5 class="font-weight-bold">Customer Details</h5>
-                        <p><strong>Name:</strong> Customer Name</p>
-                        <p><strong>Email:</strong> customer@example.com</p>
-                        <p><strong>Mobile:</strong> +0987654321</p>
-                        <p><strong>Address:</strong> 456 Customer Road, City, Country</p>
+                        @php
+                          $customer = $invoice_data->booking->customer_info ? json_decode($invoice_data->booking->customer_info) : [];
+                        @endphp
+                        <p><strong>Name:</strong>{{ $customer->customerName ?? 'N/A' }}</p>
+                        <p><strong>Email:</strong> {{ $customer->email ?? 'N/A' }}</p>
+                        <p><strong>Mobile:</strong> {{ $customer->mobileCode ?? ''. $customer->mobileNumber ?? 'N/A' }}</p>
                     </div>
                 </div>
                 <hr>
@@ -124,7 +126,7 @@
                         <th scope="col">
                           <span >Nett Price:</span>
                         </th>
-                        <th class="text-center" scope="col"><span >QTY:</span></th>
+                        <th scope="col"><span >QTY:</span></th>
                         <!-- <th scope="col"></th> -->
                       </tr>
                     </thead>
@@ -247,7 +249,7 @@
           </div>
 
           <div class="col-md-6 pt-md-0 pt-3">
-                    <div class="card cart-body">
+                    <div class="card cart-body m-2">
                       
                       <div class="card-body p-3">
                         <div class="card-title-cart d-flex justify-content-between align-items-center">

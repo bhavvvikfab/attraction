@@ -14,9 +14,10 @@ class HelperClass
 
     public function __construct()
     {
+        // return true;
         $this->api_credential = new Api_credential();
         $credential = $this->api_credential->first();
-
+        
         if ($credential) {
             $this->apiKey = $credential->api_login_auth_key;
         } else {
@@ -56,7 +57,7 @@ class HelperClass
     }
 
     public function callExternalApi($endpoint, $method = 'POST', $data = [], $token = null) 
-    {
+    {        
         $curl = curl_init();
         $url = env('API_BASE_URL') . $endpoint;
         
@@ -99,7 +100,7 @@ class HelperClass
         ];
 
         $response = $this->callExternalApi('auth/login', 'POST', $data, null);
-        // dd($request);
+        
         return $response;
     }
 
