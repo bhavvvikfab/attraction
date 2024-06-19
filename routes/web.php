@@ -55,7 +55,6 @@ Route::prefix('admin')->middleware([Auther::class])->group(function () {
     Route::get('/view_single_attraction/{id}', [AttractionController::class, 'view_single_attraction'])->name('admin.view_single_attraction');
 
     Route::get('/all_booking', [BookingController::class, 'index'])->name('admin.all_booking');
-    Route::get('all_booking/getBooking', [BookingController::class, 'getBooking'])->name('all_booking.getBooking');
     Route::get('/view_booking/{id}', [BookingController::class, 'view_booking'])->name('admin.view_booking');
 
     Route::get('/all_agent', [AgentController::class, 'index'])->name('admin.all_agent');
@@ -161,7 +160,6 @@ Route::prefix('agent')->middleware([Auther::class])->group(function () {
     Route::post('/chat/messages', [ChatController::class, 'sendMessage'])->name('agent.chat.send');
     
     Route::get('/all_booking', [BookingController::class, 'index'])->name('agent.all_booking');
-    Route::get('all_booking/getBooking', [BookingController::class, 'getBooking'])->name('all_booking.getBooking');
     Route::get('/view_booking/{id}', [BookingController::class, 'view_booking'])->name('agent.view_booking');
     Route::post('/reserve_booking', [BookingController::class, 'create'])->name('agent.reserve_booking');
     Route::get('/booking', [BookingController::class, 'booking'])->name('agent.booking');
@@ -202,3 +200,4 @@ Route::post('agent/confirm_booking', [BookingController::class, 'confirm_booking
 
 Route::get('all_invoice/get_invoice_data', [InvoiceController::class, 'get_invoice_data'])->name('invoice.get_invoice_data');
 Route::get('all_report/get_report_data', [ReportController::class, 'get_report_data'])->name('report.get_report_data');
+Route::get('all_booking/getBooking', [BookingController::class, 'getBooking'])->name('all_booking.getBooking');
